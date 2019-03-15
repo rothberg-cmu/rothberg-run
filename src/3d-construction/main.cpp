@@ -4,6 +4,8 @@
 
 #include <fslazywindow.h>
 
+#include "DrawingRoad.h"
+
 //#include "polygonalmesh.h"
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
@@ -15,7 +17,6 @@ protected:
 	double d;
 	YsVec3 t;
 
-	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
 	YsVec3 bbx[2];
 
@@ -23,7 +24,6 @@ protected:
 	static void AddVertex(std::vector <float> &vtx,float x,float y,float z);
 	static void AddNormal(std::vector <float> &nom,float x,float y,float z);
 
-	// void RemakeVertexArray(void);
 
 public:
 	FsLazyWindowApplication();
@@ -59,38 +59,6 @@ public:
 	nom.push_back(z);
 }
 
-// void FsLazyWindowApplication::RemakeVertexArray(void)
-// {
-// 	vtx.clear();
-// 	col.clear();
-// 	nom.clear();
-
-// 	for(auto plHd=mesh.NullPolygon(); true==mesh.MoveToNextPolygon(plHd); )
-// 	{
-// 		auto plVtHd=mesh.GetPolygonVertex(plHd);
-// 		auto plCol=mesh.GetColor(plHd);
-// 		auto plNom=mesh.GetNormal(plHd);
-
-// 		// Let's assume every polygon is a triangle for now.
-// 		if(3==plVtHd.size())
-// 		{
-// 			for(int i=0; i<3; ++i)
-// 			{
-// 				auto vtPos=mesh.GetVertexPosition(plVtHd[i]);
-// 				vtx.push_back(vtPos.xf());
-// 				vtx.push_back(vtPos.yf());
-// 				vtx.push_back(vtPos.zf());
-// 				nom.push_back(plNom.xf());
-// 				nom.push_back(plNom.yf());
-// 				nom.push_back(plNom.zf());
-// 				col.push_back(plCol.Rf());
-// 				col.push_back(plCol.Gf());
-// 				col.push_back(plCol.Bf());
-// 				col.push_back(plCol.Af());
-// 			}
-// 		}
-// 	}
-// }
 
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
@@ -111,27 +79,18 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
-	// if(2<=argc && true==mesh.LoadBinStl(argv[1]))
-	// {
-	// 	RemakeVertexArray();
-	// 	mesh.GetBoundingBox(bbx[0],bbx[1]);
-
-	// 	t=(bbx[0]+bbx[1])/2.0;
-	// 	d=(bbx[1]-bbx[0]).GetLength()*1.2;
-
-	// 	printf("Target %s\n",t.Txt());
-	// 	printf("Diagonal %lf\n",d);
-	// }
-	vtx.push_back(YsVec3(0,0,1).x());vtx.push_back(YsVec3(0,0,1).y());vtx.push_back(YsVec3(0,0,1).z());
-	vtx.push_back(YsVec3(0,0,7).x());vtx.push_back(YsVec3(0,0,7).y());vtx.push_back(YsVec3(0,0,7).z());
-	vtx.push_back(YsVec3(0,4,1).x());vtx.push_back(YsVec3(0,4,1).y());vtx.push_back(YsVec3(0,4,1).z());
-	//nom.push_back(1); nom.push_back(0); nom.push_back(0);
-	for(int i=0; i<vtx.size()/3; ++i){
+	DrawingRoad dr;
+	std::vector<float> vtx2 = dr.drawRectangle(YsVec3(0.0,0.0,0.0), YsVec3(1.0,0.0,0.0), 3.0);
+	for (float v: vtx2) {
+		vtx.push_back(v);
+	}
+	for(int i=0; i<6; ++i){
         col.push_back(1.0f);
         col.push_back(0.0f);
         col.push_back(0.0f);
         col.push_back(0.1f);
     }
+
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {
