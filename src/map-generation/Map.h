@@ -21,6 +21,8 @@ public:
     bool isInMap(YsVec3 position);
     bool isInMap(double x, double y, double z);
     bool isInMap(double x, double y);
+
+    std::vector<Road> getRoads();
 private:
     void initMap(int rN);
     int roadNum;
