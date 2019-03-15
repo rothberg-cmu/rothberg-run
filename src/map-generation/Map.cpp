@@ -69,6 +69,10 @@ bool Map::isInMap(YsVec3 position) {
     return isInMap(position.x(), position.y(), position.z());
 }
 
+std::vector<Road> Map::getRoads() {
+    return roads;
+}
+
 
 void Map::dbgPrintRoads() {
     std::cout << roads.size() << std::endl;
