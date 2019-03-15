@@ -52,7 +52,7 @@ void Map::initMap(int rN) {
 Map::~Map() {
 }
 
-bool Map::isInMap(int x, int y, int z) {
+bool Map::isInMap(double x, double y, double z) {
     for (auto road : roads) {
         if (road.isInRoad(x, y, z)) {
             return true;
@@ -61,7 +61,7 @@ bool Map::isInMap(int x, int y, int z) {
     return false;
 }
 
-bool Map::isInMap(int x, int y) {
+bool Map::isInMap(double x, double y) {
     return isInMap(x, y, 0);
 }
 
@@ -69,12 +69,16 @@ bool Map::isInMap(YsVec3 position) {
     return isInMap(position.x(), position.y(), position.z());
 }
 
+std::vector<Road> Map::getRoads() {
+    return roads;
+}
+
 
 void Map::dbgPrintRoads() {
     std::cout << roads.size() << std::endl;
     for (auto road : roads) {
-        std::cout << "start: " << road.roadStart.Txt() << std::endl;
-        std::cout << "end: " << road.roadEnd.Txt() << std::endl;
+        std::cout << "start: " << road.getRoadStart().Txt() << std::endl;
+        std::cout << "end: " << road.getRoadEnd().Txt() << std::endl;
         std::cout << std::endl;
     }
 }

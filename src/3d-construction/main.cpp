@@ -79,6 +79,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+<<<<<<< HEAD
 	DrawingRoad dr;
 	std::vector<float> vtx2 = dr.drawRectangle(YsVec3(0.0,0.0,0.0), YsVec3(1.0,0.0,0.0), 3.0);
 	for (float v: vtx2) {
@@ -91,6 +92,29 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         col.push_back(0.1f);
     }
 
+=======
+	// if(2<=argc && true==mesh.LoadBinStl(argv[1]))
+	// {
+	// 	RemakeVertexArray();
+	// 	mesh.GetBoundingBox(bbx[0],bbx[1]);
+
+	// 	t=(bbx[0]+bbx[1])/2.0;
+	// 	d=(bbx[1]-bbx[0]).GetLength()*1.2;
+
+	// 	printf("Target %s\n",t.Txt());
+	// 	printf("Diagonal %lf\n",d);
+	// }
+	// vtx.push_back(YsVec3(0,0,1).x());vtx.push_back(YsVec3(0,0,1).y());vtx.push_back(YsVec3(0,0,1).z());
+	// vtx.push_back(YsVec3(0,0,7).x());vtx.push_back(YsVec3(0,0,7).y());vtx.push_back(YsVec3(0,0,7).z());
+	// vtx.push_back(YsVec3(0,4,1).x());vtx.push_back(YsVec3(0,4,1).y());vtx.push_back(YsVec3(0,4,1).z());
+	//nom.push_back(1); nom.push_back(0); nom.push_back(0);
+	// for(int i=0; i<vtx.size()/3; ++i){
+    //     col.push_back(1.0f);
+    //     col.push_back(0.0f);
+    //     col.push_back(0.0f);
+    //     col.push_back(0.1f);
+    // }
+>>>>>>> master
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {
@@ -159,14 +183,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glMultMatrixf(modelViewGl);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
+	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glColorPointer(4,GL_FLOAT,0,col.data());
-	glNormalPointer(GL_FLOAT,0,nom.data());
+	// glNormalPointer(GL_FLOAT,0,nom.data());
 	glVertexPointer(3,GL_FLOAT,0,vtx.data());
 	glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+	// glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	FsSwapBuffers();

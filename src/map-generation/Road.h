@@ -8,20 +8,26 @@
 
 class Road {
 private:
-public:
     YsVec3 roadStart;
     YsVec3 roadEnd;
-    int roadWidth;
-    int tolerance;
+    double roadWidth;
+    double tolerance;
     bool isVertical;
 public:
-    Road(YsVec3 start, YsVec3 end, int rW);
-    Road(int sx, int sy, int sz, int ex, int ey, int ez, int rW);
-    Road(std::vector<YsVec3> vertexes, int rW);
+    Road(YsVec3 start, YsVec3 end, double rW);
+    Road(double sx, double sy, double sz, double ex, double ey, double ez, double rW);
+    Road(std::vector<YsVec3> vertexes, double rW);
     ~Road();
     bool isInRoad(YsVec3 position);
-    bool isInRoad(int x, int y, int z);
-    bool isInRoad(int x, int y);
+    bool isInRoad(double x, double y, double z);
+    bool isInRoad(double x, double y);
+
+    YsVec3 getRoadStart();
+    YsVec3 getRoadEnd();
+    double getRoadWidth();
+    bool getIsVertical();
+private:
+    void initRoad(YsVec3 start, YsVec3 end, double rW);
 
 };
 
