@@ -122,16 +122,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	// 	printf("Target %s\n",t.Txt());
 	// 	printf("Diagonal %lf\n",d);
 	// }
-	vtx.push_back(YsVec3(0,0,1).x());vtx.push_back(YsVec3(0,0,1).y());vtx.push_back(YsVec3(0,0,1).z());
-	vtx.push_back(YsVec3(0,0,7).x());vtx.push_back(YsVec3(0,0,7).y());vtx.push_back(YsVec3(0,0,7).z());
-	vtx.push_back(YsVec3(0,4,1).x());vtx.push_back(YsVec3(0,4,1).y());vtx.push_back(YsVec3(0,4,1).z());
+	// vtx.push_back(YsVec3(0,0,1).x());vtx.push_back(YsVec3(0,0,1).y());vtx.push_back(YsVec3(0,0,1).z());
+	// vtx.push_back(YsVec3(0,0,7).x());vtx.push_back(YsVec3(0,0,7).y());vtx.push_back(YsVec3(0,0,7).z());
+	// vtx.push_back(YsVec3(0,4,1).x());vtx.push_back(YsVec3(0,4,1).y());vtx.push_back(YsVec3(0,4,1).z());
 	//nom.push_back(1); nom.push_back(0); nom.push_back(0);
-	for(int i=0; i<vtx.size()/3; ++i){
-        col.push_back(1.0f);
-        col.push_back(0.0f);
-        col.push_back(0.0f);
-        col.push_back(0.1f);
-    }
+	// for(int i=0; i<vtx.size()/3; ++i){
+    //     col.push_back(1.0f);
+    //     col.push_back(0.0f);
+    //     col.push_back(0.0f);
+    //     col.push_back(0.1f);
+    // }
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {
@@ -200,14 +200,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glMultMatrixf(modelViewGl);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
+	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glColorPointer(4,GL_FLOAT,0,col.data());
-	glNormalPointer(GL_FLOAT,0,nom.data());
+	// glNormalPointer(GL_FLOAT,0,nom.data());
 	glVertexPointer(3,GL_FLOAT,0,vtx.data());
 	glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+	// glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	FsSwapBuffers();
