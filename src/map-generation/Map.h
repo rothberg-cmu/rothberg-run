@@ -19,8 +19,8 @@ public:
     Map(MapSize mapSize);
     ~Map();
     bool isInMap(YsVec3 position);
-    bool isInMap(int x, int y, int z);
-    bool isInMap(int x, int y);
+    bool isInMap(double x, double y, double z);
+    bool isInMap(double x, double y);
 private:
     void initMap(int rN);
     int roadNum;
