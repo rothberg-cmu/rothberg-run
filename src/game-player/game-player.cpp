@@ -1,14 +1,4 @@
-//#include <iostream>
-//using namespace std;
-//
-//int main()
-//{
-//    cout << "Hello, World!\n";
-//    return 0;
-//}
-
-
-//////////////////////////////////////////////////////////// */
+#include "game-player.h"
 
 #include <fslazywindow.h>
 #include "ysclass.h"
@@ -100,146 +90,10 @@
 //};
 
 
-// add a player class
-class GamePlayer
-{
-public:
-    bool aliveStatus;
-    float x0, y0, z0, velocity;
-    GamePlayer();
-    ~GamePlayer();
-    void CleanUp();
-    void setPosition(float x1, float y1, float z1);
-    void getPosition(void);
-    bool getAliveStatus();
-    void move(float x1, float y1, float z1);
-    void draw();
-    
-};
-GamePlayer::GamePlayer()
-{
-    aliveStatus = true;
-    x0 = 0;
-    y0 = 0;
-    z0 = 0;
-    velocity = 0;
-}
-
-GamePlayer::~GamePlayer()
-{
-    CleanUp();
-}
-void GamePlayer::CleanUp()
-{
-    aliveStatus = false;
-}
-void GamePlayer::getPosition()
-{
-    return x0, y0, z0;
-}
-void GamePlayer::setPosition(float x1, float y1, float z1)
-{
-    x0 = x1;
-    y0 = y1;
-    z0 = z1;
-}
-bool GamePlayer::getAliveStatus()
-{
-    return aliveStatus;
-}
-void GamePlayer::move(float x1, float y1, float z1)
-{
-    x0 = x1;
-    y0 = y1;
-    z0 = z1;
-}
-void GamePlayer::draw()
-{
-    //need to add later
-    
-    int wid,hei;
-    FsGetWindowSize(wid,hei);
-    auto aspect=(float)wid/(float)hei;
-    
-    glEnable(GL_DEPTH_TEST);
-    
-    //draw a sphere
-    //    sphere1.draw();
-    //    glColor3f(1,0,0);
-    //    GLUquadric *quad;
-    //    quad = gluNewQuadric();
-    //    gluSphere(quad,25,100,20);
-    //    glTranslatef(0,2,2);
-    //
-    
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluPerspective(45.0,aspect,0.8, 20.0);
-//
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-//
-//
-//    YsMatrix4x4 modelView;
-//    modelView.Translate(2, -2, -10.0);
-//    modelView.RotateYX(angle);
-//    float modelViewF[16];
-//    modelView.GetOpenGlCompatibleMatrix(modelViewF);
-//    glMultMatrixf(modelViewF);
-//
-//    auto vtxArray=MakeCubeVertexArray(-1,-1,-2,0,0,0);
-//
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glEnableClientState(GL_COLOR_ARRAY);
-//
-//    glVertexPointer(3,GL_FLOAT,0,vtxArray.vtx.data());
-//    glColorPointer(4,GL_FLOAT,0,vtxArray.col.data());
-//    glDrawArrays(GL_QUADS,0,24);
-//
-//    glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisableClientState(GL_COLOR_ARRAY);
-}
+/////////////////////////////////////////////////////////////////
 
 
-
-
-//////////////////////////////////////////////////////////////////
-class FsLazyWindowApplication : public FsLazyWindowApplicationBase
-{
-protected:
-    bool needRedraw;
-    double angle=0.0;
-    
-public:
-//    Sphere sphere1;  // example for sphere
-
-    class CubeVertexArray
-    {
-    public:
-        std::vector <float> vtx;
-        std::vector <float> col;
-    };
-    
-    CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2);
-    
-    FsLazyWindowApplication();
-    virtual void BeforeEverything(int argc,char *argv[]);
-    virtual void GetOpenWindowOption(FsOpenWindowOption &OPT) const;
-    virtual void Initialize(int argc,char *argv[]);
-    virtual void Interval(void);
-    virtual void BeforeTerminate(void);
-    virtual void Draw(void);
-    virtual bool UserWantToCloseProgram(void);
-    virtual bool MustTerminate(void) const;
-    virtual long long int GetMinimumSleepPerInterval(void) const;
-    virtual bool NeedRedraw(void) const;
-    
-    };
-
-
-
-
-FsLazyWindowApplication::CubeVertexArray FsLazyWindowApplication::MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
+CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
 {
     CubeVertexArray vtxArray;
     auto &vtx=vtxArray.vtx;
@@ -303,61 +157,95 @@ FsLazyWindowApplication::CubeVertexArray FsLazyWindowApplication::MakeCubeVertex
 }
 
 
-FsLazyWindowApplication::FsLazyWindowApplication()
+
+GamePlayer::GamePlayer()
 {
-    needRedraw=false;
+    aliveStatus = true;
+    position[0] = 0;
+    position[1] = 0;
+    position[2] = 0;
+    velocity = 0;
+    angle = 0;
 }
 
-/* virtual */ void FsLazyWindowApplication::BeforeEverything(int argc,char *argv[])
+GamePlayer::~GamePlayer()
 {
-//    sphere1.setRadius(2.0f);
-//    sphere1.setSectorCount(72);
-//    sphere1.setStackCount(24);
-//    sphere1.setSmooth(true);
+    CleanUp();
+}
+void GamePlayer::CleanUp()
+{
+    aliveStatus = false;
+}
+YsVec3 GamePlayer::getPosition()
+{
+    return position;
+}
+void GamePlayer::setPosition(float x1, float y1, float z1)
+{
+    position[0] = x1;
+    position[1] = y1;
+    position[2] = z1;
+}
+bool GamePlayer::getAliveStatus()
+{
+    return aliveStatus;
+}
+void GamePlayer::setAngle(float angle1)
+{
+    angle = angle1;
+}
 
-}
-/* virtual */ void FsLazyWindowApplication::GetOpenWindowOption(FsOpenWindowOption &opt) const
+float GamePlayer::getAngle()
 {
-    opt.x0=0;
-    opt.y0=0;
-    opt.wid=1200;
-    opt.hei=800;
+    return angle;
 }
-/* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
+
+void GamePlayer::rotate(float angle1)
 {
-    GamePlayer player;
-    
+    auto currAngle = getAngle();
+    setAngle(currAngle + angle1);
 }
-/* virtual */ void FsLazyWindowApplication::Interval(void)
+
+void GamePlayer::move(float x1, float y1, float z1)
 {
-    auto key=FsInkey();
-    if(FSKEY_ESC==key)
-    {
-        SetMustTerminate(true);
-    }
-    
-    angle+=YsPi/120.0;
-    
-    needRedraw=true;
+    position[0] = x1;
+    position[1] = y1;
+    position[2] = z1;
 }
-/* virtual */ void FsLazyWindowApplication::Draw(void)
+
+void GamePlayer::moveLeft()
 {
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    auto currPos = getPosition();
+    setPosition(currPos[0]-step, currPos[1], currPos[2]);
+}
+
+void GamePlayer::moveRight()
+{
+    auto currPos = getPosition();
+    setPosition(currPos[0]+step, currPos[1], currPos[2]);
+}
+
+void GamePlayer::moveUp()
+{
+    auto currPos = getPosition();
+    setPosition(currPos[0], currPos[1]+step, currPos[2]);
+}
+
+void GamePlayer::moveDown()
+{
+    auto currPos = getPosition();
+    setPosition(currPos[0], currPos[1]-step, currPos[2]);
+}
+
+void GamePlayer::draw()
+{
+    //need to add later
     
     int wid,hei;
     FsGetWindowSize(wid,hei);
     auto aspect=(float)wid/(float)hei;
     
     glEnable(GL_DEPTH_TEST);
-    
-    //draw a sphere
-    //    sphere1.draw();
-    //    glColor3f(1,0,0);
-    //    GLUquadric *quad;
-    //    quad = gluNewQuadric();
-    //    gluSphere(quad,25,100,20);
-    //    glTranslatef(0,2,2);
-    //
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -368,13 +256,18 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     
     YsMatrix4x4 modelView;
-    modelView.Translate(2, -2, -10.0);
-    modelView.RotateYX(angle);
+    modelView.Translate(-2, -2, -10.0);
+    //    modelView.RotateYX(angle);
+    modelView.RotateYX(getAngle());
     float modelViewF[16];
     modelView.GetOpenGlCompatibleMatrix(modelViewF);
     glMultMatrixf(modelViewF);
     
-    auto vtxArray=MakeCubeVertexArray(-1,-1,-2,0,0,0);
+    //    auto vtxArray = MakeCubeVertexArray(-1,-1,-2,0,0,0);
+    float a, b, c;   //the size of bounding box
+    a=1; b=1; c=2;
+    auto corner = getPosition();
+    auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -386,40 +279,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
     
-//
+    //    draw a sphere
+    //        sphere1.draw();
+    //        glColor3f(1,0,0);
+    //        GLUquadric *quad;
+    //        quad = gluNewQuadric();
+    //        gluSphere(quad,25,100,20);
+    //        glTranslatef(0,2,2);
     
-    FsSwapBuffers();
-    
-    needRedraw=false;
-}
-/* virtual */ bool FsLazyWindowApplication::UserWantToCloseProgram(void)
-{
-    return true; // Returning true will just close the program.
-}
-/* virtual */ bool FsLazyWindowApplication::MustTerminate(void) const
-{
-    return FsLazyWindowApplicationBase::MustTerminate();
-}
-/* virtual */ long long int FsLazyWindowApplication::GetMinimumSleepPerInterval(void) const
-{
-    return 10;
-}
-/* virtual */ void FsLazyWindowApplication::BeforeTerminate(void)
-{
-}
-/* virtual */ bool FsLazyWindowApplication::NeedRedraw(void) const
-{
-    return needRedraw;
 }
 
 
-static FsLazyWindowApplication *appPtr=nullptr;
 
-/* static */ FsLazyWindowApplicationBase *FsLazyWindowApplicationBase::GetApplication(void)
-{
-    if(nullptr==appPtr)
-    {
-        appPtr=new FsLazyWindowApplication;
-    }
-    return appPtr;
-}
+
