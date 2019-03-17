@@ -8,8 +8,6 @@
 
 #include "../map-generation/Road.h"
 
-//#include "polygonalmesh.h"
-
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
@@ -81,20 +79,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
-	// DrawingRoad dr;
-	// std::vector<float> vtx2 = dr.drawRectangle(YsVec3(0.0,0.0,0.0), YsVec3(1.0,0.0,0.0), 3.0);
-	// for (float v: vtx2) {
-	// 	vtx.push_back(v);
-	// }
-	// for(int i=0; i<6; ++i){
- //        col.push_back(1.0f);
- //        col.push_back(0.0f);
- //        col.push_back(0.0f);
- //        col.push_back(0.1f);
- //    }
+
     DrawingRoad dr;
-    Road road = Road(YsVec3(0.0,0.0,0.0), YsVec3(1.0,0.0,0.0), 3.0);
+    Road road = Road(YsVec3(2.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.2);
     dr.drawRoad(road);
+
+    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    dr.drawRoad(road_vertical);
+
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
 	printf("length: %d\n", vtx2.size());
@@ -106,12 +98,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	for (float c: col2) {
 		col.push_back(c);
 	}
-	// for(int i=0; i<6; ++i){
- //        col.push_back(1.0f);
- //        col.push_back(0.0f);
- //        col.push_back(0.0f);
- //        col.push_back(0.1f);
- //    }
+
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {

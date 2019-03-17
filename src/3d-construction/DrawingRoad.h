@@ -12,7 +12,7 @@ private:
 public:
 	DrawingRoad(){};
 
-	void drawRoad(YsVec3 start, YsVec3 end, double rW);
+	void drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical);
 	void drawRoad(Road road);
 
 	std::vector<float> getVtx();
