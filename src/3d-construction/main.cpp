@@ -176,6 +176,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         player.moveLeft();
 		drawPlayer.toString();
+        std::cout << &player.getPosition() << std::endl;
 		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	}
     if(FSKEY_RIGHT==key)

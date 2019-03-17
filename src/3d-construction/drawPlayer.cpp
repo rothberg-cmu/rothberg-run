@@ -5,9 +5,9 @@ void DrawPlayer::draw()
     
 }
 
-DrawPlayer::DrawPlayer(GamePlayer &player)
+DrawPlayer::DrawPlayer(GamePlayer &player) : posVec(player.getPosition())
 {
-    posVec = player.getPosition();
+    //posVec = player.getPosition();
     setVtxList(posVec);
     setColList();
 }
@@ -18,7 +18,7 @@ DrawPlayer::~DrawPlayer()
 
 void DrawPlayer::toString()
 {
-    printf("Player current position: x:%lf  y:%lf  z:%lf\n", vtx[0], vtx[1], vtx[2]);
+    printf("Player current position: x:%lf  y:%lf  z:%lf\n", posVec[0], posVec[1], posVec[2]);
 }
 
 void DrawPlayer::setVtxList(YsVec3 &posVec)

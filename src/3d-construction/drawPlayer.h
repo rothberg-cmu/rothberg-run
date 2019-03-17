@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include <iostream>
 #include <ysclass.h>
 #include "game-player.h"
 
@@ -12,7 +13,7 @@ private:
     std::vector<double> vtx, col;
     void setVtxList(YsVec3 &posVec);
     void setColList();
-    YsVec3 posVec;
+    YsVec3& posVec;
 public:
     std::vector<double> getVtxList();
     std::vector<double> getColList();
