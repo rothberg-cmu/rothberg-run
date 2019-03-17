@@ -25,7 +25,7 @@ public:
     ~GamePlayer();
     void CleanUp();
     void setPosition(float x1, float y1, float z1);
-    YsVec3 getPosition();
+    YsVec3& getPosition();
     void setAngle(float angle1);
     float getAngle();
     bool getAliveStatus();

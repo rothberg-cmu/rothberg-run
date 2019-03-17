@@ -4,12 +4,20 @@
 
 #include <fslazywindow.h>
 
+
+#include <stdio.h>
+
+#include "drawPlayer.h"
+// #include "game-player.h"
 //#include "polygonalmesh.h"
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
 	bool needRedraw;
+	GamePlayer player;
+	DrawPlayer drawPlayer = DrawPlayer(player);
+	
 
 	YsMatrix4x4 Rc;
 	double d;
@@ -111,6 +119,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+	player.setPosition(-1, -1, -2);
+	
 	// if(2<=argc && true==mesh.LoadBinStl(argv[1]))
 	// {
 	// 	RemakeVertexArray();
@@ -141,22 +151,51 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		SetMustTerminate(true);
 	}
 
-	if(FsGetKeyState(FSKEY_LEFT))
-	{
-		Rc.RotateXZ(YsPi/60.0);
+	// if(FsGetKeyState(FSKEY_LEFT))
+	// {
+	// 	Rc.RotateXZ(YsPi/60.0);
+	// }
+	// if(FsGetKeyState(FSKEY_RIGHT))
+	// {
+	// 	Rc.RotateXZ(-YsPi/60.0);
+	// }
+	// if(FsGetKeyState(FSKEY_UP))
+	// {
+	// 	Rc.RotateYZ(YsPi/60.0);
+	// }
+	// if(FsGetKeyState(FSKEY_DOWN))
+	// {
+	// 	Rc.RotateYZ(-YsPi/60.0);
+	// }
+	if(FSKEY_R==key)
+    {
+        player.rotate(YsPi/10.0);
+    }
+    
+    if(FSKEY_LEFT==key)
+    {
+        player.moveLeft();
+		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	}
-	if(FsGetKeyState(FSKEY_RIGHT))
-	{
-		Rc.RotateXZ(-YsPi/60.0);
-	}
-	if(FsGetKeyState(FSKEY_UP))
-	{
-		Rc.RotateYZ(YsPi/60.0);
-	}
-	if(FsGetKeyState(FSKEY_DOWN))
-	{
-		Rc.RotateYZ(-YsPi/60.0);
-	}
+    if(FSKEY_RIGHT==key)
+    {
+        player.moveRight();
+		drawPlayer.toString();
+    }
+    
+    if(FSKEY_UP==key)
+    {
+        player.moveUp();
+		drawPlayer.toString();
+    }
+    
+    if(FSKEY_DOWN==key)
+    {
+        player.moveDown();
+		drawPlayer.toString();
+    }
+    
 
 
 	needRedraw=true;
@@ -202,10 +241,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(4,GL_FLOAT,0,col.data());
+	// glColorPointer(4,GL_FLOAT,0,col.data());
 	// glNormalPointer(GL_FLOAT,0,nom.data());
-	glVertexPointer(3,GL_FLOAT,0,vtx.data());
-	glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+	// glVertexPointer(3,GL_FLOAT,0,vtx.data());
+	// glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	// glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

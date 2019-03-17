@@ -1,22 +1,23 @@
-#ifndef DRAWPLAYER_IS_INCLUDED
-#define DRAWPLAYER_IS_INCLUDED
+#ifndef ROTHBERG_DRAWPLAYER_HEADER
+#define ROTHBERG_DRAWPLAYER_HEADER
 
 #include <stdio.h>
 #include <vector>
 #include <ysclass.h>
-
+#include "game-player.h"
 
 class DrawPlayer
 {
 private:
-    std::vector<double> vtx, color;
+    std::vector<double> vtx, col;
+    void setVtxList(YsVec3 posVec);
+    void setColList();
 public:
     std::vector<double> getVtxList();
     std::vector<double> getColList();
-    std::vector<double> setVtxList(YsVec3 posVec);
-    std::vector<double> setColList();
+    void toString();
     void draw();
-    DrawPlayer(GamePlayer a);
+    DrawPlayer(GamePlayer &player);
     ~DrawPlayer();
 };
 
