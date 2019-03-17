@@ -3,10 +3,20 @@
 
 #include <ysclass.h>
 #include <fslazywindow.h>
+#include "../map-generation/Road.h"
 class DrawingRoad {
-public:
+private:
+	std::vector<float> vtx;
+	std::vector<float> col;
 
-	std::vector<float> drawRectangle(YsVec3 start, YsVec3 end, double rW);
+public:
+	DrawingRoad(){};
+
+	void drawRoad(YsVec3 start, YsVec3 end, double rW);
+	void drawRoad(Road road);
+
+	std::vector<float> getVtx();
+	std::vector<float> getCol();
 };
 
 
