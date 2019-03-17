@@ -182,18 +182,21 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         player.moveRight();
 		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
     }
     
     if(FSKEY_UP==key)
     {
         player.moveUp();
 		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
     }
     
     if(FSKEY_DOWN==key)
     {
         player.moveDown();
 		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
     }
     
 

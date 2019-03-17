@@ -10,8 +10,9 @@ class DrawPlayer
 {
 private:
     std::vector<double> vtx, col;
-    void setVtxList(YsVec3 posVec);
+    void setVtxList(YsVec3 &posVec);
     void setColList();
+    YsVec3 posVec;
 public:
     std::vector<double> getVtxList();
     std::vector<double> getColList();
