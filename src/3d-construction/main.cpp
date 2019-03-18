@@ -170,6 +170,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	if(FSKEY_R==key)
     {
         player.rotate(YsPi/10.0);
+		
     }
     
     if(FSKEY_LEFT==key)
@@ -244,6 +245,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+	drawPlayer.draw();
 	// glColorPointer(4,GL_FLOAT,0,col.data());
 	// glNormalPointer(GL_FLOAT,0,nom.data());
 	// glVertexPointer(3,GL_FLOAT,0,vtx.data());
@@ -252,6 +254,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	// glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
+	// DrawPlayer drawPlayer = DrawPlayer(player);
+	// drawPlayer.toString();
 	FsSwapBuffers();
 }
 /* virtual */ bool FsLazyWindowApplication::UserWantToCloseProgram(void)
