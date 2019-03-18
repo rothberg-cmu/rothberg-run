@@ -176,7 +176,7 @@ void GamePlayer::CleanUp()
 {
     aliveStatus = false;
 }
-YsVec3 GamePlayer::getPosition()
+YsVec3& GamePlayer::getPosition()
 {
     return position;
 }
