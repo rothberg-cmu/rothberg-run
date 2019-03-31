@@ -3,73 +3,10 @@
 #include "game-player.h"
 #include "Camera.h"
 #include <fslazywindow.h>
+#include <iostream>
 #include "ysclass.h"
 #include <vector>
 
-/*
-CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
-{
-    CubeVertexArray vtxArray;
-    auto &vtx=vtxArray.vtx;
-    auto &col=vtxArray.col;
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    
-    return vtxArray;
-}
-*/
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
@@ -127,7 +64,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     if(FSKEY_R==key)
     {
-        player.rotate(YsPi/10.0);
+        std::cout << "press right" << std::endl;
+        player.rotate(90);
     }
     
     if(FSKEY_LEFT==key)
@@ -168,15 +106,24 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
+    std::cout << player.getAngle() << std::endl;
+    std::cout << player.getPosition().Txt() << std::endl;
+    /*
     camera.resetMat();
     camera.changeOrientation(player.getAngle());
+    //camera.changePosition(player.getPosition());
     
-    /*
-    YsMatrix4x4 modelView;
-    modelView.Translate(-2, -2, -10.0);
+    YsMatrix4x4 globalToCamera = camera.getCameraMat();
+    globalToCamera.Invert();
+    YsMatrix4x4 modelView;  // need #include ysclass.h
+    modelView.Translate(0,0,-10);
+    modelView*=globalToCamera;
+    modelView.Translate(-player.getPosition());
     */
+    //modelView.Translate(-2, -2, -10.0);
     //    modelView.RotateYX(angle);
 //    modelView.RotateYX(getAngle());
+    YsMatrix4x4 modelView = Camera::getCameraMat(player);
     float modelViewF[16];
     modelView.GetOpenGlCompatibleMatrix(modelViewF);
     glMultMatrixf(modelViewF);
@@ -189,6 +136,13 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+
+    float line[6] = {0, 0, 0, 10, 0, 0};
+    float colo[8] = {1, 0, 0, 1, 1, 0, 0, 1};
+    
+    glVertexPointer(3,GL_FLOAT,0, line);
+    glColorPointer(4,GL_FLOAT,0,colo);
+    glDrawArrays(GL_LINES,0,2);
     
     glVertexPointer(3,GL_FLOAT,0,vtxArray.vtx.data());
     glColorPointer(4,GL_FLOAT,0,vtxArray.col.data());
