@@ -71,43 +71,11 @@ public:
 	nom.push_back(z);
 }
 
-// void FsLazyWindowApplication::RemakeVertexArray(void)
-// {
-// 	vtx.clear();
-// 	col.clear();
-// 	nom.clear();
-
-// 	for(auto plHd=mesh.NullPolygon(); true==mesh.MoveToNextPolygon(plHd); )
-// 	{
-// 		auto plVtHd=mesh.GetPolygonVertex(plHd);
-// 		auto plCol=mesh.GetColor(plHd);
-// 		auto plNom=mesh.GetNormal(plHd);
-
-// 		// Let's assume every polygon is a triangle for now.
-// 		if(3==plVtHd.size())
-// 		{
-// 			for(int i=0; i<3; ++i)
-// 			{
-// 				auto vtPos=mesh.GetVertexPosition(plVtHd[i]);
-// 				vtx.push_back(vtPos.xf());
-// 				vtx.push_back(vtPos.yf());
-// 				vtx.push_back(vtPos.zf());
-// 				nom.push_back(plNom.xf());
-// 				nom.push_back(plNom.yf());
-// 				nom.push_back(plNom.zf());
-// 				col.push_back(plCol.Rf());
-// 				col.push_back(plCol.Gf());
-// 				col.push_back(plCol.Bf());
-// 				col.push_back(plCol.Af());
-// 			}
-// 		}
-// 	}
-// }
 
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	needRedraw=false;
-	d=16.0;
+	d=20.0;
 	t=YsVec3::Origin();
 }
 
@@ -123,8 +91,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+	player.LoadBinary();
+	player.scale(0.1);
+	printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    YsVec3 min, max;
+    player.GetBoundingBox(min, max, player.vtx);
+    player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
 	//set player initial position
-	player.setPosition(-0.25, -0.25, 0);
+	// player.setPosition(-0.25, -0.25, 0);
 	//set road initial position
 
 	Map map = Map();
@@ -145,27 +119,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	for (float c: col2) {
 		col.push_back(c);
 	}
-	// if(2<=argc && true==mesh.LoadBinStl(argv[1]))
-	// {
-	// 	RemakeVertexArray();
-	// 	mesh.GetBoundingBox(bbx[0],bbx[1]);
 
-	// 	t=(bbx[0]+bbx[1])/2.0;
-	// 	d=(bbx[1]-bbx[0]).GetLength()*1.2;
-
-	// 	printf("Target %s\n",t.Txt());
-	// 	printf("Diagonal %lf\n",d);
-	// }
-	// vtx.push_back(YsVec3(0,0,1).x());vtx.push_back(YsVec3(0,0,1).y());vtx.push_back(YsVec3(0,0,1).z());
-	// vtx.push_back(YsVec3(0,0,7).x());vtx.push_back(YsVec3(0,0,7).y());vtx.push_back(YsVec3(0,0,7).z());
-	// vtx.push_back(YsVec3(0,4,1).x());vtx.push_back(YsVec3(0,4,1).y());vtx.push_back(YsVec3(0,4,1).z());
-	//nom.push_back(1); nom.push_back(0); nom.push_back(0);
-	// for(int i=0; i<vtx.size()/3; ++i){
-    //     col.push_back(1.0f);
-    //     col.push_back(0.0f);
-    //     col.push_back(0.0f);
-    //     col.push_back(0.1f);
-    // }
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {
@@ -179,18 +133,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		Rc.RotateXZ(YsPi/60.0);
 	}
-	// if(FsGetKeyState(FSKEY_RIGHT))
-	// {
-	// 	Rc.RotateXZ(-YsPi/60.0);
-	// }
-	// if(FsGetKeyState(FSKEY_UP))
-	// {
-	// 	Rc.RotateYZ(YsPi/60.0);
-	// }
-	// if(FsGetKeyState(FSKEY_DOWN))
-	// {
-	// 	Rc.RotateYZ(-YsPi/60.0);
-	// }
+
 	if(FSKEY_R==key)
     {
         player.rotate(YsPi/10.0);
@@ -201,14 +144,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
 		YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
 		printf("%s\n", nextMove.Txt());
-		if (road.isInRoad(nextMove))
-		{
-			player.moveLeft();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
-
-		}
-        
+		player.moveLeft();
+		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	}
     if(FSKEY_RIGHT==key)
     {
@@ -301,7 +239,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	//draw palyer based on the position and orientation
 	float angle = player.getAngle();
 	drawPlayer.setOrientation(angle);
-	drawPlayer.draw();
+	drawPlayer.drawPlayer();
 
 	//draw road
 	glColorPointer(4,GL_FLOAT,0,col.data());

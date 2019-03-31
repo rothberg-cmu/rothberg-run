@@ -82,13 +82,13 @@ DrawPlayer::CubeVertexArray DrawPlayer::MakeCubeVertexArray(const float &x1, con
 
 }
 
-void DrawPlayer::draw()
+void DrawPlayer::drawCube()
 {
-    widthX = 0.15;
-    widthY = 0.15;
-    height = 0.5;
+    widthCubeX = 0.15;
+    widthCubeY = 0.15;
+    heightCube = 0.5;
     auto corner = getVtxList();
-    auto vtxArray = MakeCubeVertexArray(corner[0]-widthX, corner[1]-widthY, corner[2], corner[0]+widthX, corner[1]+widthY, corner[2]+height);
+    auto vtxArray = MakeCubeVertexArray(corner[0]-widthCubeX, corner[1]-widthCubeY, corner[2], corner[0]+widthCubeX, corner[1]+widthCubeY, corner[2]+heightCube);
     
     glVertexPointer(3,GL_FLOAT,0,vtxArray.vtxCube.data());
     glColorPointer(4,GL_FLOAT,0,vtxArray.colCube.data());
@@ -96,7 +96,32 @@ void DrawPlayer::draw()
     
 }
 
-DrawPlayer::DrawPlayer(GamePlayer &player):posVec(player.getPosition())
+void DrawPlayer::drawPlayer()
+{
+    col.clear();
+    for (int i = 0; i < stlVtx.size()/3; i++)
+    {
+        col.push_back(0.0f);
+        col.push_back(0.0f);
+        col.push_back(1.0f);
+        col.push_back(1.0f);
+    }
+    // glEnableClientState(GL_VERTEX_ARRAY);
+    // glEnableClientState(GL_NORMAL_ARRAY);
+    // glEnableClientState(GL_COLOR_ARRAY);
+    
+    glVertexPointer(3,GL_FLOAT,0,stlVtx.data());
+    // glNormalPointer(GL_FLOAT,0,nom.data());
+    glColorPointer(4,GL_FLOAT,0,col.data());
+    glDrawArrays(GL_TRIANGLES,0,col.size()/4);
+    
+    // glDisableClientState(GL_VERTEX_ARRAY);
+    // glDisableClientState(GL_NORMAL_ARRAY);
+    // glDisableClientState(GL_COLOR_ARRAY);
+
+}
+
+DrawPlayer::DrawPlayer(GamePlayer &player):posVec(player.getPosition()), stlVtx(player.getVtx())
 {
     setVtxList(posVec);
     // setColList();
@@ -191,12 +216,30 @@ void DrawPlayer::setOrientation(float angle)
     }
 }
 
-float DrawPlayer::getWidthX()
+float DrawPlayer::getWidthCubeX()
 {
-    return widthX;
+    return widthCubeX;
 }
 
-float DrawPlayer::getWidthY()
+float DrawPlayer::getWidthCubeY()
 {
-    return widthY;
+    return widthCubeY;
+}
+
+float DrawPlayer::getHeightCube()
+{
+    return heightCube;
+}
+
+float DrawPlayer::getWidthPlayerX()
+{
+    return widthPlayerX;
+}
+float DrawPlayer::getWidthPlayerY()
+{
+    return widthPlayerY;
+}
+float DrawPlayer::getHeightPlayer()
+{
+    return heightPlayer;
 }
