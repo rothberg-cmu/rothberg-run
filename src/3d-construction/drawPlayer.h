@@ -10,9 +10,10 @@
 class DrawPlayer
 {
 private:
-    std::vector<double> vtx, col;
+    char orientation = 'N';
+    std::vector<double> vtx;
     void setVtxList(YsVec3 &posVec);
-    void setColList();
+    void setColList(std::vector<float> &col, char color);
     YsVec3& posVec;
     class CubeVertexArray
     {
@@ -24,6 +25,7 @@ private:
 public:
     std::vector<double> getVtxList();
     std::vector<double> getColList();
+    void setOrientation(float angle);
     void toString();
     void draw();
     DrawPlayer(GamePlayer &player);

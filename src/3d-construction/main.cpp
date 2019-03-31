@@ -11,6 +11,10 @@
 // #include "game-player.h"
 //#include "polygonalmesh.h"
 
+#include "DrawingRoad.h"
+
+#include "../map-generation/Road.h"
+
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
@@ -119,8 +123,39 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
-	player.setPosition(-1, -1, -2);
-	
+	//set player initial position
+	player.setPosition(-0.25, -0.25, 0);
+	//set road initial position
+	DrawingRoad dr;
+    Road road = Road(YsVec3(2.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.2);
+    dr.drawRoad(road);
+
+    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    dr.drawRoad(road_vertical);
+
+    Road road2 = Road(YsVec3(2.0,2.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    dr.drawRoad(road2);
+
+    Road road_vertical2 = Road(YsVec3(2.0,0.0,0.0), YsVec3(2.0,2.0,0.0), 0.2);
+    dr.drawRoad(road_vertical2);
+
+    dr.drawTree(road);
+    dr.drawTree(road_vertical);
+
+    dr.drawTree(road2);
+    dr.drawTree(road_vertical2);
+
+	std::vector<float> vtx2 = dr.getVtx();
+	std::vector<float> col2 = dr.getCol();
+	printf("length: %d\n", vtx2.size());
+	for (float v: vtx2) {
+		printf("v: %f\n", v);
+		vtx.push_back(v);
+	}
+
+	for (float c: col2) {
+		col.push_back(c);
+	}
 	// if(2<=argc && true==mesh.LoadBinStl(argv[1]))
 	// {
 	// 	RemakeVertexArray();
@@ -151,10 +186,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		SetMustTerminate(true);
 	}
 
-	// if(FsGetKeyState(FSKEY_LEFT))
-	// {
-	// 	Rc.RotateXZ(YsPi/60.0);
-	// }
+	if(FsGetKeyState(FSKEY_Q))
+	{
+		Rc.RotateXZ(YsPi/60.0);
+	}
 	// if(FsGetKeyState(FSKEY_RIGHT))
 	// {
 	// 	Rc.RotateXZ(-YsPi/60.0);
@@ -198,6 +233,25 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         player.moveDown();
 		drawPlayer.toString();
 		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+    }
+	// w,a,s to control the direction and straight forward
+    if(FSKEY_A==key)
+    {
+
+        player.setAngle(player.getAngle()+270);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_D==key)
+    {
+        player.setAngle(player.getAngle()+90);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_W==key)
+    {
+        // need to refine to move
+        player.moveWithAngle();
     }
     
 
@@ -245,11 +299,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+
+	//draw palyer based on the position and orientation
+	float angle = player.getAngle();
+	drawPlayer.setOrientation(angle);
 	drawPlayer.draw();
-	// glColorPointer(4,GL_FLOAT,0,col.data());
+
+	//draw road
+	glColorPointer(4,GL_FLOAT,0,col.data());
 	// glNormalPointer(GL_FLOAT,0,nom.data());
-	// glVertexPointer(3,GL_FLOAT,0,vtx.data());
-	// glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+	glVertexPointer(3,GL_FLOAT,0,vtx.data());
+	glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	// glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

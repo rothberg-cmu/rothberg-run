@@ -1,6 +1,9 @@
 
+
 #include "game-player.h"
+#include "Camera.h"
 #include <fslazywindow.h>
+#include <iostream>
 #include "ysclass.h"
 #include <vector>
 
@@ -12,6 +15,7 @@ protected:
     
 public:
     GamePlayer player;
+    Camera camera;
     
     FsLazyWindowApplication();
     virtual void BeforeEverything(int argc,char *argv[]);
@@ -57,16 +61,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         SetMustTerminate(true);
     }
-    //right rotate
+    
     if(FSKEY_R==key)
     {
-        player.rotate(YsPi/10.0);
-    }
-    
-    // left rotate
-    if(FSKEY_L==key)
-    {
-        player.rotate(-YsPi/10.0);
+        std::cout << "press right" << std::endl;
+        player.rotate(90);
     }
     
     if(FSKEY_LEFT==key)
@@ -89,33 +88,71 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         player.moveDown();
     }
     
-    // w,a,s to control the direction and straight forward
-    if(FSKEY_A==key)
-    {
-
-        player.setAngle(player.getAngle()+270);
-        printf("current angle: %f \n", player.getAngle());
-    }
-    
-    if(FSKEY_D==key)
-    {
-        player.setAngle(player.getAngle()+90);
-        printf("current angle: %f \n", player.getAngle());
-    }
-    
-    if(FSKEY_W==key)
-    {
-        // need to refine to move
-        player.moveWithAngle();
-    }
-    
     needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
 {
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    int wid,hei;
+    FsGetWindowSize(wid,hei);
+    auto aspect=(float)wid/(float)hei;
     
-    player.draw();
+    glEnable(GL_DEPTH_TEST);
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0,aspect,0.8, 20.0);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    
+    std::cout << player.getAngle() << std::endl;
+    std::cout << player.getPosition().Txt() << std::endl;
+    /*
+    camera.resetMat();
+    camera.changeOrientation(player.getAngle());
+    //camera.changePosition(player.getPosition());
+    
+    YsMatrix4x4 globalToCamera = camera.getCameraMat();
+    globalToCamera.Invert();
+    YsMatrix4x4 modelView;  // need #include ysclass.h
+    modelView.Translate(0,0,-10);
+    modelView*=globalToCamera;
+    modelView.Translate(-player.getPosition());
+    */
+    //modelView.Translate(-2, -2, -10.0);
+    //    modelView.RotateYX(angle);
+//    modelView.RotateYX(getAngle());
+    YsMatrix4x4 modelView = Camera::getCameraMat(player);
+    float modelViewF[16];
+    modelView.GetOpenGlCompatibleMatrix(modelViewF);
+    glMultMatrixf(modelViewF);
+    
+    //    auto vtxArray = MakeCubeVertexArray(-1,-1,-2,0,0,0);
+    float a, b, c;   //the size of bounding box
+    a=0.5; b=0.5; c=1;
+    auto corner = player.getPosition();
+    auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    float line[6] = {0, 0, 0, 10, 0, 0};
+    float colo[8] = {1, 0, 0, 1, 1, 0, 0, 1};
+    
+    glVertexPointer(3,GL_FLOAT,0, line);
+    glColorPointer(4,GL_FLOAT,0,colo);
+    glDrawArrays(GL_LINES,0,2);
+    
+    glVertexPointer(3,GL_FLOAT,0,vtxArray.vtx.data());
+    glColorPointer(4,GL_FLOAT,0,vtxArray.col.data());
+    glDrawArrays(GL_QUADS,0,24);
+    
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    
+
+    //player.draw();
     
     FsSwapBuffers();
     
