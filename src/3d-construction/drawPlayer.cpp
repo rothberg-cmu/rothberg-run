@@ -42,49 +42,40 @@ DrawPlayer::CubeVertexArray DrawPlayer::MakeCubeVertexArray(const float &x1, con
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
 
     if (orientation == 'N')
-    {
-        //red
-        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-        
+    {       
         setColList(col, 'r');
         setColList(col, 'r');
         setColList(col, 'g');
         setColList(col, 'g');
         setColList(col, 'b');
         setColList(col, 'b');
-
-        // printf("#####################################");
     }
     if (orientation == 'E')
     {
-        setColList(col, 'g');
-        setColList(col, 'g');
-        setColList(col, 'b');
-        setColList(col, 'b');
         setColList(col, 'r');
         setColList(col, 'r');
+        setColList(col, 'b');
+        setColList(col, 'b');
+        setColList(col, 'g');
+        setColList(col, 'g');
     }
     if (orientation == 'S')
     {
-        setColList(col, 'b');
-        setColList(col, 'b');
         setColList(col, 'r');
         setColList(col, 'r');
         setColList(col, 'g');
         setColList(col, 'g');
+        setColList(col, 'b');
+        setColList(col, 'b');
     }
     if (orientation == 'W')
     {
-        setColList(col, 'g');
-        setColList(col, 'g');
         setColList(col, 'r');
         setColList(col, 'r');
         setColList(col, 'b');
         setColList(col, 'b');
-
+        setColList(col, 'g');
+        setColList(col, 'g');
     }
     
     return vtxArray;
@@ -95,7 +86,7 @@ void DrawPlayer::draw()
 {
     //    auto vtxArray = MakeCubeVertexArray(-1,-1,-2,0,0,0);
     float a, b, c;   //the size of bounding box
-    a=1; b=1; c=2;
+    a=0.5; b=0.5; c=1;
     auto corner = getVtxList();
     auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
     
