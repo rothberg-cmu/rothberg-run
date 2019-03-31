@@ -126,24 +126,13 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	//set player initial position
 	player.setPosition(-0.25, -0.25, 0);
 	//set road initial position
+
+	Map map = Map();
+	map.dbgPrintRoads();
+
 	DrawingRoad dr;
-    // road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.5);
-    dr.drawRoad(road);
+	dr.drawRoad(map);
 
-    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,5.0,0.0), 0.5);
-    dr.drawRoad(road_vertical);
-
-    Road road2 = Road(YsVec3(5.0,5.0,0.0), YsVec3(0.0,5.0,0.0), 0.5);
-    dr.drawRoad(road2);
-
-    Road road_vertical2 = Road(YsVec3(5.0,0.0,0.0), YsVec3(5.0,5.0,0.0), 0.5);
-    dr.drawRoad(road_vertical2);
-
-    dr.drawTree(road);
-    dr.drawTree(road_vertical);
-
-    dr.drawTree(road2);
-    dr.drawTree(road_vertical2);
 
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
