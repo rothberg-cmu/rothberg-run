@@ -87,8 +87,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
     dr.drawRoad(road_vertical);
 
+    Road road2 = Road(YsVec3(2.0,2.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    dr.drawRoad(road2);
+
+    Road road_vertical2 = Road(YsVec3(2.0,0.0,0.0), YsVec3(2.0,2.0,0.0), 0.2);
+    dr.drawRoad(road_vertical2);
+
     dr.drawTree(road);
     dr.drawTree(road_vertical);
+
+    dr.drawTree(road2);
+    dr.drawTree(road_vertical2);
 
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
