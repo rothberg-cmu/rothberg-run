@@ -168,9 +168,13 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
+    camera.resetMat();
+    camera.changeOrientation(player.getAngle());
     
+    /*
     YsMatrix4x4 modelView;
     modelView.Translate(-2, -2, -10.0);
+    */
     //    modelView.RotateYX(angle);
 //    modelView.RotateYX(getAngle());
     float modelViewF[16];
