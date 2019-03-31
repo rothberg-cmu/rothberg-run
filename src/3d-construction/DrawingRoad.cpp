@@ -1,4 +1,5 @@
 #include <vector>
+#include <algorithm> 
 #include "DrawingRoad.h"
 #include "../map-generation/Road.h"
 
@@ -53,65 +54,81 @@ void DrawingRoad::drawRoad(Map map) {
 	std::vector<Road> roads = map.getRoads();
 	for (Road road: roads) {
 		drawRoad(road);
+		drawTree(road);
 	}
 }
 
 void DrawingRoad::drawTree(Road road) {
 	YsVec3 start = road.getRoadStart();
 	YsVec3 end = road.getRoadEnd();
-	double rW = road.getRoadWidth();
+	double rW = road.getRoadWidth() / 2;
 	bool isVertical = road.getIsVertical();
 
 	if (isVertical) {
-		double mid = (start.y() + end.y()) / 2;
-		
-		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+		double min = std::min(start.y(), end.y()) + TREE_INTERVAL;
+		double max = std::max(start.y(), end.y());
+		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
+			double mid = (start.y() + end.y()) / 2;
+			
+			vtx.push_back(start.x() - rW);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() - rW - 0.1);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() - rW - 0.1);vtx.push_back(treePos);vtx.push_back(1.0);
 
-		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(1.0);
-		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+			vtx.push_back(start.x() - rW);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() - rW);vtx.push_back(treePos);vtx.push_back(1.0);
+			vtx.push_back(start.x() - rW - 0.1);vtx.push_back(treePos);vtx.push_back(1.0);
 
+			// the opposite side
+			vtx.push_back(start.x() + rW);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() + rW + 0.1);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() + rW + 0.1);vtx.push_back(treePos);vtx.push_back(1.0);
 
-		// the opposite side
-		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+			vtx.push_back(start.x() + rW);vtx.push_back(treePos);vtx.push_back(0.0);
+			vtx.push_back(start.x() + rW);vtx.push_back(treePos);vtx.push_back(1.0);
+			vtx.push_back(start.x() + rW + 0.1);vtx.push_back(treePos);vtx.push_back(1.0);
 
-		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(0.0);
-		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(1.0);
-		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+			//saddlebrown rgb(139,69,19)
+			for(int i=0; i<12; ++i){
+		        col.push_back(0.545f);
+		        col.push_back(0.270f);
+		        col.push_back(0.074f);
+		        col.push_back(0.8f);
+		    }
+		}
+
 	} else {
-		double mid = (start.x() + end.x()) / 2;
+		double min = std::min(start.x(), end.x()) + TREE_INTERVAL;
+		double max = std::max(start.x(), end.x());
+		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
+			double mid = (start.x() + end.x()) / 2;
 		
-		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
 
-		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(1.0);
-		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW);vtx.push_back(1.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
 
 
-		// the opposite side
-		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
+			// the opposite side
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
 
-		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
-		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(1.0);
-		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW);vtx.push_back(1.0);
+			vtx.push_back(treePos);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
+
+			//saddlebrown rgb(139,69,19)
+			for(int i=0; i<12; ++i){
+		        col.push_back(0.545f);
+		        col.push_back(0.270f);
+		        col.push_back(0.074f);
+		        col.push_back(0.8f);
+		    }
+		}
 	}
-
-	//saddlebrown rgb(139,69,19)
-	for(int i=0; i<12; ++i){
-        col.push_back(0.545f);
-        col.push_back(0.270f);
-        col.push_back(0.074f);
-        col.push_back(0.8f);
-    }
-	
 }
 
 std::vector<float> DrawingRoad::getVtx() {
