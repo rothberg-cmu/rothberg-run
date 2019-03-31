@@ -11,55 +11,81 @@ DrawPlayer::CubeVertexArray DrawPlayer::MakeCubeVertexArray(const float &x1, con
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    
+
     vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+    
     
     vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
     vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+    
     
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+    
     
     vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
     vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
     vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+    
     
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
     vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
     vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+
+    if (orientation == 'N')
+    {
+        //red
+        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+        // col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+        
+        setColList(col, 'r');
+        setColList(col, 'r');
+        setColList(col, 'g');
+        setColList(col, 'g');
+        setColList(col, 'b');
+        setColList(col, 'b');
+
+        // printf("#####################################");
+    }
+    if (orientation == 'E')
+    {
+        setColList(col, 'g');
+        setColList(col, 'g');
+        setColList(col, 'b');
+        setColList(col, 'b');
+        setColList(col, 'r');
+        setColList(col, 'r');
+    }
+    if (orientation == 'S')
+    {
+        setColList(col, 'b');
+        setColList(col, 'b');
+        setColList(col, 'r');
+        setColList(col, 'r');
+        setColList(col, 'g');
+        setColList(col, 'g');
+    }
+    if (orientation == 'W')
+    {
+        setColList(col, 'g');
+        setColList(col, 'g');
+        setColList(col, 'r');
+        setColList(col, 'r');
+        setColList(col, 'b');
+        setColList(col, 'b');
+
+    }
     
     return vtxArray;
 
@@ -75,14 +101,14 @@ void DrawPlayer::draw()
     
     glVertexPointer(3,GL_FLOAT,0,vtxArray.vtxCube.data());
     glColorPointer(4,GL_FLOAT,0,vtxArray.colCube.data());
-    glDrawArrays(GL_QUADS,0,24);
+    glDrawArrays(GL_QUADS,0,vtxArray.vtxCube.size()/3);
     
 }
 
 DrawPlayer::DrawPlayer(GamePlayer &player):posVec(player.getPosition())
 {
     setVtxList(posVec);
-    setColList();
+    // setColList();
 }
 DrawPlayer::~DrawPlayer()
 {
@@ -101,12 +127,42 @@ void DrawPlayer::setVtxList(YsVec3 &posVec)
     vtx.push_back(posVec[2]);
 }
 
-void DrawPlayer::setColList()
+void DrawPlayer::setColList(std::vector<float> &col, char color)
 {
-    col.push_back(0.0f);
-    col.push_back(1.0f);
-    col.push_back(0.0f);
-    col.push_back(1.0f);
+    if (color == 'r')
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            col.push_back(1.0f);
+            col.push_back(0.0f);
+            col.push_back(0.0f);
+            col.push_back(1.0f);
+        }
+        
+    }
+    if (color == 'g')
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            col.push_back(0.0f);
+            col.push_back(1.0f);
+            col.push_back(0.0f);
+            col.push_back(1.0f);
+        }
+        
+    }
+    if (color == 'b')
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            col.push_back(0.0f);
+            col.push_back(0.0f);
+            col.push_back(1.0f);
+            col.push_back(1.0f);
+        }
+        
+    }
+    
 }
 
 std::vector<double> DrawPlayer::getVtxList()
@@ -118,9 +174,28 @@ std::vector<double> DrawPlayer::getVtxList()
     return vtx;
 }
 
-std::vector<double> DrawPlayer::getColList()
+// std::vector<double> DrawPlayer::getColList()
+// {
+//     return col;
+// }
+
+
+void DrawPlayer::setOrientation(float angle)
 {
-    return col;
+    if (angle >= 0 && angle < 90)
+    {
+        orientation = 'N';
+    }
+    if (angle >= 90 && angle < 180)
+    {
+        orientation = 'E';
+    }
+    if (angle >= 180 && angle < 270)
+    {
+        orientation = 'S';
+    }
+    if (angle >= 270 && angle < 360)
+    {
+        orientation = 'W';
+    }
 }
-
-

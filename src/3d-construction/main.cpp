@@ -185,10 +185,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		SetMustTerminate(true);
 	}
 
-	// if(FsGetKeyState(FSKEY_LEFT))
-	// {
-	// 	Rc.RotateXZ(YsPi/60.0);
-	// }
+	if(FsGetKeyState(FSKEY_Q))
+	{
+		Rc.RotateXZ(YsPi/60.0);
+	}
 	// if(FsGetKeyState(FSKEY_RIGHT))
 	// {
 	// 	Rc.RotateXZ(-YsPi/60.0);
