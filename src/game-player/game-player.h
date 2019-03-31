@@ -1,3 +1,5 @@
+#ifndef ROTHBERG_GAMEPLAYER_HEADER
+#define ROTHBERG_GAMEPLAYER_HEADER
 
 #include <fslazywindow.h>
 #include "ysclass.h"
@@ -14,18 +16,20 @@ public:
 // add a player class
 class GamePlayer
 {
-public:
+    
+private:
     bool aliveStatus;
     YsVec3 position;
     float velocity;
     float angle;     // orientation
     double step=0.2;
     
+public:
     GamePlayer();
     ~GamePlayer();
     void CleanUp();
     void setPosition(float x1, float y1, float z1);
-    YsVec3 getPosition();
+    YsVec3& getPosition();
     void setAngle(float angle1);
     float getAngle();
     bool getAliveStatus();
@@ -37,7 +41,6 @@ public:
     void moveUp();
     void moveDown();
     
-    
 };
 
-
+#endif
