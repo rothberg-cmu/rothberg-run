@@ -6,21 +6,21 @@
 // Drawing road (a rectangle actually) from explicitly given road parameters 
 void DrawingRoad::drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical) {
 	if (isVertical) {
-		vtx.push_back(start.x() + rW);vtx.push_back(start.y());vtx.push_back(start.z());
-		vtx.push_back(start.x() - rW);vtx.push_back(start.y());vtx.push_back(start.z());
-		vtx.push_back(end.x() - rW);vtx.push_back(end.y());vtx.push_back(end.z());
+		vtx.push_back(start.x() + rW);vtx.push_back(start.y() - rW);vtx.push_back(start.z());
+		vtx.push_back(start.x() - rW);vtx.push_back(start.y() - rW);vtx.push_back(start.z());
+		vtx.push_back(end.x() - rW);vtx.push_back(end.y() + rW);vtx.push_back(end.z());
 
-		vtx.push_back(start.x() + rW);vtx.push_back(start.y());vtx.push_back(start.z());
-		vtx.push_back(end.x() - rW);vtx.push_back(end.y());vtx.push_back(end.z());
-		vtx.push_back(end.x() + rW);vtx.push_back(end.y());vtx.push_back(end.z());
+		vtx.push_back(start.x() + rW);vtx.push_back(start.y() - rW);vtx.push_back(start.z());
+		vtx.push_back(end.x() - rW);vtx.push_back(end.y() + rW);vtx.push_back(end.z());
+		vtx.push_back(end.x() + rW);vtx.push_back(end.y() + rW);vtx.push_back(end.z());
 	} else {
-		vtx.push_back(start.x());vtx.push_back(start.y() + rW);vtx.push_back(start.z());
-		vtx.push_back(end.x());vtx.push_back(end.y() - rW);vtx.push_back(end.z());
-		vtx.push_back(start.x());vtx.push_back(start.y() - rW);vtx.push_back(start.z());
+		vtx.push_back(start.x() - rW);vtx.push_back(start.y() + rW);vtx.push_back(start.z());
+		vtx.push_back(end.x() + rW);vtx.push_back(end.y() - rW);vtx.push_back(end.z());
+		vtx.push_back(start.x() - rW);vtx.push_back(start.y() - rW);vtx.push_back(start.z());
 
-		vtx.push_back(start.x());vtx.push_back(start.y() + rW);vtx.push_back(start.z());
-		vtx.push_back(end.x());vtx.push_back(end.y() - rW);vtx.push_back(end.z());
-		vtx.push_back(end.x());vtx.push_back(end.y() + rW);vtx.push_back(end.z());
+		vtx.push_back(start.x() - rW);vtx.push_back(start.y() + rW);vtx.push_back(start.z());
+		vtx.push_back(end.x() + rW);vtx.push_back(end.y() - rW);vtx.push_back(end.z());
+		vtx.push_back(end.x() + rW);vtx.push_back(end.y() + rW);vtx.push_back(end.z());
 	}
 
 	// rgb (105,105,105) for gray
