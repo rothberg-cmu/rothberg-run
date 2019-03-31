@@ -23,7 +23,19 @@ private:
     YsVec3 position;
     float velocity;
     float angle;     // orientation
-    double step=0.2;
+    
+    
+    
+    YsVec3 viewTarget;
+    YsMatrix4x4 viewRot;
+    double viewDistance;
+    double nearZ,farZ;
+
+public:
+    std::vector <float> vtx;
+    std::vector <float> col;
+    std::vector <float> nom;
+    double step=5;
     
 public:
     GamePlayer();
@@ -42,7 +54,12 @@ public:
     void moveUp();
     void moveDown();
     void moveWithAngle();
-    
+    void GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float> &vtx);
+    void LoadBinary();
+    void SetUpHeadLight(void);
+    void moveAlongX(float deltaX);
+    void moveAlongY(float deltaY);
+    void moveAlongZ(float deltaZ);
 };
 
 CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2);

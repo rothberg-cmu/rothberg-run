@@ -4,7 +4,6 @@
 #include "ysclass.h"
 #include <vector>
 
-
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
@@ -12,6 +11,7 @@ protected:
     
 public:
     GamePlayer player;
+    
     
     FsLazyWindowApplication();
     virtual void BeforeEverything(int argc,char *argv[]);
@@ -26,7 +26,6 @@ public:
     virtual bool NeedRedraw(void) const;
     
 };
-
 
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
@@ -47,7 +46,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
-    player.setPosition(-1, -1, -2);
+    player.LoadBinary();
+    YsVec3 min, max;
+    player.GetBoundingBox(min, max, player.vtx);
+    player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
+
 }
 
 /* virtual */ void FsLazyWindowApplication::Interval(void)
@@ -57,17 +60,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         SetMustTerminate(true);
     }
-    //right rotate
-    if(FSKEY_R==key)
-    {
-        player.rotate(YsPi/10.0);
-    }
-    
-    // left rotate
-    if(FSKEY_L==key)
-    {
-        player.rotate(-YsPi/10.0);
-    }
+//    //right rotate
+//    if(FSKEY_R==key)
+//    {
+//        player.rotate(YsPi/10.0);
+//    }
+//
+//    // left rotate
+//    if(FSKEY_L==key)
+//    {
+//        player.rotate(-YsPi/10.0);
+//    }
     
     if(FSKEY_LEFT==key)
     {
@@ -109,14 +112,33 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         player.moveWithAngle();
     }
     
+    if(FSKEY_I==key)
+    {
+        // get info of the player
+        auto p1 = player.getPosition();
+        printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
+    }
+    
+//    if(FSKEY_X==key)
+//    {
+//        player.moveAlongX(player.step);
+//        auto p1 = player.getPosition();
+//        printf("current location: %f, %f, angle: %f\n", p1.x(), p1.y(), player.getAngle());
+//    }
+//
+//    if(FSKEY_Y==key)
+//    {
+//        player.moveAlongY(player.step);
+//        auto p1 = player.getPosition();
+//        printf("current location: %f, %f, angle: %f\n", p1.x(), p1.y(), player.getAngle());
+//    }
+    
     needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    
+//    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     player.draw();
-    
     FsSwapBuffers();
     
     needRedraw=false;
