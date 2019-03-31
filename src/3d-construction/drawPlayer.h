@@ -11,7 +11,8 @@ class DrawPlayer
 {
 private:
     char orientation = 'N';
-    std::vector<double>& vtx;
+    std::vector<double> vtx;
+    std::vector<float>& stlVtx;
     std::vector<double> col;
     void setVtxList(YsVec3 &posVec);
     void setColList(std::vector<float> &col, char color);

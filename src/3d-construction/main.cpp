@@ -107,7 +107,7 @@ public:
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	needRedraw=false;
-	d=16.0;
+	d=20.0;
 	t=YsVec3::Origin();
 }
 
@@ -123,8 +123,13 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+	player.LoadBinary();
+	printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    YsVec3 min, max;
+    player.GetBoundingBox(min, max, player.vtx);
+    player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
 	//set player initial position
-	player.setPosition(-0.25, -0.25, 0);
+	// player.setPosition(-0.25, -0.25, 0);
 	//set road initial position
 
 	Map map = Map();
@@ -301,7 +306,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	//draw palyer based on the position and orientation
 	float angle = player.getAngle();
 	drawPlayer.setOrientation(angle);
-	drawPlayer.draw();
+	drawPlayer.drawPlayer();
 
 	//draw road
 	glColorPointer(4,GL_FLOAT,0,col.data());
