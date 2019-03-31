@@ -12,7 +12,7 @@ enum MapSize {
 class Map {
 
 private:
-    int roadWidth = 10;
+    int roadWidth = 1;
 public:
     Map();
     Map(int rN);
