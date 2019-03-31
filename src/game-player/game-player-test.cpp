@@ -60,12 +60,12 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         SetMustTerminate(true);
     }
-//    //right rotate
-//    if(FSKEY_R==key)
-//    {
-//        player.rotate(YsPi/10.0);
-//    }
-//
+    //right rotate
+    if(FSKEY_R==key)
+    {
+        player.rotate(YsPi/10);
+    }
+
 //    // left rotate
 //    if(FSKEY_L==key)
 //    {

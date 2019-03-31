@@ -5,6 +5,9 @@
 #include <fslazywindow.h>
 #include "../map-generation/Road.h"
 #include "../map-generation/Map.h"
+
+#define TREE_INTERVAL 5.0
+
 class DrawingRoad {
 private:
 	std::vector<float> vtx;
