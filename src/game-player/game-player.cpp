@@ -11,105 +11,71 @@
 
 
 
-CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
-{
-    CubeVertexArray vtxArray;
-    auto &vtx=vtxArray.vtx;
-    auto &col=vtxArray.col;
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-    
-    return vtxArray;
-}
+//CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
+//{
+//    CubeVertexArray vtxArray;
+//    auto &vtx=vtxArray.vtx;
+//    auto &col=vtxArray.col;
+//
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
+//
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
+//
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
+//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
+//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
+//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
+//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
+//
+//    return vtxArray;
+//}
 
 
-void GamePlayer::LoadBinary()
-{
-    // load binary file for cartoon figure
-    char fileName[] = "cartoonboy.stl";
-    if(true==LoadBinStl(vtx, nom, fileName))
-    {
-        for(int i=0; i<vtx.size(); i+=3)
-        {
-            col.push_back(0);
-            col.push_back(0);
-            col.push_back(1);
-            col.push_back(1);
-        }
-        
-        YsVec3 min,max;
-        GetBoundingBox(min,max,vtx);
-        
-        viewTarget=(min+max)/2.0;
-        
-        auto dim=(max-min).GetLength();
-        viewDistance=1.31*dim;
-        
-        farZ=viewDistance+dim*1.1;
-        nearZ=viewDistance-dim*1.1;
-        
-        printf("STL loaded.\n");
-        //transfer to the origin
-        auto pos = getPosition();
-        moveAlongX(-pos.xf());
-        moveAlongY(-pos.yf());
-        moveAlongZ(-pos.zf());
-        
-    }
-    //
-}
+
 
 
 
@@ -167,8 +133,14 @@ float GamePlayer::getAngle()
 
 void GamePlayer::rotate(float angle1)
 {
-    auto currAngle = getAngle();
-    setAngle(currAngle + angle1);
+    auto currAngle = getAngle()+ angle1;
+    setAngle(currAngle);
+    float theta = YsPi*(currAngle)/180;
+    for (int i=0; i<vtx.size(); i += 3)
+    {
+        vtx[i] = vtx[i]*cos(theta)-vtx[i+1]*sin(theta);
+        vtx[i+1] = vtx[i]*sin(theta)+vtx[i+1]*cos(theta);
+    }
 }
 
 void GamePlayer::move(float x1, float y1, float z1)
@@ -264,6 +236,60 @@ void GamePlayer::moveAlongZ(float deltaZ)
         vtx[i] += deltaZ;
     }
 }
+
+void GamePlayer::scale(float scaleFactor)
+{
+//    float scaleFactor = 1;
+    for (int i=0; i<vtx.size(); i++)
+    {
+        vtx[i] *= scaleFactor;
+    }
+}
+
+
+void GamePlayer::LoadBinary()
+{
+    // load binary file for cartoon figure
+    char fileName[] = "cartoonboy.stl";
+    if(true==LoadBinStl(vtx, nom, fileName))
+    {
+        for(int i=0; i<vtx.size(); i+=3)
+        {
+            col.push_back(0);
+            col.push_back(0);
+            col.push_back(1);
+            col.push_back(1);
+        }
+        
+        YsVec3 min,max;
+        GetBoundingBox(min,max,vtx);
+        
+        viewTarget=(min+max)/2.0;
+        
+        auto dim=(max-min).GetLength();
+        viewDistance=1.31*dim;
+        
+        farZ=viewDistance+dim*1.1;
+        nearZ=viewDistance-dim*1.1;
+        
+        printf("STL loaded.\n");
+        //transfer to the origin
+        auto pos = getPosition();
+        moveAlongX(-pos.xf());
+        moveAlongY(-pos.yf());
+        moveAlongZ(-pos.zf());
+        
+        GetBoundingBox(min,max,vtx);
+        
+        // adjust to proper size
+        float s = 3/((max.xf()-min.xf())/2);
+        printf("scale factor = %f\n", s);
+        scale(s);
+    
+    }
+    //
+}
+
 
 
 

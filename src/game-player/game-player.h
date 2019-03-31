@@ -7,12 +7,12 @@
 
 
 
-class CubeVertexArray
-{
-public:
-    std::vector <float> vtx;
-    std::vector <float> col;
-};
+//class CubeVertexArray
+//{
+//public:
+//    std::vector <float> vtx;
+//    std::vector <float> col;
+//};
 
 // add a player class
 class GamePlayer
@@ -61,8 +61,9 @@ public:
     void moveAlongX(float deltaX);
     void moveAlongY(float deltaY);
     void moveAlongZ(float deltaZ);
+    void scale(float scaleFactor);
 };
 
-CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2);
+//CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2);
 
 #endif
