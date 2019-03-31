@@ -75,14 +75,10 @@ CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2
 }
 
 
-
-
-
-
 void GamePlayer::LoadBinary()
 {
     // load binary file for cartoon figure
-    char fileName[] = "/Users/jingzhao/24783/data/binaryStl/cartoonboy.stl";
+    char fileName[] = "cartoonboy.stl";
     if(true==LoadBinStl(vtx, nom, fileName))
     {
         for(int i=0; i<vtx.size(); i+=3)
