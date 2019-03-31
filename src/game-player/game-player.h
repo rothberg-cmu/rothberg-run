@@ -35,7 +35,7 @@ public:
     std::vector <float> vtx;
     std::vector <float> col;
     std::vector <float> nom;
-    double step=5;
+    double step=1;
     
 public:
     GamePlayer();
