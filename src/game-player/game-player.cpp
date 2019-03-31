@@ -285,7 +285,7 @@ void GamePlayer::LoadBinary()
         auto pos = getPosition();
         moveAlongX(-pos.xf());
         moveAlongY(-pos.yf());
-        moveAlongZ(-pos.zf());
+        moveAlongZ(-pos.zf()/2);
         
         GetBoundingBox(min,max,vtx);
         
@@ -401,6 +401,9 @@ void GamePlayer::draw()
     YsMatrix4x4 modelView;
     
     modelView.Translate(0,0,-viewDistance);
+    YsMatrix4x4 viewRot;
+    viewRot.RotateXZ(YsPi*45/180);
+    viewRot.Invert();
     modelView*=viewRot;
     modelView.Translate(-viewTarget);
     
