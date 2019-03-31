@@ -123,8 +123,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
-	player.setPosition(-1, -1, -2);
-	
+	//set player initial position
+	player.setPosition(-0.25, -0.25, 0);
+	//set road initial position
 	DrawingRoad dr;
     Road road = Road(YsVec3(2.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.2);
     dr.drawRoad(road);
@@ -233,6 +234,25 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		drawPlayer.toString();
 		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
     }
+	// w,a,s to control the direction and straight forward
+    if(FSKEY_A==key)
+    {
+
+        player.setAngle(player.getAngle()+270);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_D==key)
+    {
+        player.setAngle(player.getAngle()+90);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_W==key)
+    {
+        // need to refine to move
+        player.moveWithAngle();
+    }
     
 
 
@@ -279,7 +299,13 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	// glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+
+	//draw palyer based on the position and orientation
+	float angle = player.getAngle();
+	drawPlayer.setOrientation(angle);
 	drawPlayer.draw();
+
+	//draw road
 	glColorPointer(4,GL_FLOAT,0,col.data());
 	// glNormalPointer(GL_FLOAT,0,nom.data());
 	glVertexPointer(3,GL_FLOAT,0,vtx.data());
