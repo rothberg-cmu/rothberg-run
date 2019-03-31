@@ -12,7 +12,7 @@
 //#include "polygonalmesh.h"
 
 #include "DrawingRoad.h"
-
+#include "Camera.h"
 #include "../map-generation/Road.h"
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
@@ -21,7 +21,7 @@ protected:
 	bool needRedraw;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
-	
+	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.5);
 
 	YsMatrix4x4 Rc;
 	double d;
@@ -107,7 +107,7 @@ public:
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	needRedraw=false;
-	d=10.0;
+	d=16.0;
 	t=YsVec3::Origin();
 }
 
@@ -127,16 +127,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	player.setPosition(-0.25, -0.25, 0);
 	//set road initial position
 	DrawingRoad dr;
-    Road road = Road(YsVec3(2.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.2);
+    // road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.5);
     dr.drawRoad(road);
 
-    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,5.0,0.0), 0.5);
     dr.drawRoad(road_vertical);
 
-    Road road2 = Road(YsVec3(2.0,2.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
+    Road road2 = Road(YsVec3(5.0,5.0,0.0), YsVec3(0.0,5.0,0.0), 0.5);
     dr.drawRoad(road2);
 
-    Road road_vertical2 = Road(YsVec3(2.0,0.0,0.0), YsVec3(2.0,2.0,0.0), 0.2);
+    Road road_vertical2 = Road(YsVec3(5.0,0.0,0.0), YsVec3(5.0,5.0,0.0), 0.5);
     dr.drawRoad(road_vertical2);
 
     dr.drawTree(road);
@@ -210,9 +210,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     if(FSKEY_LEFT==key)
     {
-        player.moveLeft();
-		drawPlayer.toString();
-		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+		YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
+		printf("%s\n", nextMove.Txt());
+		if (road.isInRoad(nextMove))
+		{
+			player.moveLeft();
+			drawPlayer.toString();
+			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+
+		}
+        
 	}
     if(FSKEY_RIGHT==key)
     {
@@ -274,13 +281,15 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	glLoadIdentity();
 	gluPerspective(45.0,aspect,d/10.0,d*2.0);
 
-	YsMatrix4x4 globalToCamera=Rc;
-	globalToCamera.Invert();
+	YsMatrix4x4 modelView = Camera::getCameraMat(player);
 
-	YsMatrix4x4 modelView;  // need #include ysclass.h
-	modelView.Translate(0,0,-d);
-	modelView*=globalToCamera;
-	modelView.Translate(-t);
+	// YsMatrix4x4 globalToCamera=Rc;
+	// globalToCamera.Invert();
+
+	// YsMatrix4x4 modelView;  // need #include ysclass.h
+	// modelView.Translate(0,0,-d);
+	// modelView*=globalToCamera;
+	// modelView.Translate(-t);
 
 	GLfloat modelViewGl[16];
 	modelView.GetOpenGlCompatibleMatrix(modelViewGl);
