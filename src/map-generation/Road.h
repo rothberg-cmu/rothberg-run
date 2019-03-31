@@ -1,8 +1,8 @@
 #ifndef ROTHBERG_ROAD_HEADER
 #define ROTHBERG_ROAD_HEADER
 
-#define ROAD_MIN_LENGTH 100
-#define ROAD_MAX_LENGTH 500
+#define ROAD_MIN_LENGTH 10
+#define ROAD_MAX_LENGTH 20
 
 #include "ysclass.h"
 
