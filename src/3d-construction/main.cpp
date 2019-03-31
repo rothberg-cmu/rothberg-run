@@ -124,6 +124,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
 	player.LoadBinary();
+	player.scale(0.1);
 	printf("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     YsVec3 min, max;
     player.GetBoundingBox(min, max, player.vtx);
@@ -206,14 +207,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
 		YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
 		printf("%s\n", nextMove.Txt());
-		if (road.isInRoad(nextMove))
-		{
-			player.moveLeft();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
-
-		}
-        
+		player.moveLeft();
+		drawPlayer.toString();
+		printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	}
     if(FSKEY_RIGHT==key)
     {

@@ -103,7 +103,7 @@ void DrawPlayer::drawPlayer()
     {
         col.push_back(0.0f);
         col.push_back(0.0f);
-        col.push_back(0.0f);
+        col.push_back(1.0f);
         col.push_back(1.0f);
     }
     // glEnableClientState(GL_VERTEX_ARRAY);
