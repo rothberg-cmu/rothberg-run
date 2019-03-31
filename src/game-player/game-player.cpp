@@ -253,6 +253,14 @@ void GamePlayer::LoadBinary()
     char fileName[] = "cartoonboy.stl";
     if(true==LoadBinStl(vtx, nom, fileName))
     {
+        //change y,z coor
+        for (int i=0; i<vtx.size(); i+=3)
+        {
+            auto temp = vtx[i+2];
+            vtx[i+2] = vtx[i+1];
+            vtx[i+1] = temp;
+        }
+        
         for(int i=0; i<vtx.size(); i+=3)
         {
             col.push_back(0);
