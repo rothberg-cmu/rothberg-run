@@ -41,6 +41,13 @@ void DrawingRoad::drawRoad(Road road) {
 	drawRoad(start, end, rW, isVertical);
 }
 
+void DrawingRoad::drawRoad(Map map) {
+	std::vector<Road> roads = map.getRoads();
+	for (Road road: roads) {
+		drawRoad(road);
+	}
+}
+
 void DrawingRoad::drawTree(Road road) {
 	YsVec3 start = road.getRoadStart();
 	YsVec3 end = road.getRoadEnd();

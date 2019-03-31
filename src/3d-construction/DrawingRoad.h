@@ -4,6 +4,7 @@
 #include <ysclass.h>
 #include <fslazywindow.h>
 #include "../map-generation/Road.h"
+#include "../map-generation/Map.h"
 class DrawingRoad {
 private:
 	std::vector<float> vtx;
@@ -14,6 +15,7 @@ public:
 
 	void drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical);
 	void drawRoad(Road road);
+	void drawRoad(Map map);
 	void drawTree(Road road);
 
 	std::vector<float> getVtx();
