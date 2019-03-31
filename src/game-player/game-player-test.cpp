@@ -57,10 +57,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
         SetMustTerminate(true);
     }
-    
+    //right rotate
     if(FSKEY_R==key)
     {
         player.rotate(YsPi/10.0);
+    }
+    
+    // left rotate
+    if(FSKEY_L==key)
+    {
+        player.rotate(-YsPi/10.0);
     }
     
     if(FSKEY_LEFT==key)
@@ -81,6 +87,26 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     if(FSKEY_DOWN==key)
     {
         player.moveDown();
+    }
+    
+    // w,a,s to control the direction and straight forward
+    if(FSKEY_A==key)
+    {
+
+        player.setAngle(player.getAngle()+270);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_D==key)
+    {
+        player.setAngle(player.getAngle()+90);
+        printf("current angle: %f \n", player.getAngle());
+    }
+    
+    if(FSKEY_W==key)
+    {
+        // need to refine to move
+        player.moveWithAngle();
     }
     
     needRedraw=true;
