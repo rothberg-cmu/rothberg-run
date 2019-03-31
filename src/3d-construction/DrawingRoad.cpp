@@ -41,6 +41,63 @@ void DrawingRoad::drawRoad(Road road) {
 	drawRoad(start, end, rW, isVertical);
 }
 
+void DrawingRoad::drawTree(Road road) {
+	YsVec3 start = road.getRoadStart();
+	YsVec3 end = road.getRoadEnd();
+	double rW = road.getRoadWidth();
+	bool isVertical = road.getIsVertical();
+
+	if (isVertical) {
+		double mid = (start.y() + end.y()) / 2;
+		
+		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+
+		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() - rW);vtx.push_back(mid);vtx.push_back(1.0);
+		vtx.push_back(start.x() - rW - 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+
+
+		// the opposite side
+		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+
+		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(0.0);
+		vtx.push_back(start.x() + rW);vtx.push_back(mid);vtx.push_back(1.0);
+		vtx.push_back(start.x() + rW + 0.1);vtx.push_back(mid);vtx.push_back(1.0);
+	} else {
+		double mid = (start.x() + end.x()) / 2;
+		
+		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
+
+		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() - rW);vtx.push_back(1.0);
+		vtx.push_back(mid);vtx.push_back(start.y() - rW - 0.1);vtx.push_back(1.0);
+
+
+		// the opposite side
+		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
+
+		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(0.0);
+		vtx.push_back(mid);vtx.push_back(start.y() + rW);vtx.push_back(1.0);
+		vtx.push_back(mid);vtx.push_back(start.y() + rW + 0.1);vtx.push_back(1.0);
+	}
+
+	//saddlebrown rgb(139,69,19)
+	for(int i=0; i<12; ++i){
+        col.push_back(0.545f);
+        col.push_back(0.270f);
+        col.push_back(0.074f);
+        col.push_back(0.8f);
+    }
+	
+}
 
 std::vector<float> DrawingRoad::getVtx() {
 	return vtx;
