@@ -82,7 +82,7 @@ DrawPlayer::CubeVertexArray DrawPlayer::MakeCubeVertexArray(const float &x1, con
 
 }
 
-void DrawPlayer::draw()
+void DrawPlayer::drawCube()
 {
     widthX = 0.15;
     widthY = 0.15;
@@ -96,7 +96,31 @@ void DrawPlayer::draw()
     
 }
 
-DrawPlayer::DrawPlayer(GamePlayer &player):posVec(player.getPosition())
+void DrawPlayer::drawPlayer()
+{
+    for (int i = 0; i < vtx.size()/3; i++)
+    {
+        col.push_back(0.5f);
+        col.push_back(0.3f);
+        col.push_back(0.6f);
+        col.push_back(1.0f);
+    }
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    
+    glVertexPointer(3,GL_FLOAT,0,vtx.data());
+    // glNormalPointer(GL_FLOAT,0,nom.data());
+    glColorPointer(4,GL_FLOAT,0,col.data());
+    glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+    
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+}
+
+DrawPlayer::DrawPlayer(GamePlayer &player):posVec(player.getPosition()), vtx(player.getVtx())
 {
     setVtxList(posVec);
     // setColList();
@@ -191,12 +215,30 @@ void DrawPlayer::setOrientation(float angle)
     }
 }
 
-float DrawPlayer::getWidthX()
+float DrawPlayer::getWidthCubeX()
 {
     return widthX;
 }
 
-float DrawPlayer::getWidthY()
+float DrawPlayer::getWidthCubeY()
 {
     return widthY;
+}
+
+float DrawPlayer::getHeightCube()
+{
+    return heightCube;
+}
+
+float DrawPlayer::getWidthPlayerX()
+{
+    return widthPlayerX;
+}
+float DrawPlayer::getWidthPlayerY()
+{
+    return widthPlayerY;
+}
+float DrawPlayer::getHeightPlayer()
+{
+    return heightPlayer;
 }
