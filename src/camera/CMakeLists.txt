@@ -8,5 +8,5 @@ add_executable(CameraTest
     Camera.cpp)
 
 target_link_libraries(Camera ysclass) 
-target_link_libraries(CameraTest ysclass yslazywindow) 
+target_link_libraries(CameraTest ysclass fslazywindow game-player) 
 target_include_directories(Camera PUBLIC .)
