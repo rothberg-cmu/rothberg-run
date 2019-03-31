@@ -14,6 +14,7 @@ public:
 
 	void drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical);
 	void drawRoad(Road road);
+	void drawTree(Road road);
 
 	std::vector<float> getVtx();
 	std::vector<float> getCol();
