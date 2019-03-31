@@ -84,11 +84,11 @@ DrawPlayer::CubeVertexArray DrawPlayer::MakeCubeVertexArray(const float &x1, con
 
 void DrawPlayer::draw()
 {
-    //    auto vtxArray = MakeCubeVertexArray(-1,-1,-2,0,0,0);
-    float a, b, c;   //the size of bounding box
-    a=0.5; b=0.5; c=1;
+    widthX = 0.15;
+    widthY = 0.15;
+    height = 0.5;
     auto corner = getVtxList();
-    auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
+    auto vtxArray = MakeCubeVertexArray(corner[0]-widthX, corner[1]-widthY, corner[2], corner[0]+widthX, corner[1]+widthY, corner[2]+height);
     
     glVertexPointer(3,GL_FLOAT,0,vtxArray.vtxCube.data());
     glColorPointer(4,GL_FLOAT,0,vtxArray.colCube.data());
@@ -189,4 +189,14 @@ void DrawPlayer::setOrientation(float angle)
     {
         orientation = 'W';
     }
+}
+
+float DrawPlayer::getWidthX()
+{
+    return widthX;
+}
+
+float DrawPlayer::getWidthY()
+{
+    return widthY;
 }

@@ -14,6 +14,9 @@ private:
     std::vector<double> vtx;
     void setVtxList(YsVec3 &posVec);
     void setColList(std::vector<float> &col, char color);
+    float widthX;
+    float widthY;
+    float height;
     YsVec3& posVec;
     class CubeVertexArray
     {
@@ -28,6 +31,9 @@ public:
     void setOrientation(float angle);
     void toString();
     void draw();
+    float getWidthX();
+    float getWidthY();
+    float getHeight();
     DrawPlayer(GamePlayer &player);
     ~DrawPlayer();
 };
