@@ -140,6 +140,11 @@ YsVec3& GamePlayer::getPosition()
     return position;
 }
 
+std::vector <float>& GamePlayer::getVtx()
+{
+    return vtx;
+}
+
 void GamePlayer::setPosition(float x1, float y1, float z1)
 {
     position[0] = x1;
