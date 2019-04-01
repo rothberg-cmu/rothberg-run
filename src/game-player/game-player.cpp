@@ -123,11 +123,18 @@ bool GamePlayer::getAliveStatus()
 }
 void GamePlayer::setAngle(float angle1)
 {
+    while (angle1<0) {
+        angle1 += 360;
+    }
     angle = fmod(angle1, 360);
 }
 
 float GamePlayer::getAngle()
 {
+    while (angle<0)
+    {
+        angle += 360;
+    }
     return angle;
 }
 
@@ -135,11 +142,41 @@ void GamePlayer::rotate(float angle1)
 {
     auto currAngle = getAngle()+ angle1;
     setAngle(currAngle);
-    float theta = YsPi*(currAngle)/180;
+    float theta = YsPi*(angle1)/180;
+    printf("cos theta = %f\n",cos(theta));
+    printf("sin theta = %f\n",sin(theta));
+    
     for (int i=0; i<vtx.size(); i += 3)
     {
-        vtx[i] = vtx[i]*cos(theta)-vtx[i+1]*sin(theta);
-        vtx[i+1] = vtx[i]*sin(theta)+vtx[i+1]*cos(theta);
+//        vtx[i] = vtx[i]*cos(theta)-vtx[i+1]*sin(theta);
+//        vtx[i+1] = vtx[i]*sin(theta)+vtx[i+1]*cos(theta);
+        switch ((int) angle1) {
+            case 90:
+            {
+                //case of turning +90
+                auto temp = vtx[i+1];
+                vtx[i+1] = -vtx[i];
+                vtx[i] = temp;
+                break;
+            }
+                
+                
+            case -90:
+            {
+                //case of turning -90
+                auto temp = vtx[i+1];
+                vtx[i+1] = vtx[i];
+                vtx[i] = -temp;
+            }
+                
+            
+            default:
+                break;
+        }
+        
+        
+        
+        
     }
 }
 
@@ -400,7 +437,7 @@ void GamePlayer::draw()
     
     YsMatrix4x4 modelView;
     
-    modelView.Translate(0,0,-viewDistance);
+    modelView.Translate(50,0,-viewDistance+100);
     YsMatrix4x4 viewRot;
     viewRot.RotateXZ(YsPi*60/180);
     viewRot.Invert();
