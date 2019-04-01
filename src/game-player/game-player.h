@@ -50,6 +50,7 @@ public:
     void move(float x1, float y1, float z1);
     void draw();
     void rotate(float angle1);
+    void rotateByStep(float angle1);
     void moveLeft();
     void moveRight();
     void moveUp();

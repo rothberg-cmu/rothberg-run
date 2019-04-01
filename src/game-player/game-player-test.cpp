@@ -63,7 +63,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     //right rotate
     if(FSKEY_R==key)
     {
-        player.rotate(YsPi/10);
+        player.rotate(10);
     }
 
 //    // left rotate

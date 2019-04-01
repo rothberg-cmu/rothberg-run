@@ -140,45 +140,74 @@ float GamePlayer::getAngle()
 
 void GamePlayer::rotate(float angle1)
 {
+    
+    // step1: find the offset of this point, then use offset to location at the origin
+    // step2: rotate using ratation matrix
+    // step 3: use -offset to back to the origin location
+    
+    YsVec3 min,max;
+    GetBoundingBox(min,max,vtx);
+    
+    YsVec3 centroid =(min+max)/2.0;
+    float offsetX = centroid.xf();
+    float offsetY = centroid.yf();
+    printf("offset %f %f\n", offsetX, offsetY);
+    
+    moveAlongX(-offsetX);
+    moveAlongY(-offsetY);
+    
     auto currAngle = getAngle()+ angle1;
     setAngle(currAngle);
-    float theta = YsPi*(angle1)/180;
-    printf("cos theta = %f\n",cos(theta));
-    printf("sin theta = %f\n",sin(theta));
+    float theta = YsPi*(-angle1)/180;
+//    printf("cos theta = %f\n",cos(theta));
+//    printf("sin theta = %f\n",sin(theta));
     
     for (int i=0; i<vtx.size(); i += 3)
     {
-//        vtx[i] = vtx[i]*cos(theta)-vtx[i+1]*sin(theta);
-//        vtx[i+1] = vtx[i]*sin(theta)+vtx[i+1]*cos(theta);
-        switch ((int) angle1) {
-            case 90:
-            {
-                //case of turning +90
-                auto temp = vtx[i+1];
-                vtx[i+1] = -vtx[i];
-                vtx[i] = temp;
-                break;
-            }
-                
-                
-            case -90:
-            {
-                //case of turning -90
-                auto temp = vtx[i+1];
-                vtx[i+1] = vtx[i];
-                vtx[i] = -temp;
-            }
-                
-            
-            default:
-                break;
-        }
+        auto originX = vtx[i];
+        auto originY = vtx[i+1];
         
+        vtx[i] = originX * cos(theta) - originY * sin(theta);
+        vtx[i+1] = originX * sin(theta) + originY * cos(theta);
         
-        
+        // easy mode, only two direction
+//        switch ((int) angle1) {
+//            case 90:
+//            {
+//                //case of turning +90
+//                auto temp = vtx[i+1];
+//                vtx[i+1] = -vtx[i];
+//                vtx[i] = temp;
+//                break;
+//            }
+//
+//
+//            case -90:
+//            {
+//                //case of turning -90
+//                auto temp = vtx[i+1];
+//                vtx[i+1] = vtx[i];
+//                vtx[i] = -temp;
+//            }
+//
+//
+//            default:
+//                break;
+//        }
         
     }
+    
+    moveAlongX(offsetX);
+    moveAlongY(offsetY);
 }
+
+void GamePlayer::rotateByStep(float angle1)
+{
+    
+}
+
+
+
 
 void GamePlayer::move(float x1, float y1, float z1)
 {
@@ -229,18 +258,42 @@ void GamePlayer::moveDown()
 
 void GamePlayer::moveWithAngle()
 {
-    switch ((int) angle)
+    int caseNum;
+    int intAngle = (int) angle;
+    
+    // face up
+    if ( 315<intAngle || intAngle <= 45)
+    {
+        caseNum = 0;
+    }
+    // face right
+    if ( 45 <intAngle && intAngle <= 135)
+    {
+        caseNum = 1;
+    }
+    // face down
+    if ( 135 <intAngle && intAngle <= 225)
+    {
+        caseNum = 2;
+    }
+    // face left
+    if ( 225 <intAngle && intAngle <= 315)
+    {
+        caseNum = 3;
+    }
+    
+    switch (caseNum)
     {
         case 0:
             moveUp();
             break;
-        case 90:
+        case 1:
             moveRight();
             break;
-        case 180:
+        case 2:
             moveDown();
             break;
-        case 270:
+        case 3:
             moveLeft();
             break;
             
