@@ -201,9 +201,22 @@ void GamePlayer::rotate(float angle1)
     moveAlongY(offsetY);
 }
 
-void GamePlayer::rotateByStep(float angle1)
+void GamePlayer::rotateByStep(float angle2)
 {
-    
+    if (angle2 <= 10)
+    {
+        rotate(angle2);
+    }
+    else
+    {
+        int slice = fmod(angle2, 10);
+        printf("slice = %d\n", slice);
+        float angle1 = angle2/slice;
+        for ( int i=0; i<slice; i++ )
+        {
+            rotate(angle1);
+        }
+    }
 }
 
 
