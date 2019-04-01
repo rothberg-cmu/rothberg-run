@@ -402,7 +402,7 @@ void GamePlayer::draw()
     
     modelView.Translate(0,0,-viewDistance);
     YsMatrix4x4 viewRot;
-    viewRot.RotateXZ(YsPi*45/180);
+    viewRot.RotateXZ(YsPi*60/180);
     viewRot.Invert();
     modelView*=viewRot;
     modelView.Translate(-viewTarget);

@@ -95,14 +95,19 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     // w,a,s to control the direction and straight forward
     if(FSKEY_A==key)
     {
-
-        player.setAngle(player.getAngle()+270);
+        auto tempAngle = player.getAngle();
+//        player.setAngle(player.getAngle()+270);
+//        player.rotate(player.getAngle()-tempAngle);
+        player.rotate(270);
         printf("current angle: %f \n", player.getAngle());
     }
     
     if(FSKEY_D==key)
     {
-        player.setAngle(player.getAngle()+90);
+        auto tempAngle = player.getAngle();
+//        player.setAngle(player.getAngle()+90);
+//        player.rotate(player.getAngle()-tempAngle);
+        player.rotate(90);
         printf("current angle: %f \n", player.getAngle());
     }
     
