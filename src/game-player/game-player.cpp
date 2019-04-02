@@ -353,7 +353,7 @@ void GamePlayer::scale(float scaleFactor)
 void GamePlayer::LoadBinary()
 {
     // load binary file for cartoon figure
-    char fileName[] = "cartoonboy.stl";
+    char fileName[] = "../../src/3d-construction/cartoonboy.stl";
     if(true==LoadBinStl(vtx, nom, fileName))
     {
         //change y,z coor
