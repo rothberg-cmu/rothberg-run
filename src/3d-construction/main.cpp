@@ -22,7 +22,7 @@ protected:
 	bool needRedraw;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
-	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.5);
+	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
 	Map map;
 
 	YsMatrix4x4 Rc;
@@ -124,7 +124,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
-{
+{	
 	printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
 	if (map.isInMap(player.getPosition()) == false)
 	{
@@ -136,6 +136,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			// SetMustTerminate(true);
 		}
 		
+	}
+
+	if (gameIsOn == true)
+	{
+		player.moveWithAngle();
 	}
 
 	auto key=FsInkey();
@@ -151,8 +156,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		SetMustTerminate(true);
 	}
     
-    if(FSKEY_LEFT==key)
-    {
+	if(FSKEY_LEFT==key)
+	{
 		if (gameIsOn == true)
 		{
 			YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
