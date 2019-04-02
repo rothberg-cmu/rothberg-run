@@ -46,7 +46,10 @@ bool Road::isInRoad(double x, double y, double z) {
     double maxZ = std::max(roadStart.z(), roadEnd.z()) + tolerance;
     double minZ = std::min(roadStart.z(), roadEnd.z()) - tolerance;
 
-    if (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ) {
+    // if (x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ) {
+    //     return true;
+    // }
+    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
         return true;
     }
     return false;
