@@ -163,8 +163,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
 			// printf("%s\n", nextMove.Txt());
 			player.moveLeft();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 		}
 		
 	}
@@ -173,8 +171,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		if (gameIsOn == true)
 		{
 			player.moveRight();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 		}
         
     }
@@ -184,8 +180,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		if (gameIsOn == true)
 		{
 			player.moveUp();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 		}
     }
     
@@ -194,8 +188,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		if (gameIsOn == true)
 		{
 			player.moveDown();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 		}
     }
 	// w,a,s to control the direction and straight forward
