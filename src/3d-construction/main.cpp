@@ -114,7 +114,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	std::vector<float> col2 = dr.getCol();
 	// printf("length: %d\n", vtx2.size());
 	for (float v: vtx2) {
-		printf("v: %f\n", v);
+		//printf("v: %f\n", v);
 		vtx.push_back(v);
 	}
 

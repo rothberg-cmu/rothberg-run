@@ -4,19 +4,32 @@
 
 #include <fslazywindow.h>
 
-#include "DrawingRoad.h"
 
+#include <stdio.h>
+
+#include "drawPlayer.h"
+// #include "game-player.h"
+//#include "polygonalmesh.h"
+
+#include "DrawingRoad.h"
+#include "Camera.h"
 #include "../map-generation/Road.h"
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
+	bool gameIsOn;
 	bool needRedraw;
+	GamePlayer player;
+	DrawPlayer drawPlayer = DrawPlayer(player);
+	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
+	Map map;
 
 	YsMatrix4x4 Rc;
 	double d;
 	YsVec3 t;
 
+	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
 	YsVec3 bbx[2];
 
@@ -24,6 +37,7 @@ protected:
 	static void AddVertex(std::vector <float> &vtx,float x,float y,float z);
 	static void AddNormal(std::vector <float> &nom,float x,float y,float z);
 
+	// void RemakeVertexArray(void);
 
 public:
 	FsLazyWindowApplication();
@@ -63,7 +77,7 @@ public:
 FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	needRedraw=false;
-	d=10.0;
+	d=20.0;
 	t=YsVec3::Origin();
 }
 
@@ -79,31 +93,28 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+	gameIsOn = true;
+	player.LoadBinary();
+	player.scale(0.1);
+    // YsVec3 min, max;
+    // player.GetBoundingBox(min, max, player.vtx);
+	player.moveAlongZ(0.25);
+    // player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
+	// printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+	//set road initial position
 
-    DrawingRoad dr;
-    Road road = Road(YsVec3(2.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 0.2);
-    dr.drawRoad(road);
+	map = Map();
+	map.dbgPrintRoads();
 
-    Road road_vertical = Road(YsVec3(0.0,0.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
-    dr.drawRoad(road_vertical);
+	DrawingRoad dr;
+	dr.drawRoad(map);
 
-    Road road2 = Road(YsVec3(2.0,2.0,0.0), YsVec3(0.0,2.0,0.0), 0.2);
-    dr.drawRoad(road2);
-
-    Road road_vertical2 = Road(YsVec3(2.0,0.0,0.0), YsVec3(2.0,2.0,0.0), 0.2);
-    dr.drawRoad(road_vertical2);
-
-    dr.drawTree(road);
-    dr.drawTree(road_vertical);
-
-    dr.drawTree(road2);
-    dr.drawTree(road_vertical2);
 
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
-	printf("length: %d\n", vtx2.size());
+	// printf("length: %d\n", vtx2.size());
 	for (float v: vtx2) {
-		printf("v: %f\n", v);
+		//printf("v: %f\n", v);
 		vtx.push_back(v);
 	}
 
@@ -113,29 +124,108 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
-{
+{	
+	//printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
+	if (map.isInMap(player.getPosition()) == false)
+	{
+		if (gameIsOn == true)
+		{
+			gameIsOn = false;
+			// player.setPosition(0, 0, 0);
+			printf("OUT OF BOUNDS!!!!!!!!!!!!!!");
+			// SetMustTerminate(true);
+		}
+		
+	}
+
+	if (gameIsOn == true)
+	{
+		player.moveWithAngle();
+	}
+
 	auto key=FsInkey();
+
+	if (FSKEY_ENTER == key && gameIsOn == false)
+	{
+		player.moveAlongX(-player.getPosition()[0]);
+		player.moveAlongY(-player.getPosition()[1]);
+		gameIsOn = true;
+	}
 	if(FSKEY_ESC==key)
 	{
 		SetMustTerminate(true);
 	}
-
-	// if(FsGetKeyState(FSKEY_LEFT))
-	// {
-	// 	Rc.RotateXZ(YsPi/60.0);
-	// }
-	// if(FsGetKeyState(FSKEY_RIGHT))
-	// {
-	// 	Rc.RotateXZ(-YsPi/60.0);
-	// }
-	// if(FsGetKeyState(FSKEY_UP))
-	// {
-	// 	Rc.RotateYZ(YsPi/60.0); 
-	// }
-	// if(FsGetKeyState(FSKEY_DOWN))
-	// {
-	// 	Rc.RotateYZ(-YsPi/60.0);
-	// }
+    
+	if(FSKEY_LEFT==key)
+	{
+		if (gameIsOn == true)
+		{
+			YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
+			// printf("%s\n", nextMove.Txt());
+			player.moveLeft();
+			drawPlayer.toString();
+			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+		}
+		
+	}
+    if(FSKEY_RIGHT==key)
+    {
+		if (gameIsOn == true)
+		{
+			player.moveRight();
+			drawPlayer.toString();
+			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+		}
+        
+    }
+    
+    if(FSKEY_UP==key)
+    {
+		if (gameIsOn == true)
+		{
+			player.moveUp();
+			drawPlayer.toString();
+			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+		}
+    }
+    
+    if(FSKEY_DOWN==key)
+    {
+		if (gameIsOn == true)
+		{
+			player.moveDown();
+			drawPlayer.toString();
+			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
+		}
+    }
+	// w,a,s to control the direction and straight forward
+    if(FSKEY_A==key)
+    {
+		if (gameIsOn == true)
+		{
+			player.rotate(-90);
+        	printf("current angle: %f \n", player.getAngle());
+		}
+    }
+    
+    if(FSKEY_D==key)
+    {
+		if (gameIsOn == true)
+		{
+			player.rotate(90);
+        	printf("current angle: %f \n", player.getAngle());
+		}
+    }
+    
+    if(FSKEY_W==key)
+    {
+		if (gameIsOn == true)
+		{
+		// need to refine to move
+        player.moveWithAngle();
+		}   
+    }
+    
 
 
 	needRedraw=true;
@@ -146,49 +236,60 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-
 	int wid,hei;
 	FsGetWindowSize(wid,hei);
 	auto aspect=(double)wid/(double)hei;
 	glViewport(0,0,wid,hei);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0,aspect,d/10.0,d*2.0);
 
-	YsMatrix4x4 globalToCamera=Rc;
-	globalToCamera.Invert();
+	
 
-	YsMatrix4x4 modelView;  // need #include ysclass.h
-	modelView.Translate(0,0,-d);
-	modelView*=globalToCamera;
-	modelView.Translate(-t);
+	if (gameIsOn == true)
+	{
+		
+		// YsMatrix4x4 globalToCamera=Rc;
+		// globalToCamera.Invert();
 
-	GLfloat modelViewGl[16];
-	modelView.GetOpenGlCompatibleMatrix(modelViewGl);
+		// YsMatrix4x4 modelView;  // need #include ysclass.h
+		// modelView.Translate(0,0,-d);
+		// modelView*=globalToCamera;
+		// modelView.Translate(-t);
+		YsMatrix4x4 modelView = Camera::getCameraMat(player);
+		glClearColor(1,1,1,1);
+		GLfloat modelViewGl[16];
+		modelView.GetOpenGlCompatibleMatrix(modelViewGl);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
-	GLfloat lightDir[]={0.0f,1.0f/(float)sqrt(2.0f),1.0f/(float)sqrt(2.0f),0.0f};
-	glLightfv(GL_LIGHT0,GL_POSITION,lightDir);
-	glEnable(GL_COLOR_MATERIAL);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+		GLfloat lightDir[]={0.0f,1.0f/(float)sqrt(2.0f),1.0f/(float)sqrt(2.0f),0.0f};
+		glLightfv(GL_LIGHT0,GL_POSITION,lightDir);
+		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
 
-	glMultMatrixf(modelViewGl);
+		glMultMatrixf(modelViewGl);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	// glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(4,GL_FLOAT,0,col.data());
-	// glNormalPointer(GL_FLOAT,0,nom.data());
-	glVertexPointer(3,GL_FLOAT,0,vtx.data());
-	glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	// glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
 
+		//draw palyer based on the position and orientation
+		drawPlayer.drawPlayer();
+
+		//draw road
+		glColorPointer(4,GL_FLOAT,0,col.data());
+		glVertexPointer(3,GL_FLOAT,0,vtx.data());
+		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+	}
+	else
+	{
+		//display window to red if game over
+		glClearColor( 1, 0, 0, 0.5);
+	}
 	FsSwapBuffers();
 }
 /* virtual */ bool FsLazyWindowApplication::UserWantToCloseProgram(void)

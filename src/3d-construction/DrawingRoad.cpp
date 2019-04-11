@@ -2,6 +2,7 @@
 #include <algorithm> 
 #include "DrawingRoad.h"
 #include "../map-generation/Road.h"
+#include "binstlTree.h"
 
 
 // Drawing road (a rectangle actually) from explicitly given road parameters 
@@ -55,6 +56,7 @@ void DrawingRoad::drawRoad(Map map) {
 	for (Road road: roads) {
 		drawRoad(road);
 		drawTree(road);
+		drawTreeSTL(road);
 	}
 }
 
@@ -129,6 +131,58 @@ void DrawingRoad::drawTree(Road road) {
 		    }
 		}
 	}
+}
+
+void DrawingRoad::drawTreeSTL(Road road) {
+	YsVec3 start = road.getRoadStart();
+	YsVec3 end = road.getRoadEnd();
+	double rW = road.getRoadWidth() / 2;
+	bool isVertical = road.getIsVertical();
+
+	if (isVertical) {
+		double min = std::min(start.y(), end.y()) + TREE_INTERVAL;
+		double max = std::max(start.y(), end.y());
+		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
+			LoadBinary(YsVec3(start.x() - rW, treePos, 0));
+			LoadBinary(YsVec3(start.x() + rW, treePos, 0));
+		}
+
+	} else {
+		double min = std::min(start.x(), end.x()) + TREE_INTERVAL;
+		double max = std::max(start.x(), end.x());
+		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
+			LoadBinary(YsVec3(treePos, start.y() - rW, 0));
+			LoadBinary(YsVec3(treePos, start.y() + rW, 0));
+		}
+	}
+}
+
+
+
+void DrawingRoad::LoadBinary(YsVec3 offset)
+{
+    // load binary file for cartoon figure
+    char fileName[] = "../../src/3d-construction/TreeSTL.stl";
+	int originalSize = vtx.size();
+    if(true==LoadBinStlTree(vtx, nom, fileName, offset))
+    {
+		int addition = vtx.size() - originalSize;
+
+        for(int i=0; i<addition; i+=3)
+        {
+			if (i < addition * 10 / 17) {
+				col.push_back(0);
+				col.push_back(1);
+				col.push_back(0);
+				col.push_back(1);
+			} else {
+		        col.push_back(0.545f);
+		        col.push_back(0.270f);
+		        col.push_back(0.074f);
+		        col.push_back(0.8f);
+			}
+        }
+    }
 }
 
 std::vector<float> DrawingRoad::getVtx() {
