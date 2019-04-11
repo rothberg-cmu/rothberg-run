@@ -12,6 +12,13 @@ class DrawingRoad {
 private:
 	std::vector<float> vtx;
 	std::vector<float> col;
+	std::vector <float> nom;
+
+    YsVec3 position;
+	YsVec3 viewTarget;
+    YsMatrix4x4 viewRot;
+    double viewDistance;
+    double nearZ,farZ;
 
 public:
 	DrawingRoad(){};
@@ -20,6 +27,10 @@ public:
 	void drawRoad(Road road);
 	void drawRoad(Map map);
 	void drawTree(Road road);
+	void drawTreeSTL(Road road);
+
+	void LoadBinary(YsVec3 offset);
+
 
 	std::vector<float> getVtx();
 	std::vector<float> getCol();
