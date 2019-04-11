@@ -99,21 +99,32 @@ void DrawPlayer::drawCube()
 void DrawPlayer::drawPlayer()
 {
     col.clear();
-    for (int i = 0; i < stlVtx.size()/3; i++)
+    printf("VTX SIZE %d\n", stlVtx.size());
+    for (int i = 0; i <= stlVtx.size()/3; i++)
     {
-        col.push_back(0.0f);
-        col.push_back(0.0f);
-        col.push_back(1.0f);
-        col.push_back(1.0f);
+        if ( i > stlVtx.size()/4) {
+            col.push_back(0.407);
+            col.push_back(0.262);
+            col.push_back(0);
+            col.push_back(1);
+        }
+        else
+        {
+            col.push_back(0);
+            col.push_back(0);
+            col.push_back(1);
+            col.push_back(0.8);
+        }
+        
     }
-    // glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
     // glEnableClientState(GL_NORMAL_ARRAY);
-    // glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
     
     glVertexPointer(3,GL_FLOAT,0,stlVtx.data());
     // glNormalPointer(GL_FLOAT,0,nom.data());
     glColorPointer(4,GL_FLOAT,0,col.data());
-    glDrawArrays(GL_TRIANGLES,0,col.size()/4);
+    glDrawArrays(GL_TRIANGLES,0,stlVtx.size()/3);
     
     // glDisableClientState(GL_VERTEX_ARRAY);
     // glDisableClientState(GL_NORMAL_ARRAY);
