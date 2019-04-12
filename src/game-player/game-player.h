@@ -57,6 +57,9 @@ public:
     void moveUp();
     void moveDown();
     void moveWithAngle();
+    void moveLeftWithAngle();
+    void moveRightWithAngle();
+    void jump();
     void GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float> &vtx);
     void LoadBinary();
     void LoadObject();
