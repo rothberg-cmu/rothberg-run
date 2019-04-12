@@ -19,6 +19,7 @@ class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
 	bool gameIsOn;
+    bool gameIsStart = false;
 	bool needRedraw;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
@@ -208,6 +209,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 					player.moveWithAngle();
 			}   
     }
+    if (FSKEY_DEL == key && !gameIsStart) {
+        gameIsStart = true;
+    }
 	needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
@@ -215,6 +219,23 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	needRedraw=false;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    if (!gameIsStart) {
+        glEnable(GL_DEPTH_TEST);
+	    int wid,hei;
+	    FsGetWindowSize(wid,hei);
+	    auto aspect=(double)wid/(double)hei;
+	    glViewport(0,0,wid,hei);
+	    glMatrixMode(GL_PROJECTION);
+	    glLoadIdentity();
+        glColor3ub(255,0,0);
+        glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
+        glRasterPos2i(wid / 3, hei / 2);
+		char str[256];
+		sprintf(str,"%s", "please press del to begin");
+		YsGlDrawFontBitmap12x16(str);
+        FsSwapBuffers();
+        return;
+    }
 	
 	
 
@@ -268,6 +289,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	}
 	else
 	{
+
+	    glLoadIdentity();
 		//display window to red if game over
 		glClearColor( 1, 0, 0, 0.5);
 		int wid,hei;
@@ -277,9 +300,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glMatrixMode(GL_PROJECTION);
 		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
 
-		glColor3ub(255,255,255);
-		glRasterPos2i(0,100);
-		YsGlDrawFontBitmap32x48("Game Over!\n Press ENTER to restart or ESC to exit...");
+		glColor3ub(255, 255, 255);
+		glRasterPos2i(wid / 3, hei / 2);
+        char str[256];
+		sprintf(str,"%s", "game over \n press ENTER to restart");
+		YsGlDrawFontBitmap12x16(str);//"Game Over!\n Press ENTER to restart or ESC to exit...");
 	}
 	FsSwapBuffers();
 }
