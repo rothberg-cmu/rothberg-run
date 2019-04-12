@@ -105,10 +105,8 @@ void DrawPlayer::drawPlayer()
 
 }
 
-DrawPlayer::DrawPlayer(GamePlayer &player):stlVtx(player.getVtx())
+DrawPlayer::DrawPlayer(GamePlayer &player):stlVtx(player.getVtx()), stlNom(player.getNom())
 {
-    stlNom = player.nom;
-    printf("**************************%d\n", player.nom.size());
 }
 DrawPlayer::~DrawPlayer()
 {
