@@ -4,7 +4,7 @@
 
 #include <fslazywindow.h>
 
-
+#include <ysglfontdata.h>
 #include <stdio.h>
 
 #include "drawPlayer.h"
@@ -215,15 +215,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	needRedraw=false;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	int wid,hei;
-	FsGetWindowSize(wid,hei);
-	auto aspect=(double)wid/(double)hei;
-	glViewport(0,0,wid,hei);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0,aspect,d/10.0,d*2.0);
-
+	
 	
 
 	if (gameIsOn == true)
@@ -236,6 +228,15 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		// modelView.Translate(0,0,-d);
 		// modelView*=globalToCamera;
 		// modelView.Translate(-t);
+		glEnable(GL_DEPTH_TEST);
+		int wid,hei;
+		FsGetWindowSize(wid,hei);
+		auto aspect=(double)wid/(double)hei;
+		glViewport(0,0,wid,hei);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(45.0,aspect,d/10.0,d*2.0);
+
 		YsMatrix4x4 modelView = Camera::getCameraMat(player);
 		glClearColor(1,1,1,1);
 		GLfloat modelViewGl[16];
@@ -269,6 +270,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		//display window to red if game over
 		glClearColor( 1, 0, 0, 0.5);
+		int wid,hei;
+		FsGetWindowSize(wid,hei);
+
+		glViewport(0,0,wid,hei);
+		glMatrixMode(GL_PROJECTION);
+		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
+
+		glColor3ub(255,255,255);
+		glRasterPos2i(0,100);
+		YsGlDrawFontBitmap32x48("Game Over!\n Press ENTER to restart or ESC to exit...");
 	}
 	FsSwapBuffers();
 }
