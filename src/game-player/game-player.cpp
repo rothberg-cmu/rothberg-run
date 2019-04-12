@@ -88,7 +88,7 @@ GamePlayer::GamePlayer()
     position[2] = 0;
     velocity = 0;
     angle = 0;
-
+    jumpMode = 0; //not in jump mode
 }
 
 GamePlayer::~GamePlayer()
@@ -130,6 +130,29 @@ bool GamePlayer::getAliveStatus()
 {
     return aliveStatus;
 }
+
+void GamePlayer::setJumpMode(int status)
+{
+    switch (status)
+    {
+        case 0:
+            jumpMode=0;
+            break;
+        case 1:
+            jumpMode=1;
+            break;
+        case 2:
+            jumpMode=2;
+            break;
+        default:
+            break;
+    }
+}
+int GamePlayer::getJumpMode()
+{
+    return jumpMode;
+}
+
 void GamePlayer::setAngle(float angle1)
 {
     while (angle1<0) {
@@ -445,11 +468,11 @@ void GamePlayer::moveAlongZ(float deltaZ)
     }
 }
 
-void GamePlayer::jump()
+void GamePlayer::jump(int height)
 {
-    moveAlongZ(1.0);
+    moveAlongZ(height);
     auto pos = getPosition();
-    pos.SetZ(pos.zf()+5.0);
+    pos.SetZ(pos.zf()+height);
     setPosition(pos.xf(), pos.yf(), pos.zf());
 }
 
