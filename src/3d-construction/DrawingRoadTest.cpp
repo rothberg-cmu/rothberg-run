@@ -266,6 +266,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
+		//glEnableClientState(GL_NORMAL_ARRAY);
 
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
@@ -273,9 +274,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
+		//glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
+	  //glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{
