@@ -96,7 +96,7 @@ void DrawPlayer::drawPlayer()
     glVertexPointer(3,GL_FLOAT,0,stlVtx.data());
     // glNormalPointer(GL_FLOAT,0,nom.data());
     glColorPointer(4,GL_FLOAT,0,col.data());
-    glDrawArrays(GL_TRIANGLES,0,stlVtx.size()/3);
+    glDrawArrays(GL_TRIANGLES,0,stlVtx.size()/3-5392);
     
     // glDisableClientState(GL_VERTEX_ARRAY);
     // glDisableClientState(GL_NORMAL_ARRAY);
