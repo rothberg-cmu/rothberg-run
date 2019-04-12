@@ -43,7 +43,7 @@ float GetFloatTree(const unsigned char dat[4])
 
 
 
-bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset)
+bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset, double scale)
 {
 	FILE *fp=fopen(fn,"rb");
 	if(nullptr!=fp)
@@ -82,23 +82,23 @@ bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char
 			auto y2=GetFloatTree(buf+40);
 			auto z2=GetFloatTree(buf+44);
 
-			vtx.push_back(x0/5 + offset_x);
-			vtx.push_back(y0/5 + offset_y);
-			vtx.push_back(z0/5 + offset_z);
+			vtx.push_back(x0 * scale + offset_x);
+			vtx.push_back(y0 * scale + offset_y);
+			vtx.push_back(z0 * scale + offset_z);
 			nom.push_back(nx);
 			nom.push_back(ny);
 			nom.push_back(nz);
 
-			vtx.push_back(x1/5 + offset_x);
-			vtx.push_back(y1/5 + offset_y);
-			vtx.push_back(z1/5 + offset_z);
+			vtx.push_back(x1 * scale + offset_x);
+			vtx.push_back(y1 * scale + offset_y);
+			vtx.push_back(z1 * scale + offset_z);
 			nom.push_back(nx);
 			nom.push_back(ny);
 			nom.push_back(nz);
 
-			vtx.push_back(x2/5 + offset_x);
-			vtx.push_back(y2/5 + offset_y);
-			vtx.push_back(z2/5 + offset_z);
+			vtx.push_back(x2 * scale + offset_x);
+			vtx.push_back(y2 * scale + offset_y);
+			vtx.push_back(z2 * scale + offset_z);
 			nom.push_back(nx);
 			nom.push_back(ny);
 			nom.push_back(nz);
@@ -117,3 +117,75 @@ bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char
 }
 
 
+bool LoadBinStlCoin(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset, double scale)
+{
+	FILE *fp=fopen(fn,"rb");
+	if(nullptr!=fp)
+	{
+		
+		unsigned char buf[80];
+
+		fread(buf,1,80,fp);
+
+
+		fread(buf,4,1,fp);
+		auto nTri=GetInteterTree(buf);
+		//printf("%d\n",nTri);
+
+		float offset_x = offset.xf();
+		float offset_y = offset.yf();
+		float offset_z = offset.zf();
+
+
+		int nActual=0;
+		while(50==fread(buf,1,50,fp))
+		{
+			auto nx=GetFloatTree(buf+0);
+			auto ny=GetFloatTree(buf+4);
+			auto nz=GetFloatTree(buf+8);
+
+			auto x0=GetFloatTree(buf+12);
+			auto y0=GetFloatTree(buf+16);
+			auto z0=GetFloatTree(buf+20);
+
+			auto x1=GetFloatTree(buf+24);
+			auto y1=GetFloatTree(buf+28);
+			auto z1=GetFloatTree(buf+32);
+
+			auto x2=GetFloatTree(buf+36);
+			auto y2=GetFloatTree(buf+40);
+			auto z2=GetFloatTree(buf+44);
+
+			vtx.push_back(x0 * scale + offset_x);
+			vtx.push_back(z0 * scale + offset_z);
+			vtx.push_back(y0 * scale + offset_y + 0.3);
+			nom.push_back(nx);
+			nom.push_back(ny);
+			nom.push_back(nz);
+
+			vtx.push_back(x1 * scale + offset_x);
+			vtx.push_back(z1 * scale + offset_z);
+			vtx.push_back(y1 * scale + offset_y + 0.3);
+			nom.push_back(nx);
+			nom.push_back(ny);
+			nom.push_back(nz);
+
+			vtx.push_back(x2 * scale + offset_x);
+			vtx.push_back(z2 * scale + offset_z);
+			vtx.push_back(y2 * scale + offset_y + 0.3);
+			nom.push_back(nx);
+			nom.push_back(ny);
+			nom.push_back(nz);
+
+			++nActual;
+		}
+
+
+		//printf("%d\n",nActual);
+
+
+		fclose(fp);
+		return true;
+	}
+	return false;
+}

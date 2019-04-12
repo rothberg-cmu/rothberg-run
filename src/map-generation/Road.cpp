@@ -35,7 +35,7 @@ void Road::initRoad(YsVec3 start, YsVec3 end, double rW) {
         isVertical = false;
     }
     roadWidth = rW;
-    tolerance = rW;
+    tolerance = rW / 2;
 }
 
 bool Road::isInRoad(double x, double y, double z) {

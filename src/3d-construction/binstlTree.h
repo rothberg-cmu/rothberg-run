@@ -5,7 +5,7 @@
 #include <vector>
 #include <ysclass.h>
 
-bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset);
-
+bool LoadBinStlTree(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset, double scale);
+bool LoadBinStlCoin(std::vector <float> &vtx,std::vector <float> &nom,const char fn[], const YsVec3 &offset, double scale);
 
 #endif

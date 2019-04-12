@@ -53,6 +53,7 @@ void DrawingRoad::drawRoad(Road road) {
 
 void DrawingRoad::drawRoad(Map map) {
 	std::vector<Road> roads = map.getRoads();
+	//LoadCoinBinary(YsVec3::Origin(), 0.005, "../../src/3d-construction/Circle.stl");
 	for (Road road: roads) {
 		drawRoad(road);
 		drawTree(road);
@@ -143,28 +144,33 @@ void DrawingRoad::drawTreeSTL(Road road) {
 		double min = std::min(start.y(), end.y()) + TREE_INTERVAL;
 		double max = std::max(start.y(), end.y());
 		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
-			LoadBinary(YsVec3(start.x() - rW, treePos, 0));
-			LoadBinary(YsVec3(start.x() + rW, treePos, 0));
+			if (road.isInRoad(YsVec3(start.x()- rW * 1.1, treePos, 0))) {
+				return;
+			}
+			LoadBinary(YsVec3(start.x() - rW, treePos, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
+			LoadBinary(YsVec3(start.x() + rW, treePos, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
 		}
 
 	} else {
 		double min = std::min(start.x(), end.x()) + TREE_INTERVAL;
 		double max = std::max(start.x(), end.x());
 		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
-			LoadBinary(YsVec3(treePos, start.y() - rW, 0));
-			LoadBinary(YsVec3(treePos, start.y() + rW, 0));
+			if (road.isInRoad(YsVec3(treePos, start.y() - rW * 1.1, 0))) {
+				return;
+			}
+			LoadBinary(YsVec3(treePos, start.y() - rW, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
+			LoadBinary(YsVec3(treePos, start.y() + rW, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
 		}
 	}
 }
 
 
 
-void DrawingRoad::LoadBinary(YsVec3 offset)
+void DrawingRoad::LoadBinary(YsVec3 offset, double scale, char* stlFileName)
 {
-    // load binary file for cartoon figure
-    char fileName[] = "../../src/3d-construction/TreeSTL.stl";
+    // load binary file for tree stl
 	int originalSize = vtx.size();
-    if(true==LoadBinStlTree(vtx, nom, fileName, offset))
+    if(true==LoadBinStlTree(vtx, nom, stlFileName, offset, scale))
     {
 		int addition = vtx.size() - originalSize;
 
@@ -181,6 +187,26 @@ void DrawingRoad::LoadBinary(YsVec3 offset)
 		        col.push_back(0.074f);
 		        col.push_back(0.8f);
 			}
+        }
+    }
+}
+
+void DrawingRoad::LoadCoinBinary(YsVec3 offset, double scale, char* stlFileName)
+{
+    // load binary file for coin stl
+	int originalSize = vtx.size();
+    if(true==LoadBinStlCoin(vtx, nom, stlFileName, offset, scale))
+    {
+		int addition = vtx.size() - originalSize;
+
+        for(int i=0; i<addition; i+=3)
+        {
+
+			col.push_back(1);
+			col.push_back(1);
+			col.push_back(0);
+			col.push_back(1);
+
         }
     }
 }

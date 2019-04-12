@@ -29,7 +29,8 @@ public:
 	void drawTree(Road road);
 	void drawTreeSTL(Road road);
 
-	void LoadBinary(YsVec3 offset);
+	void LoadBinary(YsVec3 offset, double scale, char* stlFileName);
+	void LoadCoinBinary(YsVec3 offset, double scale, char* stlFileName);
 
 
 	std::vector<float> getVtx();
