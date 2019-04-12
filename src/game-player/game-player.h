@@ -35,6 +35,7 @@ public:
     std::vector <float> vtx;
     std::vector <float> col;
     std::vector <float> nom;
+    std::vector <float> uv;
     double step=0.1;
     
 public:
@@ -58,6 +59,7 @@ public:
     void moveWithAngle();
     void GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float> &vtx);
     void LoadBinary();
+    void LoadObject();
     void SetUpHeadLight(void);
     void moveAlongX(float deltaX);
     void moveAlongY(float deltaY);
