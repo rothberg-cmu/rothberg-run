@@ -7,7 +7,7 @@
 
 #include "binstl.h"
 #include <string>
-
+//#include "yspng.h"
 
 
 
@@ -114,9 +114,12 @@ std::vector <float>& GamePlayer::getVtx()
 
 void GamePlayer::setPosition(float x1, float y1, float z1)
 {
-    position[0] = x1;
-    position[1] = y1;
-    position[2] = z1;
+//    position[0] = x1;
+//    position[1] = y1;
+//    position[2] = z1;
+    position.SetX(x1);
+    position.SetY(y1);
+    position.SetZ(z1);
 }
 bool GamePlayer::getAliveStatus()
 {
@@ -316,6 +319,102 @@ void GamePlayer::moveWithAngle()
     }
 }
 
+
+void GamePlayer::moveLeftWithAngle()
+{
+    int caseNum;
+    int intAngle = (int) angle;
+    
+    // face up
+    if ( 315<intAngle || intAngle <= 45)
+    {
+        caseNum = 0;
+    }
+    // face right
+    if ( 45 <intAngle && intAngle <= 135)
+    {
+        caseNum = 1;
+    }
+    // face down
+    if ( 135 <intAngle && intAngle <= 225)
+    {
+        caseNum = 2;
+    }
+    // face left
+    if ( 225 <intAngle && intAngle <= 315)
+    {
+        caseNum = 3;
+    }
+    
+    switch (caseNum)
+    {
+        case 0:
+            moveLeft();
+            break;
+        case 1:
+            moveUp();
+            break;
+        case 2:
+            moveLeft();
+            break;
+        case 3:
+            moveDown();
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+void GamePlayer::moveRightWithAngle()
+{
+    int caseNum;
+    int intAngle = (int) angle;
+    
+    // face up
+    if ( 315<intAngle || intAngle <= 45)
+    {
+        caseNum = 0;
+    }
+    // face right
+    if ( 45 <intAngle && intAngle <= 135)
+    {
+        caseNum = 1;
+    }
+    // face down
+    if ( 135 <intAngle && intAngle <= 225)
+    {
+        caseNum = 2;
+    }
+    // face left
+    if ( 225 <intAngle && intAngle <= 315)
+    {
+        caseNum = 3;
+    }
+    
+    switch (caseNum)
+    {
+        case 0:
+            moveRight();
+            break;
+        case 1:
+            moveDown();
+            break;
+        case 2:
+            moveRight();
+            break;
+        case 3:
+            moveUp();
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
 void GamePlayer::moveAlongX(float deltaX)
 {
     for (int i=0; i<vtx.size(); i += 3)
@@ -340,6 +439,15 @@ void GamePlayer::moveAlongZ(float deltaZ)
         vtx[i] += deltaZ;
     }
 }
+
+void GamePlayer::jump()
+{
+    moveAlongZ(5.0);
+    auto pos = getPosition();
+    pos.SetZ(pos.zf()+5.0);
+    setPosition(pos.xf(), pos.yf(), pos.zf());
+}
+
 
 void GamePlayer::scale(float scaleFactor)
 {
@@ -461,8 +569,22 @@ void GamePlayer::LoadBinary()
         scale(s*4);
         printf("size of vtx:%d\n", vtx.size());
     
+        
+//        // test for load png
+//        FsChangeToProgramDir();
+//        YsRawPngDecoder png;
+//        if(YSOK==png.Decode("grass.png"))
+//        {
+//            printf("%d %d\n",png.wid,png.hei);
+//            png.Flip();
+//        }
+//        else
+//        {
+//            printf("Cannot open.\n");
+//        }
+        
+        
     }
-    //
 }
 
 void GamePlayer::LoadObject()
@@ -739,7 +861,7 @@ void GamePlayer::draw()
     glVertexPointer(3,GL_FLOAT,0,vtx.data());
     glNormalPointer(GL_FLOAT,0,nom.data());
     glColorPointer(4,GL_FLOAT,0,col.data());
-    glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+    glDrawArrays(GL_TRIANGLES,0,vtx.size()/3-5392);
     
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);

@@ -75,23 +75,23 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     if(FSKEY_LEFT==key)
     {
-        player.moveLeft();
+        player.moveLeftWithAngle();
     }
     
     if(FSKEY_RIGHT==key)
     {
-        player.moveRight();
+        player.moveRightWithAngle();
     }
     
-    if(FSKEY_UP==key)
-    {
-        player.moveUp();
-    }
-    
-    if(FSKEY_DOWN==key)
-    {
-        player.moveDown();
-    }
+//    if(FSKEY_UP==key)
+//    {
+//        player.moveUp();
+//    }
+//
+//    if(FSKEY_DOWN==key)
+//    {
+//        player.moveDown();
+//    }
     
     // w,a,s to control the direction and straight forward
     if(FSKEY_A==key)
@@ -124,6 +124,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         // get info of the player
         auto p1 = player.getPosition();
         printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
+    }
+    
+    if(FSKEY_SPACE==key)
+    {
+        // get info of the player
+        auto p1 = player.getPosition();
+        printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
+        player.jump();
+        printf("jump!\n");
+        
+        
     }
     
 //    if(FSKEY_X==key)
