@@ -157,7 +157,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		if (gameIsOn == true)
 		{
-			player.moveLeft();
+			player.moveLeftWithAngle();
 		}
 		
 	}
@@ -165,25 +165,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     {
 			if (gameIsOn == true)
 			{
-				player.moveRight();
+				player.moveRightWithAngle();
 			}   
     }
     
-    if(FSKEY_UP==key)
-    {
-			if (gameIsOn == true)
-			{
-				player.moveUp();
-			}
-    }
-    
-    if(FSKEY_DOWN==key)
-    {
-			if (gameIsOn == true)
-			{
-				player.moveDown();
-			}
-    }
 	// w,a,s to control the direction and straight forward
     if(FSKEY_A==key)
     {
