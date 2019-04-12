@@ -203,6 +203,45 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     if (FSKEY_DEL == key && !gameIsStart) {
         gameIsStart = true;
     }
+
+	if(FSKEY_SPACE==key)
+    {
+        //set to jump mode
+        player.setJumpMode(1);
+        // printf("jump status:%d \n", player.getJumpMode());
+    }
+    
+
+	// judge if in jump mode
+    if (player.getJumpMode() != 0)
+    {
+        // printf("jump mode:%d\n",player.getJumpMode());
+        switch (player.getJumpMode())
+        {
+            case 1:
+                player.jump(0.1);
+                break;
+            case 2:
+                player.jump(-0.1);
+                break;
+            default:
+                break;
+        }
+        
+        auto currPos = player.getPosition();
+        if (currPos.zf()<0.5)
+        {
+            player.setJumpMode(0);
+            auto p1 = player.getPosition();
+            player.setPosition(p1.xf(), p1.yf(), 0);
+            
+        }
+        //
+        if (currPos.zf()>2)
+        {
+            player.setJumpMode(2);
+        }
+    }
 	needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
