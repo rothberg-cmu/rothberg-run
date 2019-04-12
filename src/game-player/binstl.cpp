@@ -82,21 +82,21 @@ bool LoadBinStl(std::vector <float> &vtx,std::vector <float> &nom,const char fn[
 			vtx.push_back(z0);
 			nom.push_back(nx);
 			nom.push_back(ny);
-			nom.push_back(nz);
+			nom.push_back(-nz);
 
 			vtx.push_back(x1);
 			vtx.push_back(y1);
 			vtx.push_back(z1);
 			nom.push_back(nx);
 			nom.push_back(ny);
-			nom.push_back(nz);
+			nom.push_back(-nz);
 
 			vtx.push_back(x2);
 			vtx.push_back(y2);
 			vtx.push_back(z2);
 			nom.push_back(nx);
 			nom.push_back(ny);
-			nom.push_back(nz);
+			nom.push_back(-nz);
 
 			++nActual;
 		}
