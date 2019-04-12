@@ -230,7 +230,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	
 	
 
-	if (gameIsOn == true)
+	if (gameIsOn == true && gameIsStart == true)
 	{
 		
 		// YsMatrix4x4 globalToCamera=Rc;
