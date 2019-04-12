@@ -355,7 +355,7 @@ void GamePlayer::LoadBinary()
 {
     // load binary file for cartoon figure
 //    char fileName[] = "../../src/3d-construction/cartoonboy.stl";
-    char fileName[] = "cartoonboy1.stl";
+    char fileName[] = "../../src/3d-construction/cartoonboy1.stl";
     if(true==LoadBinStl(vtx, nom, fileName))
     {
         //change y,z coor

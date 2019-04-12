@@ -16,7 +16,7 @@ public:
     void changePosition(YsVec3 pos);
     //void resetMat();
 private:
-    const static int distance = 10;
+    const static int distance = 5;
     //YsMatrix4x4 cameraMat;
     //int nowAngle = 0;
 };
