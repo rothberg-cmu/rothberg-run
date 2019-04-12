@@ -468,7 +468,7 @@ void GamePlayer::moveAlongZ(float deltaZ)
     }
 }
 
-void GamePlayer::jump(int height)
+void GamePlayer::jump(float height)
 {
     moveAlongZ(height);
     auto pos = getPosition();

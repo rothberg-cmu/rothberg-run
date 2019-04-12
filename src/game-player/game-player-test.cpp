@@ -160,17 +160,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         switch (player.getJumpMode())
         {
             case 1:
-                player.jump(1);
+                player.jump(0.2);
                 break;
             case 2:
-                player.jump(-1);
+                player.jump(-0.2);
                 break;
             default:
                 break;
         }
         
         auto currPos = player.getPosition();
-        if (currPos.zf()<(-1))
+        if (currPos.zf()<(0))
         {
             player.setJumpMode(0);
             auto p1 = player.getPosition();
