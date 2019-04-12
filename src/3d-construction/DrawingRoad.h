@@ -35,6 +35,7 @@ public:
 
 	std::vector<float> getVtx();
 	std::vector<float> getCol();
+	std::vector<float> getNom();
 };
 
 
