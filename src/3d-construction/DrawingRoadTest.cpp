@@ -95,7 +95,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	gameIsOn = true;
 	player.LoadBinary();
-	player.scale(0.1);
+	player.scale(0.02);
     // YsVec3 min, max;
     // player.GetBoundingBox(min, max, player.vtx);
 	player.moveAlongZ(0.25);
@@ -112,6 +112,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
+	std::vector<float> nom2 = dr.getNom();
 	// printf("length: %d\n", vtx2.size());
 	for (float v: vtx2) {
 		//printf("v: %f\n", v);
@@ -121,6 +122,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	for (float c: col2) {
 		col.push_back(c);
 	}
+
+	for (float n: nom2) {
+		nom.push_back(n);
+	}
+
 
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
@@ -266,7 +272,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
-		//glEnableClientState(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
@@ -274,11 +280,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
-		//glNormalPointer(GL_FLOAT,0,nom.data());
+		glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
-	  //glDisableClientState(GL_NORMAL_ARRAY);
+	  glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{
