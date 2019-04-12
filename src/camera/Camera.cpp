@@ -34,14 +34,14 @@ void Camera::resetMat() {
 
 void Camera::changeOrientation(YsMatrix4x4& globalToCamera, int angle) {
     if (angle == 0) {
-        globalToCamera.RotateYZ(YsPi * 45.0 / 180.0);
+        globalToCamera.RotateYZ(YsPi * 60.0 / 180.0);
         //globalToCamera.RotateYZ(YsPi * 45.0 / 180.0);
     } else if (angle == 180) {
-        globalToCamera.RotateYZ(-YsPi * 45.0 / 180.0);
+        globalToCamera.RotateYZ(-YsPi * 60.0 / 180.0);
     } else if (angle == 90) {
-        globalToCamera.RotateXZ(YsPi * 45.0 / 180.0);
+        globalToCamera.RotateXZ(YsPi * 60.0 / 180.0);
     } else if (angle == 270) {
-        globalToCamera.RotateXZ(-YsPi * 45.0 / 180.0);
+        globalToCamera.RotateXZ(-YsPi * 60.0 / 180.0);
     }
     globalToCamera.RotateXY(-YsPi * angle / 180.0);
 }
