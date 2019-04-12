@@ -112,6 +112,11 @@ std::vector <float>& GamePlayer::getVtx()
     return vtx;
 }
 
+std::vector <float>& GamePlayer::getNom()
+{
+    return nom;
+}
+
 void GamePlayer::setPosition(float x1, float y1, float z1)
 {
 //    position[0] = x1;
