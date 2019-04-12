@@ -96,7 +96,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	gameIsOn = true;
 	player.LoadBinary();
-	printf("&&&&&&&&&&&&&&&&&&&&&&&& %d\n", player.nom.size());
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
@@ -110,6 +109,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	std::vector<float> vtx2 = dr.getVtx();
 	std::vector<float> col2 = dr.getCol();
+	std::vector<float> nom2 = dr.getNom();
 	// printf("length: %d\n", vtx2.size());
 	for (float v: vtx2) {
 		//printf("v: %f\n", v);
@@ -119,6 +119,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	for (float c: col2) {
 		col.push_back(c);
 	}
+
+	for (float n: nom2) {
+		nom.push_back(n);
+	}
+
 
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
@@ -215,10 +220,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	    glLoadIdentity();
         glColor3ub(255,0,0);
         glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
-        glRasterPos2i(wid / 3, hei / 2);
+        glRasterPos2i(wid / 6, hei / 2);
 		char str[256];
 		sprintf(str,"%s", "please press del to begin");
-		YsGlDrawFontBitmap12x16(str);
+		YsGlDrawFontBitmap32x48(str);
         FsSwapBuffers();
         return;
     }
@@ -262,6 +267,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
@@ -269,9 +275,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
+		glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{
@@ -287,10 +295,12 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
 
 		glColor3ub(255, 255, 255);
-		glRasterPos2i(wid / 3, hei / 2);
+		glRasterPos2i(wid / 3, hei / 3);
         char str[256];
-		sprintf(str,"%s", "game over \n press ENTER to restart");
-		YsGlDrawFontBitmap12x16(str);//"Game Over!\n Press ENTER to restart or ESC to exit...");
+		sprintf(str,"%s", "game over ");
+		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
+		glRasterPos2i(wid / 6, 2* hei / 3);
+		YsGlDrawFontBitmap32x48("press ENTER to restart");
 	}
 	FsSwapBuffers();
 }
