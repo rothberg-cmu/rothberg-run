@@ -96,11 +96,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	gameIsOn = true;
 	player.LoadBinary();
 	player.scale(0.1);
-    // YsVec3 min, max;
-    // player.GetBoundingBox(min, max, player.vtx);
 	player.moveAlongZ(0.25);
-    // player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
-	// printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	//set road initial position
 
 	map = Map();
@@ -125,7 +121,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {	
-	printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
+	// printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
 	if (map.isInMap(player.getPosition()) == false)
 	{
 		if (gameIsOn == true)
@@ -160,74 +156,58 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		if (gameIsOn == true)
 		{
-			YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
-			// printf("%s\n", nextMove.Txt());
 			player.moveLeft();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 		}
 		
 	}
     if(FSKEY_RIGHT==key)
     {
-		if (gameIsOn == true)
-		{
-			player.moveRight();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
-		}
-        
+			if (gameIsOn == true)
+			{
+				player.moveRight();
+			}   
     }
     
     if(FSKEY_UP==key)
     {
-		if (gameIsOn == true)
-		{
-			player.moveUp();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
-		}
+			if (gameIsOn == true)
+			{
+				player.moveUp();
+			}
     }
     
     if(FSKEY_DOWN==key)
     {
-		if (gameIsOn == true)
-		{
-			player.moveDown();
-			drawPlayer.toString();
-			printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
-		}
+			if (gameIsOn == true)
+			{
+				player.moveDown();
+			}
     }
 	// w,a,s to control the direction and straight forward
     if(FSKEY_A==key)
     {
-		if (gameIsOn == true)
-		{
-			player.rotate(-90);
-        	printf("current angle: %f \n", player.getAngle());
-		}
+			if (gameIsOn == true)
+			{
+				player.rotate(-90);
+			}
     }
     
     if(FSKEY_D==key)
     {
-		if (gameIsOn == true)
-		{
-			player.rotate(90);
-        	printf("current angle: %f \n", player.getAngle());
-		}
+			if (gameIsOn == true)
+			{
+				player.rotate(90);
+			}
     }
     
     if(FSKEY_W==key)
     {
-		if (gameIsOn == true)
-		{
-		// need to refine to move
-        player.moveWithAngle();
-		}   
+			if (gameIsOn == true)
+			{
+			// need to refine to move
+					player.moveWithAngle();
+			}   
     }
-    
-
-
 	needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
