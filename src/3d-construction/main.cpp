@@ -96,6 +96,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 {
 	gameIsOn = true;
 	player.LoadBinary();
+	printf("&&&&&&&&&&&&&&&&&&&&&&&& %d\n", player.nom.size());
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
