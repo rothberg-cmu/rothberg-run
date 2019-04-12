@@ -6,6 +6,7 @@
 #include <math.h>
 
 #include "binstl.h"
+#include <string>
 
 
 
@@ -353,7 +354,8 @@ void GamePlayer::scale(float scaleFactor)
 void GamePlayer::LoadBinary()
 {
     // load binary file for cartoon figure
-    char fileName[] = "../../src/3d-construction/cartoonboy.stl";
+//    char fileName[] = "../../src/3d-construction/cartoonboy.stl";
+    char fileName[] = "cartoonboy1.stl";
     if(true==LoadBinStl(vtx, nom, fileName))
     {
         //change y,z coor
@@ -364,12 +366,73 @@ void GamePlayer::LoadBinary()
             vtx[i+1] = temp;
         }
         
-        for(int i=0; i<vtx.size(); i+=3)
+        for(int i=0; i<vtx.size()/3; i++)
         {
-            col.push_back(0);
-            col.push_back(0);
-            col.push_back(1);
-            col.push_back(1);
+            if (i>116000) // hat color
+            {
+                col.push_back(1);
+                col.push_back(0.3);
+                col.push_back(0.3);
+                col.push_back(1);
+            }
+            else if(i>111000) //right foot color
+                {
+                    col.push_back(1);
+                    col.push_back(0.55);
+                    col.push_back(0.1);
+                    col.push_back(1);
+                }
+                else if(i>110000) //pocket
+                {
+                    col.push_back(0.4);
+                    col.push_back(0.6);
+                    col.push_back(1);
+                    col.push_back(1);
+                }
+                    else if(i>95000) //sweater
+                    {
+                        col.push_back(0);
+                        col.push_back(0.4);
+                        col.push_back(0.13);
+                        col.push_back(1);
+                    }
+                        else if(i>80000) //eye
+                        {
+                            col.push_back(0);
+                            col.push_back(0);
+                            col.push_back(0);
+                            col.push_back(1);
+                        }
+                            else if(i>35000) //skin
+                            {
+                                col.push_back(1);
+                                col.push_back(0.9);
+                                col.push_back(0.8);
+                                col.push_back(1);
+                            }
+                                else if(i>30000) //left foot
+                                {
+                                    col.push_back(1);
+                                    col.push_back(0.55);
+                                    col.push_back(0.1);
+                                    col.push_back(1);
+                                }
+                                    else if(i<1500) //mouth
+                                    {
+                                        col.push_back(1);
+                                        col.push_back(0);
+                                        col.push_back(0);
+                                        col.push_back(1);
+                                    }
+            
+            else // jeans
+            {
+                col.push_back(0);
+                col.push_back(0.48);
+                col.push_back(0.8);
+                col.push_back(1);
+            }
+
         }
         
         YsVec3 min,max;
@@ -395,10 +458,164 @@ void GamePlayer::LoadBinary()
         // adjust to proper size
         float s = 3/((max.xf()-min.xf())/2);
         printf("scale factor = %f\n", s);
-        scale(s);
+        scale(s*4);
+        printf("size of vtx:%d\n", vtx.size());
     
     }
     //
+}
+
+void GamePlayer::LoadObject()
+{
+    std::vector <YsVec3>temp_vtx;
+    std::vector <YsVec2>temp_uv;
+    std::vector <YsVec3>temp_nom;
+     std::vector <YsVec3>vtx3;
+    
+    std::vector <int>vertexIndices, uvIndices, normalIndices;
+    
+    char fileName[] = "cartoonboy.obj";
+    FILE *fp=fopen(fileName,"rb");
+    if( fp == NULL )
+    {
+        printf("Impossible to open the file !\n");
+    }
+    if(nullptr!=fp)
+    {
+        printf("file opened!\n");
+    }
+    
+    // read this file until the end :
+    while( 1 )
+    {
+        
+        char lineHeader[128];
+        // read the first word of the line
+        int res = fscanf(fp, "%s", lineHeader);
+        if (res == EOF)
+            break; // EOF = End Of File. Quit the loop.
+        
+        // else : parse lineHeader
+        //deal with the vertices
+        if ( strcmp( lineHeader, "v" ) == 0 )
+        {
+            
+            float x0, y0, z0;
+            fscanf(fp, "%f %f %f\n", &x0, &y0, &z0);
+            YsVec3 vertex;
+            vertex.SetX(x0);
+            vertex.SetY(y0);
+            vertex.SetZ(z0);
+            temp_vtx.push_back(vertex);
+//            temp_vtx.push_back(x0);
+//            temp_vtx.push_back(y0);
+//            temp_vtx.push_back(z0);
+//            vtx.push_back(x0);
+//            vtx.push_back(y0);
+//            vtx.push_back(z0);
+
+        }
+        else if ( strcmp( lineHeader, "vt" ) == 0 )
+        {
+            float tx, ty;
+            fscanf(fp, "%f %f\n", &tx, &ty );
+            YsVec2 uv;
+            uv.SetX(tx);
+            uv.SetY(ty);
+            temp_uv.push_back(uv);
+//            temp_uv.push_back(tx);
+//            temp_uv.push_back(ty);
+        }
+        else if ( strcmp( lineHeader, "vn" ) == 0 )
+        {
+            float nx, ny, nz;
+            fscanf(fp, "%f %f %f\n", &nx, &ny, &nz );
+            YsVec3 normal;
+            normal.SetX(nx);
+            normal.SetY(ny);
+            normal.SetZ(nz);
+            temp_nom.push_back(normal);
+//            temp_nom.push_back(nx);
+//            temp_nom.push_back(ny);
+//            temp_nom.push_back(nz);
+//            nom.push_back(nx);
+//            nom.push_back(ny);
+//            nom.push_back(nz);
+        }
+        else if ( strcmp( lineHeader, "f" ) == 0 )
+        {
+            std::string vertex1, vertex2, vertex3;
+            unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+            int matches = fscanf(fp, "%d/%d/%d %d/%d/%d %d/%d/%dn", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
+            if (matches != 9){
+                printf("File can't be read by our simple parser : ( Try exporting with other optionsn");
+            }
+            vertexIndices.push_back(vertexIndex[0]);
+            vertexIndices.push_back(vertexIndex[1]);
+            vertexIndices.push_back(vertexIndex[2]);
+            uvIndices    .push_back(uvIndex[0]);
+            uvIndices    .push_back(uvIndex[1]);
+            uvIndices    .push_back(uvIndex[2]);
+            normalIndices.push_back(normalIndex[0]);
+            normalIndices.push_back(normalIndex[1]);
+            normalIndices.push_back(normalIndex[2]);
+            
+//            printf("%d\n", vertexIndex[0]);
+//            printf("%d\n", vertexIndex[1]);
+//            printf("%d\n", vertexIndex[2]);
+//            printf("%d\n", vertexIndex[3]);
+            
+        }
+    }
+    
+    for( unsigned int i=0; i<temp_vtx.size(); i++)
+    {
+        unsigned int vertexIndex = vertexIndices[i];
+        YsVec3 vertex1 = temp_vtx[ vertexIndex-1 ];
+        vtx3.push_back(vertex1);
+    }
+    
+    for (int i=0; i<vtx3.size(); i++)
+    {
+        vtx.push_back(vtx3[i].xf());
+        vtx.push_back(vtx3[i].yf());
+        vtx.push_back(vtx3[i].zf());
+    }
+
+    printf("size of vtx:%d\n", vtx.size());
+//
+    YsVec3 min,max;
+    GetBoundingBox(min,max,vtx);
+
+    viewTarget=(min+max)/2.0;
+
+    auto dim=(max-min).GetLength();
+    viewDistance=1.31*dim;
+
+    farZ=viewDistance+dim*1.1;
+    nearZ=viewDistance-dim*1.1;
+
+    printf("OBJ loaded.\n");
+    //transfer to the origin
+    auto pos = getPosition();
+    moveAlongX(-pos.xf());
+    moveAlongY(-pos.yf());
+    moveAlongZ(-pos.zf()/2);
+
+    GetBoundingBox(min,max,vtx);
+
+//     adjust to proper size
+    float s = 3/((max.xf()-min.xf())/2);
+    printf("scale factor = %f\n", s);
+    scale(s);
+    
+    for(int i=0; i<vtx.size(); i+=3)
+    {
+        col.push_back(0);
+        col.push_back(0);
+        col.push_back(1);
+        col.push_back(1);
+    }
 }
 
 
@@ -503,7 +720,8 @@ void GamePlayer::draw()
     
     YsMatrix4x4 modelView;
     
-    modelView.Translate(50,0,-viewDistance+100);
+    modelView.Translate(50,0,-viewDistance);
+//    modelView.Translate(0,0,-viewDistance);
     YsMatrix4x4 viewRot;
     viewRot.RotateXZ(YsPi*60/180);
     viewRot.Invert();

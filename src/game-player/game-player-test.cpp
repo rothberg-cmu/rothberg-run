@@ -47,6 +47,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
     player.LoadBinary();
+//    player.LoadObject();
     YsVec3 min, max;
     player.GetBoundingBox(min, max, player.vtx);
     player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
