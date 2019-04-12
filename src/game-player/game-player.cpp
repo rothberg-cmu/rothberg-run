@@ -355,7 +355,7 @@ void GamePlayer::moveLeftWithAngle()
             moveUp();
             break;
         case 2:
-            moveLeft();
+            moveRight();
             break;
         case 3:
             moveDown();
@@ -402,7 +402,7 @@ void GamePlayer::moveRightWithAngle()
             moveDown();
             break;
         case 2:
-            moveRight();
+            moveLeft();
             break;
         case 3:
             moveUp();
