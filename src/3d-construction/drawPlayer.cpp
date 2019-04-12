@@ -71,6 +71,7 @@ void DrawPlayer::drawPlayer()
         }
     }
 
+    
 
     // for (int i = 0; i <= stlVtx.size()/3; i++)
     // {
@@ -89,14 +90,15 @@ void DrawPlayer::drawPlayer()
     //     }
         
     // }
-    glEnableClientState(GL_VERTEX_ARRAY);
+    // glEnableClientState(GL_VERTEX_ARRAY);
     // glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
+    // glEnableClientState(GL_COLOR_ARRAY);
     
     glVertexPointer(3,GL_FLOAT,0,stlVtx.data());
-    // glNormalPointer(GL_FLOAT,0,nom.data());
+    glNormalPointer(GL_FLOAT,0,stlNom.data());
     glColorPointer(4,GL_FLOAT,0,col.data());
     glDrawArrays(GL_TRIANGLES,0,stlVtx.size()/3-5392);
+    // glDrawArrays(GL_TRIANGLES,0,stlVtx.size()/3);
     
     // glDisableClientState(GL_VERTEX_ARRAY);
     // glDisableClientState(GL_NORMAL_ARRAY);
@@ -104,7 +106,7 @@ void DrawPlayer::drawPlayer()
 
 }
 
-DrawPlayer::DrawPlayer(GamePlayer &player):stlVtx(player.getVtx())
+DrawPlayer::DrawPlayer(GamePlayer &player):stlVtx(player.getVtx()), stlNom(player.getNom())
 {
 }
 DrawPlayer::~DrawPlayer()

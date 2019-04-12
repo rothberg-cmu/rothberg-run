@@ -12,6 +12,7 @@ class DrawPlayer
 private:
     std::vector<float>& stlVtx;
     std::vector<float> col;
+    std::vector<float>& stlNom;
 
     float widthPlayerX;
     float widthPlayerY;
