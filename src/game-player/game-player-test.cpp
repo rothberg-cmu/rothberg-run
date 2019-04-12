@@ -131,8 +131,20 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         // get info of the player
         auto p1 = player.getPosition();
         printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
-        player.jump();
+        
+        const int jumpTime = 10;
+        for (int i=0; i<jumpTime; i++)
+        {
+            player.jump();
+        }
+        
+//        for (int i=jumpTime; i>0; i--)
+//        {
+//            player.jump();
+//        }
+        
         printf("jump!\n");
+        
         
         
     }

@@ -447,7 +447,7 @@ void GamePlayer::moveAlongZ(float deltaZ)
 
 void GamePlayer::jump()
 {
-    moveAlongZ(5.0);
+    moveAlongZ(1.0);
     auto pos = getPosition();
     pos.SetZ(pos.zf()+5.0);
     setPosition(pos.xf(), pos.yf(), pos.zf());
