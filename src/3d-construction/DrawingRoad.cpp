@@ -40,6 +40,12 @@ void DrawingRoad::drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical)
         col.push_back(0.41f);
         col.push_back(0.8f);
     }
+
+	for (int i=0; i<6; ++i) {
+		nom.push_back(0);
+		nom.push_back(0);
+		nom.push_back(1);
+	}
 }
 
 // Drawing road (a rectangle actually) from Road object
@@ -56,7 +62,7 @@ void DrawingRoad::drawRoad(Map map) {
 	//LoadCoinBinary(YsVec3::Origin(), 0.005, "../../src/3d-construction/Circle.stl");
 	for (Road road: roads) {
 		drawRoad(road);
-		drawTree(road);
+		//drawTree(road);
 		drawTreeSTL(road);
 	}
 }
@@ -216,4 +222,7 @@ std::vector<float> DrawingRoad::getVtx() {
 }
 std::vector<float> DrawingRoad::getCol() {
 	return col;
+}
+std::vector<float> DrawingRoad::getNom() {
+	return nom;
 }
