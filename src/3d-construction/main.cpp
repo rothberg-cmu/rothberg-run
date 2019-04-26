@@ -7,6 +7,8 @@
 #include <ysglfontdata.h>
 #include <stdio.h>
 
+#include <string>
+
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
@@ -29,6 +31,7 @@ protected:
 	YsMatrix4x4 Rc;
 	double d;
 	YsVec3 t;
+	int score = 0;
 
 	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
@@ -204,7 +207,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         gameIsStart = true;
     }
 
-	if(FSKEY_SPACE==key)
+	if(FSKEY_SPACE==key && player.getJumpMode() == 0)
     {
         //set to jump mode
         player.setJumpMode(1);
@@ -319,6 +322,33 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
+
+
+		glColor3ub(125, 0, 255);
+		//display score
+		float intAngle = player.getAngle();
+		if ( 315<intAngle || intAngle <= 45)
+		{
+			glRasterPos3f(player.getPosition()[0]-3, player.getPosition()[1] + 1, 2);
+		}
+		// face right
+		if ( 45 <intAngle && intAngle <= 135)
+		{
+			glRasterPos3f(player.getPosition()[0] + 1, player.getPosition()[1] + 3, 2);
+		}
+		// face down
+		if ( 135 <intAngle && intAngle <= 225)
+		{
+			glRasterPos3f(player.getPosition()[0] + 3, player.getPosition()[1] - 1, 2);
+		}
+		// face left
+		if ( 225 <intAngle && intAngle <= 315)
+		{
+			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
+		}
+
+		YsGlDrawFontBitmap32x48("Score: ");
+		YsGlDrawFontBitmap32x48(std::to_string(score).data());
 	}
 	else
 	{
