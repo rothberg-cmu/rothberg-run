@@ -12,7 +12,6 @@ protected:
 public:
     GamePlayer player;
     
-    
     FsLazyWindowApplication();
     virtual void BeforeEverything(int argc,char *argv[]);
     virtual void GetOpenWindowOption(FsOpenWindowOption &OPT) const;
@@ -128,25 +127,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     
     if(FSKEY_SPACE==key)
     {
-        // get info of the player
-        auto p1 = player.getPosition();
-        printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
+        //set to jump mode
+        player.setJumpMode(1);
+        printf("jump status:%d \n", player.getJumpMode());
         
-        const int jumpTime = 10;
-        for (int i=0; i<jumpTime; i++)
-        {
-            player.jump();
-        }
-        
-//        for (int i=jumpTime; i>0; i--)
-//        {
-//            player.jump();
-//        }
-        
-        printf("jump!\n");
-        
-        
-        
+////        // get info of the player
+//        auto p1 = player.getPosition();
+//        printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
+//        printf("jump!\n");
     }
     
 //    if(FSKEY_X==key)
@@ -162,6 +150,40 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 //        auto p1 = player.getPosition();
 //        printf("current location: %f, %f, angle: %f\n", p1.x(), p1.y(), player.getAngle());
 //    }
+    
+   
+    
+    // judge if in jump mode
+    if (player.getJumpMode() != 0)
+    {
+        printf("jump mode:%d\n",player.getJumpMode());
+        switch (player.getJumpMode())
+        {
+            case 1:
+                player.jump(0.2);
+                break;
+            case 2:
+                player.jump(-0.2);
+                break;
+            default:
+                break;
+        }
+        
+        auto currPos = player.getPosition();
+        if (currPos.zf()<(0))
+        {
+            player.setJumpMode(0);
+            auto p1 = player.getPosition();
+            player.setPosition(p1.xf(), p1.yf(), 0);
+            
+        }
+        //
+        if (currPos.zf()>20)
+        {
+            player.setJumpMode(2);
+        }
+    }
+    
     
     needRedraw=true;
 }

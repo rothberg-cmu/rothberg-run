@@ -23,8 +23,7 @@ private:
     YsVec3 position;
     float velocity;
     float angle;     // orientation
-    
-    
+    int jumpMode;    // 0: not jump; 1:jump up; 2: jump down
     
     YsVec3 viewTarget;
     YsMatrix4x4 viewRot;
@@ -49,6 +48,8 @@ public:
     void setAngle(float angle1);
     float getAngle();
     bool getAliveStatus();
+    void setJumpMode(int status);
+    int getJumpMode();
     void move(float x1, float y1, float z1);
     void draw();
     void rotate(float angle1);
@@ -60,7 +61,7 @@ public:
     void moveWithAngle();
     void moveLeftWithAngle();
     void moveRightWithAngle();
-    void jump();
+    void jump(float height);
     void GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float> &vtx);
     void LoadBinary();
     void LoadObject();

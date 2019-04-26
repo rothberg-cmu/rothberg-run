@@ -10,6 +10,7 @@
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
+#include "Coins.h"
 
 #include "DrawingRoad.h"
 #include "Camera.h"
@@ -25,10 +26,13 @@ protected:
 	DrawPlayer drawPlayer = DrawPlayer(player);
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
 	Map map;
+    Coins* coinsPtr = nullptr;
 
 	YsMatrix4x4 Rc;
 	double d;
 	YsVec3 t;
+
+    int score = 0;
 
 	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
@@ -94,6 +98,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+    // load diamond stl
+
 	gameIsOn = true;
 	player.LoadBinary();
 	player.scale(0.02);
@@ -101,6 +107,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	//set road initial position
 
 	map = Map();
+    coinsPtr = new Coins(map);
+    coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;
@@ -150,6 +158,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (FSKEY_ENTER == key && gameIsOn == false)
 	{
+        coinsPtr->restartCoins();
+        coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
 		player.moveAlongX(-player.getPosition()[0]);
 		player.moveAlongY(-player.getPosition()[1]);
 		gameIsOn = true;
@@ -202,6 +212,45 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     }
     if (FSKEY_DEL == key && !gameIsStart) {
         gameIsStart = true;
+    }
+
+	if(FSKEY_SPACE==key)
+    {
+        //set to jump mode
+        player.setJumpMode(1);
+        // printf("jump status:%d \n", player.getJumpMode());
+    }
+    
+
+	// judge if in jump mode
+    if (player.getJumpMode() != 0)
+    {
+        // printf("jump mode:%d\n",player.getJumpMode());
+        switch (player.getJumpMode())
+        {
+            case 1:
+                player.jump(0.1);
+                break;
+            case 2:
+                player.jump(-0.1);
+                break;
+            default:
+                break;
+        }
+        
+        auto currPos = player.getPosition();
+        if (currPos.zf()<0.5)
+        {
+            player.setJumpMode(0);
+            auto p1 = player.getPosition();
+            player.setPosition(p1.xf(), p1.yf(), 0);
+            
+        }
+        //
+        if (currPos.zf()>2)
+        {
+            player.setJumpMode(2);
+        }
     }
 	needRedraw=true;
 }
@@ -272,11 +321,45 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
 
+        // draw coins based on the position
+        coinsPtr->drawCoins(player.getPosition());
+        score = coinsPtr->getScore();
+
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
 		glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+
+		glColor3ub(125, 0, 255);
+		//display score
+		float intAngle = player.getAngle();
+		if ( 315<intAngle || intAngle <= 45)
+		{
+			glRasterPos3f(player.getPosition()[0]-3, player.getPosition()[1] + 1, 2);
+		}
+		// face right
+		else if ( 45 <intAngle && intAngle <= 135)
+		{
+			glRasterPos3f(player.getPosition()[0] + 1, player.getPosition()[1] + 3, 2);
+		}
+		// face down
+		else if ( 135 <intAngle && intAngle <= 225)
+		{
+			glRasterPos3f(player.getPosition()[0] + 3, player.getPosition()[1] - 1, 2);
+		}
+		// face left
+		else if ( 225 <intAngle && intAngle <= 315)
+		{
+			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
+		}
+        char output[100];
+        sprintf(output, "Score: %s", std::to_string(score).data());
+        YsGlDrawFontBitmap20x32(output);
+        /*
+		YsGlDrawFontBitmap32x48("Score: ");
+		YsGlDrawFontBitmap32x48(std::to_string(score).data());
+        */
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
