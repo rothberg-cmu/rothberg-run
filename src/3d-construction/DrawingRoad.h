@@ -27,7 +27,7 @@ public:
 	void drawRoad(Road road);
 	void drawRoad(Map map, const char *fileName);
 	void drawTree(Road road);
-	void drawTreeSTL(Road road, const char *fileName);
+	void drawTreeSTL(Road road, const char *fileName, Map map);
 
 	void LoadBinary(YsVec3 offset, double scale, const char* stlFileName);
 	void LoadCoinBinary(YsVec3 offset, double scale, const char* stlFileName);

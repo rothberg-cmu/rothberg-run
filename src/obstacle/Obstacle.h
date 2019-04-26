@@ -13,6 +13,7 @@
 #include "binstl.h"
 #include <iostream>
 #include "fslazywindow.h"
+#include <cmath>
 
 class Obstacle {
 private:
