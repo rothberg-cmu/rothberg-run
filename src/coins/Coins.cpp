@@ -45,6 +45,7 @@ void Coins::initCoins() {
         }
         std::cout << "-------------" << std::endl;
     }
+    initScore = coins.size();
 }
 
 void Coins::updateVtx(YsVec3& pos) {
@@ -121,6 +122,10 @@ void Coins::loadSTL(char* fileName) {
     } else {
         std::cout << "load coin stl fail" << std::endl;
     }
+}
+
+int Coins::getScore() {
+    return initScore - coins.size();
 }
 
 void Coins::drawCoins(YsVec3& pos) {

@@ -25,6 +25,7 @@ class Coins {
 private:
     void initCoins();
     Map& map;
+    int initScore = 0;
     std::vector <float> vtx;
     std::vector <float> col;
     std::vector <float> nom;
@@ -40,4 +41,5 @@ public:
     std::vector <float> & getVtx();
     void drawCoins(YsVec3& pos);
     void loadSTL(char* fileName);
+    int getScore();
 };
