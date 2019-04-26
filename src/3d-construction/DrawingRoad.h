@@ -25,12 +25,12 @@ public:
 
 	void drawRoad(YsVec3 start, YsVec3 end, double rW, bool isVertical);
 	void drawRoad(Road road);
-	void drawRoad(Map map);
+	void drawRoad(Map map, const char *fileName);
 	void drawTree(Road road);
-	void drawTreeSTL(Road road);
+	void drawTreeSTL(Road road, const char *fileName);
 
-	void LoadBinary(YsVec3 offset, double scale, char* stlFileName);
-	void LoadCoinBinary(YsVec3 offset, double scale, char* stlFileName);
+	void LoadBinary(YsVec3 offset, double scale, const char* stlFileName);
+	void LoadCoinBinary(YsVec3 offset, double scale, const char* stlFileName);
 
 
 	std::vector<float> getVtx();
