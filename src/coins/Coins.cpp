@@ -10,9 +10,6 @@ Coin::Coin(YsVec3 p, int rid, int o) {
     ori = o;
 }
 
-void Coin::addSelfToDrawingVector(std::vector <float>& vtx, std::vector <float>& col, std::vector <float>& nom) {
-
-}
 
 YsVec3 Coin::getPos() {
     return pos;
@@ -58,11 +55,42 @@ void Coins::updateVtx(YsVec3& pos) {
 
     std::swap(coins[idx], coins[coins.size()-1]);
     coins.pop_back();
-    vtx.clear();
-    col.clear();
-    for (Coin coin : coins) {
-        vtx.push_back(coin.getPos().xf());
-        vtx.push_back(coin.getPos().yf());
-        vtx.push_back(coin.getPos().zf());
+    for (int i = 0; i < 4; i++) {
+        col.pop_back();
     }
+    /*
+    for (int i = 0; i < 3; i++) {
+        nom.pop_back();
+    }
+    */
+    vtx.clear();
+    for (Coin coin : coins) {
+        for (int i = 0; i < oneCoinVtx.size() / 3; i++) {
+            vtx.push_back(oneCoinVtx[3*i] + coin.getPos().xf());
+            vtx.push_back(oneCoinVtx[3*i+1] + coin.getPos().yf());
+            vtx.push_back(oneCoinVtx[3*i+2] + coin.getPos().zf());
+        }
+    }
+}
+
+void Coins::loadSTL(char* fileName) {
+    if (true == LoadBinStl(oneCoinVtx, oneCoinNom, fileName)) {
+        std::cout << "load coin stl successfully" << std::endl;
+        for (int i = 0; i < oneCoinVtx.size() / 3; i++) {
+            oneCoinCol.push_back(1);
+            oneCoinCol.push_back(0.3);
+            oneCoinCol.push_back(0.3);
+            oneCoinCol.push_back(1);
+        }
+    } else {
+        std::cout << "load coin stl fail" << std::endl;
+    }
+}
+
+void Coins::drawCoins(YsVec3& pos) {
+    updateVtx(pos);
+    glVertexPointer(3,GL_FLOAT,0,vtx.data());
+    //glNormalPointer(GL_FLOAT,0,stlNom.data());
+    glColorPointer(4,GL_FLOAT,0,col.data());
+    glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 }
