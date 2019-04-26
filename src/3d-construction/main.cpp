@@ -252,7 +252,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 					player.moveWithAngle();
 			}   
     }
-    if (FSKEY_DEL == key && !gameIsStart) {
+    if (FSKEY_ENTER == key && !gameIsStart) {
         gameIsStart = true;
     }
 
@@ -316,7 +316,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
         glRasterPos2i(wid / 6, hei / 2);
 		char str[256];
-		sprintf(str,"%s", "please press del to begin");
+		sprintf(str,"%s", "ENTER to start");
 		YsGlDrawFontBitmap32x48(str);
         FsSwapBuffers();
         return;
@@ -428,7 +428,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		sprintf(str,"%s", "game over ");
 		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
 		glRasterPos2i(wid / 6, 2* hei / 3);
-		YsGlDrawFontBitmap32x48("press ENTER to restart");
+		YsGlDrawFontBitmap32x48("ENTER to restart/ ESC to exit");
 	}
 	FsSwapBuffers();
 }
