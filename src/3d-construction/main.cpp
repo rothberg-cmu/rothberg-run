@@ -330,6 +330,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	needRedraw=false;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    
     if (!gameIsStart) {
         glEnable(GL_DEPTH_TEST);
 	    int wid,hei;
@@ -360,6 +362,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		// modelView.Translate(0,0,-d);
 		// modelView*=globalToCamera;
 		// modelView.Translate(-t);
+        
+        glClearColor(229.0/255.0, 1.0, 204.0/255.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        
 		glEnable(GL_DEPTH_TEST);
 		int wid,hei;
 		FsGetWindowSize(wid,hei);
