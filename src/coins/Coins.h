@@ -1,3 +1,6 @@
+#ifndef COINS_HEADER
+#define COINS_HEADER
+
 #include "ysclass.h"
 #include <vector>
 #include "Map.h"
@@ -45,3 +48,5 @@ public:
     void loadSTL(const char* fileName);
     int getScore();
 };
+
+#endif

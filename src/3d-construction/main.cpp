@@ -12,6 +12,7 @@
 //#include "polygonalmesh.h"
 #include "Coins.h"
 #include <unordered_map>
+#include <string>
 
 #include "DrawingRoad.h"
 #include "Camera.h"
@@ -35,9 +36,9 @@ std::string getOsName()
 void getStlPath(std::unordered_map<std::string, std::string>& path, std::string osName) {
     path.clear();
     if (osName == "Windows") {
-        path.insert({"tree_stl", ""});
-        path.insert({"coins_stl", ""});
-        path.insert({"person_stl", ""});
+        path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
     } else if (osName == "Mac") {
         path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
         path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
