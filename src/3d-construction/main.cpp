@@ -10,6 +10,7 @@
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
+#include "Coins.h"
 
 #include "DrawingRoad.h"
 #include "Camera.h"
@@ -25,6 +26,7 @@ protected:
 	DrawPlayer drawPlayer = DrawPlayer(player);
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
 	Map map;
+    Coins* coinsPtr = nullptr;
 
 	YsMatrix4x4 Rc;
 	double d;
@@ -94,6 +96,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+    // load diamond stl
+
 	gameIsOn = true;
 	player.LoadBinary();
 	player.scale(0.02);
@@ -101,6 +105,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	//set road initial position
 
 	map = Map();
+    coinsPtr = new Coins(map);
+    coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;
@@ -310,6 +316,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
+
+        // draw coins based on the position
+        coinsPtr->drawCoins(player.getPosition());
 
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
