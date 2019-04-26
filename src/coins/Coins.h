@@ -37,6 +37,7 @@ public:
     Coins();
     Coins(int n);
     Coins(Map& m);
+    void restartCoins();
     std::vector <Coin> coins;
     std::vector <float> & getVtx();
     void drawCoins(YsVec3& pos);
