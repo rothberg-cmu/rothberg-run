@@ -1,7 +1,11 @@
 #ifndef OBSTACLE_HEADER
 #define OBSTACLE_HEADER
 
-#define OBSTACLES_PROBABILITY 30
+#define OBSTACLES_MIN_DIS 0.5
+#define OBSTACLES_PROBABILITY 100
+#define OBSTACLES_X_SCALE 40.0
+#define OBSTACLES_Y_SCALE 10.0
+#define OBSTACLES_Z_SCALE 100.0
 
 #include "Map.h"
 #include <vector>
@@ -9,6 +13,7 @@
 #include "binstl.h"
 #include <iostream>
 #include "fslazywindow.h"
+#include <cmath>
 
 class Obstacle {
 private:
@@ -32,12 +37,14 @@ private:
     void initObstacles();
     Map& map;
     int count = 0;
+    int prevObjIdx = -1;
 public:
     Obstacles(Map& m);
+    void restart();
     int getCount();
     void updateCount(YsVec3& pos);
     void loadObstacleStl(const char* fileName);
-    void drawObstacles(YsVec3& pos);
+    int drawObstacles(YsVec3& pos);
 };
 
 

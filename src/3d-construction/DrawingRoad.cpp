@@ -64,7 +64,7 @@ void DrawingRoad::drawRoad(Map map, const char * fileName) {
 	for (Road road: roads) {
 		drawRoad(road);
 		//drawTree(road);
-		drawTreeSTL(road, fileName);
+		drawTreeSTL(road, fileName, map);
 	}
 }
 
@@ -141,7 +141,7 @@ void DrawingRoad::drawTree(Road road) {
 	}
 }
 
-void DrawingRoad::drawTreeSTL(Road road, const char * fileName) {
+void DrawingRoad::drawTreeSTL(Road road, const char * fileName, Map map) {
 	YsVec3 start = road.getRoadStart();
 	YsVec3 end = road.getRoadEnd();
 	double rW = road.getRoadWidth() / 2;
@@ -151,9 +151,12 @@ void DrawingRoad::drawTreeSTL(Road road, const char * fileName) {
 		double min = std::min(start.y(), end.y()) + TREE_INTERVAL;
 		double max = std::max(start.y(), end.y());
 		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
-			if (road.isInRoad(YsVec3(start.x()- rW * 1.1, treePos, 0))) {
-				return;
+			for (Road roadTest: map.getRoads()) {
+				if (roadTest.isInRoad(YsVec3(start.x()- rW * 1.1, treePos, 0))) {
+					return;
+				}
 			}
+
 			LoadBinary(YsVec3(start.x() - rW, treePos, 0), 0.2, fileName);
 			LoadBinary(YsVec3(start.x() + rW, treePos, 0), 0.2, fileName);
 		}
@@ -162,8 +165,10 @@ void DrawingRoad::drawTreeSTL(Road road, const char * fileName) {
 		double min = std::min(start.x(), end.x()) + TREE_INTERVAL;
 		double max = std::max(start.x(), end.x());
 		for (double treePos = min; treePos < max; treePos += TREE_INTERVAL) {
-			if (road.isInRoad(YsVec3(treePos, start.y() - rW * 1.1, 0))) {
-				return;
+			for (Road roadTest: map.getRoads()) {
+				if (roadTest.isInRoad(YsVec3(treePos, start.y()- rW * 1.1, 0))) {
+					return;
+				}
 			}
 			LoadBinary(YsVec3(treePos, start.y() - rW, 0), 0.2, fileName);
 			LoadBinary(YsVec3(treePos, start.y() + rW, 0), 0.2, fileName);
