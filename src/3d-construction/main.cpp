@@ -223,9 +223,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         coinsPtr->loadSTL(coinsPath);
         obstaclesPtr->restart();
 
-		player.moveAlongX(-player.getPosition()[0]);
-		player.moveAlongY(-player.getPosition()[1]);
+		player.moveAlongX(-player.getPosition().xf());
+		player.moveAlongY(-player.getPosition().yf());
 		gameIsOn = true;
+        player.rotate(-player.getAngle());
         time = 0;
         distance = 0;
 	}
@@ -299,10 +300,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         switch (player.getJumpMode())
         {
             case 1:
-                player.jump(0.1);
+                player.jump(0.05);
                 break;
             case 2:
-                player.jump(-0.1);
+                player.jump(-0.05);
                 break;
             default:
                 break;
@@ -317,7 +318,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
             
         }
         //
-        if (currPos.zf()>2)
+        if (currPos.zf()>1)
         {
             player.setJumpMode(2);
         }
