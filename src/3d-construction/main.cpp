@@ -67,7 +67,8 @@ protected:
 	YsVec3 t;
 
     int score = 0;
-
+    double time;
+    int distance;
 	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
 	YsVec3 bbx[2];
@@ -132,6 +133,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+    //set initial time
+    time = 0;
+    //set initial distance
+    distance = 0;
     // load diamond stl
     std::cout << getOsName() << std::endl;
     std::unordered_map <std::string, std::string> path;
@@ -193,6 +198,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (gameIsOn == true)
 	{
+        time += 0.01;
+        distance = time * 100;
 		player.moveWithAngle();
 	}
 
@@ -205,6 +212,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		player.moveAlongX(-player.getPosition()[0]);
 		player.moveAlongY(-player.getPosition()[1]);
 		gameIsOn = true;
+        time = 0;
+        distance = 0;
 	}
 	if(FSKEY_ESC==key)
 	{
@@ -254,6 +263,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     }
     if (FSKEY_ENTER == key && !gameIsStart) {
         gameIsStart = true;
+        distance = 0;
+        time = 0;
     }
 
 	if(FSKEY_SPACE==key)
@@ -399,7 +410,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
 		}
         char output[100];
-        sprintf(output, "Score: %s", std::to_string(score).data());
+        sprintf(output, "Score: %s, Distance: %sm", std::to_string(score).data(), std::to_string(distance).data());
         YsGlDrawFontBitmap20x32(output);
         /*
 		YsGlDrawFontBitmap32x48("Score: ");
