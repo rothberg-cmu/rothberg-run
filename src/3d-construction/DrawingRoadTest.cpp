@@ -4,30 +4,111 @@
 
 #include <fslazywindow.h>
 
-
+#include <ysglfontdata.h>
 #include <stdio.h>
-
+#include <fstream>
+#include <iostream>
+#include <string.h>
+#include <algorithm>
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
+#include "Coins.h"
+#include <unordered_map>
 
 #include "DrawingRoad.h"
 #include "Camera.h"
 #include "../map-generation/Road.h"
 
+std::string getOsName()
+{
+    #ifdef _WIN32 || _WIN64
+    return "Windows";
+    #elif __unix || __unix__ || __linux__
+    return "Unix";
+    #elif __APPLE__ || __MACH__
+    return "Mac";
+    #elif __FreeBSD__
+    return "FreeBSD";
+    #else
+    return "Other";
+    #endif
+}      
+
+void getStlPath(std::unordered_map<std::string, std::string>& path, std::string osName) {
+    path.clear();
+    if (osName == "Windows") {
+        path.insert({"tree_stl", ""});
+        path.insert({"coins_stl", ""});
+        path.insert({"person_stl", ""});
+    } else if (osName == "Mac") {
+        path.insert({"tree_stl", "../../../src/3d-construction/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/3d-construction/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/3d-construction/cartoonboy1.stl"});
+    } else {
+        path.insert({"tree_stl", "../../src/3d-construction/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../src/3d-construction/Diamond.stl"});
+        path.insert({"person_stl", "../../src/3d-construction/cartoonboy1.stl"});
+    }
+}
+
+std::vector<int> loadScoreBoard() {
+	std::vector<int> scoreBoard;
+	std::string line;
+	std::ifstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+
+		while ( getline (myfile,line)) {
+			std::cout << "score board:" << "\n";
+			std::cout << std::stoi(line) << "\n";
+			scoreBoard.push_back(std::stoi(line));
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+	return scoreBoard;
+}
+
+void writeScoreBoard(std::vector<int> scoreBoard) {
+	std::ofstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+		for (int score: scoreBoard) {
+			myfile << std::to_string(score) << "\n";
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+}
+
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
 	bool gameIsOn;
+    bool gameIsStart = false;
 	bool needRedraw;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
 	Map map;
+    Coins* coinsPtr = nullptr;
+	std::vector<int> scoreBoard;
+	bool scoreStatus = false;
 
 	YsMatrix4x4 Rc;
 	double d;
 	YsVec3 t;
+
+    int score = 0;
 
 	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
@@ -93,21 +174,29 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+    // load diamond stl
+    std::cout << getOsName() << std::endl;
+    std::unordered_map <std::string, std::string> path;
+    getStlPath(path, getOsName());
+    const char* treePath = path.find("tree_stl")->second.data();
+    const char* coinsPath = path.find("coins_stl")->second.data();
+    const char* personPath = path.find("person_stl")->second.data();
+
+    std::cout << coinsPath << std::endl;
+	scoreBoard = loadScoreBoard();
 	gameIsOn = true;
-	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
+	player.LoadBinary(personPath);//"../../src/3d-construction/cartoonboy1.stl");
 	player.scale(0.02);
-		// YsVec3 min, max;
-		// player.GetBoundingBox(min, max, player.vtx);
 	player.moveAlongZ(0.25);
-		// player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
-	// printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	//set road initial position
 
 	map = Map();
+    coinsPtr = new Coins(map);
+    coinsPtr->loadSTL(coinsPath);//"../../src/3d-construction/Diamond.stl");
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;
-	dr.drawRoad(map, "../../src/3d-construction/TreeSTL.stl");
+	dr.drawRoad(map, treePath);
 
 
 	std::vector<float> vtx2 = dr.getVtx();
@@ -131,7 +220,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Interval(void)
 {	
-	//printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
+	// printf("%s\n", gameIsOn ? "True!!!!" : "False!!!!!");
 	if (map.isInMap(player.getPosition()) == false)
 	{
 		if (gameIsOn == true)
@@ -153,6 +242,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (FSKEY_ENTER == key && gameIsOn == false)
 	{
+		scoreStatus = false;
+        coinsPtr->restartCoins();
+        coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
 		player.moveAlongX(-player.getPosition()[0]);
 		player.moveAlongY(-player.getPosition()[1]);
 		gameIsOn = true;
@@ -161,71 +253,90 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		SetMustTerminate(true);
 	}
-		
+    
 	if(FSKEY_LEFT==key)
 	{
 		if (gameIsOn == true)
 		{
-			YsVec3 nextMove = YsVec3(player.getPosition()[0]-0.1, player.getPosition()[1], player.getPosition()[2]);
-			// printf("%s\n", nextMove.Txt());
-			player.moveLeft();
+			player.moveLeftWithAngle();
 		}
 		
 	}
-		if(FSKEY_RIGHT==key)
-		{
-		if (gameIsOn == true)
-		{
-			player.moveRight();
-		}
-				
-		}
-		
-		if(FSKEY_UP==key)
-		{
-		if (gameIsOn == true)
-		{
-			player.moveUp();
-		}
-		}
-		
-		if(FSKEY_DOWN==key)
-		{
-		if (gameIsOn == true)
-		{
-			player.moveDown();
-		}
-		}
+    if(FSKEY_RIGHT==key)
+    {
+			if (gameIsOn == true)
+			{
+				player.moveRightWithAngle();
+			}   
+    }
+    
 	// w,a,s to control the direction and straight forward
-		if(FSKEY_A==key)
-		{
-		if (gameIsOn == true)
-		{
-			player.rotate(-90);
-					printf("current angle: %f \n", player.getAngle());
-		}
-		}
-		
-		if(FSKEY_D==key)
-		{
-		if (gameIsOn == true)
-		{
-			player.rotate(90);
-					printf("current angle: %f \n", player.getAngle());
-		}
-		}
-		
-		if(FSKEY_W==key)
-		{
-		if (gameIsOn == true)
-		{
-		// need to refine to move
-				player.moveWithAngle();
-		}   
-		}
-		
+    if(FSKEY_A==key)
+    {
+			if (gameIsOn == true)
+			{
+				player.rotate(-90);
+			}
+    }
+    
+    if(FSKEY_D==key)
+    {
+			if (gameIsOn == true)
+			{
+				player.rotate(90);
+			}
+    }
+    
+    if(FSKEY_W==key)
+    {
+			if (gameIsOn == true)
+			{
+			// need to refine to move
+					player.moveWithAngle();
+			}   
+    }
+    if (FSKEY_DEL == key && !gameIsStart) {
+        gameIsStart = true;
+    }
 
+	if(FSKEY_SPACE==key)
+    {
+        //set to jump mode
+        player.setJumpMode(1);
+        // printf("jump status:%d \n", player.getJumpMode());
+    }
+    
 
+	// judge if in jump mode
+    if (player.getJumpMode() != 0)
+    {
+        // printf("jump mode:%d\n",player.getJumpMode());
+        switch (player.getJumpMode())
+        {
+            case 1:
+                player.jump(0.1);
+                break;
+            case 2:
+                player.jump(-0.1);
+                break;
+            default:
+                break;
+        }
+        
+        auto currPos = player.getPosition();
+        if (currPos.zf()<0.5)
+        {
+            player.setJumpMode(0);
+            auto p1 = player.getPosition();
+            player.setPosition(p1.xf(), p1.yf(), 0);
+            
+        }
+        //
+        if (currPos.zf()>2)
+        {
+            player.setJumpMode(2);
+        }
+    }
 	needRedraw=true;
 }
 /* virtual */ void FsLazyWindowApplication::Draw(void)
@@ -233,18 +344,27 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	needRedraw=false;
 
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	int wid,hei;
-	FsGetWindowSize(wid,hei);
-	auto aspect=(double)wid/(double)hei;
-	glViewport(0,0,wid,hei);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0,aspect,d/10.0,d*2.0);
-
+    if (!gameIsStart) {
+        glEnable(GL_DEPTH_TEST);
+	    int wid,hei;
+	    FsGetWindowSize(wid,hei);
+	    auto aspect=(double)wid/(double)hei;
+	    glViewport(0,0,wid,hei);
+	    glMatrixMode(GL_PROJECTION);
+	    glLoadIdentity();
+        glColor3ub(255,0,0);
+        glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
+        glRasterPos2i(wid / 6, hei / 2);
+		char str[256];
+		sprintf(str,"%s", "please press del to begin");
+		YsGlDrawFontBitmap32x48(str);
+        FsSwapBuffers();
+        return;
+    }
+	
 	
 
-	if (gameIsOn == true)
+	if (gameIsOn == true && gameIsStart == true)
 	{
 		
 		// YsMatrix4x4 globalToCamera=Rc;
@@ -254,6 +374,15 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		// modelView.Translate(0,0,-d);
 		// modelView*=globalToCamera;
 		// modelView.Translate(-t);
+		glEnable(GL_DEPTH_TEST);
+		int wid,hei;
+		FsGetWindowSize(wid,hei);
+		auto aspect=(double)wid/(double)hei;
+		glViewport(0,0,wid,hei);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(45.0,aspect,d/10.0,d*2.0);
+
 		YsMatrix4x4 modelView = Camera::getCameraMat(player);
 		glClearColor(1,1,1,1);
 		GLfloat modelViewGl[16];
@@ -277,19 +406,79 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		//draw palyer based on the position and orientation
 		drawPlayer.drawPlayer();
 
+        // draw coins based on the position
+        coinsPtr->drawCoins(player.getPosition());
+        score = coinsPtr->getScore();
+
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
 		glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
+
+		glColor3ub(125, 0, 255);
+		//display score
+		float intAngle = player.getAngle();
+		if ( 315<intAngle || intAngle <= 45)
+		{
+			glRasterPos3f(player.getPosition()[0]-3, player.getPosition()[1] + 1, 2);
+		}
+		// face right
+		else if ( 45 <intAngle && intAngle <= 135)
+		{
+			glRasterPos3f(player.getPosition()[0] + 1, player.getPosition()[1] + 3, 2);
+		}
+		// face down
+		else if ( 135 <intAngle && intAngle <= 225)
+		{
+			glRasterPos3f(player.getPosition()[0] + 3, player.getPosition()[1] - 1, 2);
+		}
+		// face left
+		else if ( 225 <intAngle && intAngle <= 315)
+		{
+			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
+		}
+        char output[100];
+        sprintf(output, "Score: %s", std::to_string(score).data());
+        YsGlDrawFontBitmap20x32(output);
+        /*
+		YsGlDrawFontBitmap32x48("Score: ");
+		YsGlDrawFontBitmap32x48(std::to_string(score).data());
+        */
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{
+		if (scoreStatus == false) {
+			scoreBoard.push_back(score);
+			std::sort(scoreBoard.rbegin(), scoreBoard.rend());
+			// for (int i: scoreBoard) {
+			// 	std::cout << "score" << i << "\n";
+			// }
+			writeScoreBoard(scoreBoard);
+			scoreStatus = true;
+		}
+
+
+	    glLoadIdentity();
 		//display window to red if game over
 		glClearColor( 1, 0, 0, 0.5);
+		int wid,hei;
+		FsGetWindowSize(wid,hei);
+
+		glViewport(0,0,wid,hei);
+		glMatrixMode(GL_PROJECTION);
+		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
+
+		glColor3ub(255, 255, 255);
+		glRasterPos2i(wid / 3, hei / 3);
+        char str[256];
+		sprintf(str,"%s", "game over ");
+		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
+		glRasterPos2i(wid / 6, 2* hei / 3);
+		YsGlDrawFontBitmap32x48("press ENTER to restart");
 	}
 	FsSwapBuffers();
 }
