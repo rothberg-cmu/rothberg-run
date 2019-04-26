@@ -59,7 +59,8 @@ void DrawingRoad::drawRoad(Road road) {
 
 void DrawingRoad::drawRoad(Map map) {
 	std::vector<Road> roads = map.getRoads();
-	//LoadCoinBinary(YsVec3::Origin(), 0.005, "../../src/3d-construction/Circle.stl");
+	LoadCoinBinary(YsVec3::Origin(), 0.004, "../../src/3d-construction/Circle.stl");
+	LoadBinary(YsVec3::Origin(), 0.01, "../../src/3d-construction/fence2.stl");
 	for (Road road: roads) {
 		drawRoad(road);
 		//drawTree(road);
