@@ -8,4 +8,5 @@ add_library(
 
 target_link_libraries(Obstacle Map fslazywindow)
 
-target_link_directories(Obstacle PUBLIC .)
+target_include_directories(Obstacle PUBLIC .)
+

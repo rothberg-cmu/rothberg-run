@@ -1,6 +1,6 @@
 add_executable(3d-construction MACOSX_BUNDLE main.cpp DrawingRoad.cpp binstlTree.cpp ../map-generation/Road.cpp ../map-generation/Map.cpp)
 add_executable(3d-test MACOSX_BUNDLE DrawingRoadTest.cpp DrawingRoad.cpp binstlTree.cpp ../map-generation/Road.cpp ../map-generation/Map.cpp)
-target_link_libraries(3d-construction fslazywindow ysclass game-player draw-player Camera ysbitmapfont Coins)
+target_link_libraries(3d-construction fslazywindow ysclass game-player draw-player Camera ysbitmapfont Coins Obstacle)
 target_link_libraries(3d-test fslazywindow ysclass game-player draw-player Camera ysbitmapfont Coins)
 add_library(draw-player drawPlayer.h drawPlayer.cpp)
 target_link_libraries(draw-player ysclass fslazywindow game-player)
