@@ -39,13 +39,13 @@ void getStlPath(std::unordered_map<std::string, std::string>& path, std::string 
         path.insert({"coins_stl", ""});
         path.insert({"person_stl", ""});
     } else if (osName == "Mac") {
-        path.insert({"tree_stl", "../../../src/3d-construction/TreeSTL.stl"});
-        path.insert({"coins_stl", "../../../src/3d-construction/Diamond.stl"});
-        path.insert({"person_stl", "../../../src/3d-construction/cartoonboy1.stl"});
+        path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
     } else {
-        path.insert({"tree_stl", "../../src/3d-construction/TreeSTL.stl"});
-        path.insert({"coins_stl", "../../src/3d-construction/Diamond.stl"});
-        path.insert({"person_stl", "../../src/3d-construction/cartoonboy1.stl"});
+        path.insert({"tree_stl", "../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../src/data/cartoonboy1.stl"});
     }
 }
 
