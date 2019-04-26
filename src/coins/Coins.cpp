@@ -96,9 +96,9 @@ void Coins::loadSTL(char* fileName) {
         z /= oneCoinVtx.size() / 3;
         std::cout << "x = " << x << " y = " << y << " z = " << z << std::endl;
         for (int i = 0; i < oneCoinVtx.size() / 3; i++) {
-            oneCoinVtx[3*i] = (oneCoinVtx[3*i] - x) * 0.2;
-            oneCoinVtx[3*i+1] = (oneCoinVtx[3*i+1] - y) * 0.2;
-            oneCoinVtx[3*i+2] = (oneCoinVtx[3*i+2] - z) * 0.2 + 0.3;
+            oneCoinVtx[3*i] = (oneCoinVtx[3*i] - x) * COINS_SIZE_SCALE;
+            oneCoinVtx[3*i+1] = (oneCoinVtx[3*i+1] - y) * COINS_SIZE_SCALE;
+            oneCoinVtx[3*i+2] = (oneCoinVtx[3*i+2] - z) * COINS_SIZE_SCALE + COINS_SIZE_SCALE;
         }
         for (int i = 0; i < oneCoinVtx.size() / 3; i++) {
             oneCoinCol.push_back(1);
