@@ -57,14 +57,14 @@ void DrawingRoad::drawRoad(Road road) {
 	drawRoad(start, end, rW, isVertical);
 }
 
-void DrawingRoad::drawRoad(Map map) {
+void DrawingRoad::drawRoad(Map map, const char * fileName) {
 	std::vector<Road> roads = map.getRoads();
 	LoadCoinBinary(YsVec3::Origin(), 0.004, "../../src/3d-construction/Circle.stl");
 	LoadBinary(YsVec3::Origin(), 0.01, "../../src/3d-construction/fence2.stl");
 	for (Road road: roads) {
 		drawRoad(road);
 		//drawTree(road);
-		drawTreeSTL(road);
+		drawTreeSTL(road, fileName);
 	}
 }
 
@@ -141,7 +141,7 @@ void DrawingRoad::drawTree(Road road) {
 	}
 }
 
-void DrawingRoad::drawTreeSTL(Road road) {
+void DrawingRoad::drawTreeSTL(Road road, const char * fileName) {
 	YsVec3 start = road.getRoadStart();
 	YsVec3 end = road.getRoadEnd();
 	double rW = road.getRoadWidth() / 2;
@@ -154,8 +154,8 @@ void DrawingRoad::drawTreeSTL(Road road) {
 			if (road.isInRoad(YsVec3(start.x()- rW * 1.1, treePos, 0))) {
 				return;
 			}
-			LoadBinary(YsVec3(start.x() - rW, treePos, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
-			LoadBinary(YsVec3(start.x() + rW, treePos, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
+			LoadBinary(YsVec3(start.x() - rW, treePos, 0), 0.2, fileName);
+			LoadBinary(YsVec3(start.x() + rW, treePos, 0), 0.2, fileName);
 		}
 
 	} else {
@@ -165,15 +165,15 @@ void DrawingRoad::drawTreeSTL(Road road) {
 			if (road.isInRoad(YsVec3(treePos, start.y() - rW * 1.1, 0))) {
 				return;
 			}
-			LoadBinary(YsVec3(treePos, start.y() - rW, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
-			LoadBinary(YsVec3(treePos, start.y() + rW, 0), 0.2, "../../src/3d-construction/TreeSTL.stl");
+			LoadBinary(YsVec3(treePos, start.y() - rW, 0), 0.2, fileName);
+			LoadBinary(YsVec3(treePos, start.y() + rW, 0), 0.2, fileName);
 		}
 	}
 }
 
 
 
-void DrawingRoad::LoadBinary(YsVec3 offset, double scale, char* stlFileName)
+void DrawingRoad::LoadBinary(YsVec3 offset, double scale, const char* stlFileName)
 {
     // load binary file for tree stl
 	int originalSize = vtx.size();
@@ -198,7 +198,7 @@ void DrawingRoad::LoadBinary(YsVec3 offset, double scale, char* stlFileName)
     }
 }
 
-void DrawingRoad::LoadCoinBinary(YsVec3 offset, double scale, char* stlFileName)
+void DrawingRoad::LoadCoinBinary(YsVec3 offset, double scale, const char* stlFileName)
 {
     // load binary file for coin stl
 	int originalSize = vtx.size();

@@ -107,7 +107,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;
-	dr.drawRoad(map);
+	dr.drawRoad(map, "../../src/3d-construction/TreeSTL.stl");
 
 
 	std::vector<float> vtx2 = dr.getVtx();
