@@ -63,7 +63,7 @@ public:
     void moveRightWithAngle();
     void jump(float height);
     void GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float> &vtx);
-    void LoadBinary(char* pathName);
+    void LoadBinary(const char* pathName);
     void LoadObject();
     void SetUpHeadLight(void);
     void moveAlongX(float deltaX);

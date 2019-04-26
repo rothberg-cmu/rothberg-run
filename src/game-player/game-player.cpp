@@ -487,7 +487,7 @@ void GamePlayer::scale(float scaleFactor)
 }
 
 
-void GamePlayer::LoadBinary(char* fileName)
+void GamePlayer::LoadBinary(const char* fileName)
 {
     // load binary file for cartoon figure
 //    char fileName[] = "../../src/3d-construction/cartoonboy.stl";
