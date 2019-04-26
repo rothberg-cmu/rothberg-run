@@ -121,7 +121,7 @@ void Coins::loadSTL(const char* fileName) {
             }
         }
     } else {
-        std::cout << "load coin stl fail" << std::endl;
+        std::cout << "load coin stl fail!!" << std::endl;
     }
 }
 

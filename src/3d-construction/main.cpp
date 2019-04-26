@@ -11,6 +11,7 @@
 // #include "game-player.h"
 //#include "polygonalmesh.h"
 #include "Coins.h"
+#include "Obstacle.h"
 #include <unordered_map>
 #include <string>
 
@@ -39,14 +40,17 @@ void getStlPath(std::unordered_map<std::string, std::string>& path, std::string 
         path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
         path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
         path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
+        path.insert({"obstacle_stl", "../../../src/data/fence2.stl"});
     } else if (osName == "Mac") {
         path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
         path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
         path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
+        path.insert({"obstacle_stl", "../../../src/data/fence2.stl"});
     } else {
         path.insert({"tree_stl", "../../src/data/TreeSTL.stl"});
         path.insert({"coins_stl", "../../src/data/Diamond.stl"});
         path.insert({"person_stl", "../../src/data/cartoonboy1.stl"});
+        path.insert({"obstacle_stl", "../../src/data/fence2.stl"});
     }
 }
 
@@ -61,6 +65,7 @@ protected:
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
 	Map map;
     Coins* coinsPtr = nullptr;
+    Obstacles* obstaclesPtr = nullptr;
 
 	YsMatrix4x4 Rc;
 	double d;
@@ -144,6 +149,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     const char* treePath = path.find("tree_stl")->second.data();
     const char* coinsPath = path.find("coins_stl")->second.data();
     const char* personPath = path.find("person_stl")->second.data();
+    const char* obstaclePath = path.find("obstacle_stl")->second.data();
 
     std::cout << coinsPath << std::endl;
 
@@ -157,6 +163,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     coinsPtr = new Coins(map);
     coinsPtr->loadSTL(coinsPath);//"../../src/3d-construction/Diamond.stl");
 	map.dbgPrintRoads();
+
+    obstaclesPtr = new Obstacles(map);
+    obstaclesPtr->loadObstacleStl(obstaclePath);
 
 	DrawingRoad dr;
 	dr.drawRoad(map, treePath);
@@ -207,13 +216,17 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (FSKEY_ENTER == key && gameIsOn == false)
 	{
+        std::unordered_map <std::string, std::string> path;
+        getStlPath(path, getOsName());
+        const char* coinsPath = path.find("coins_stl")->second.data();
         coinsPtr->restartCoins();
-        coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
+        coinsPtr->loadSTL(coinsPath);
+        obstaclesPtr->restart();
+
 		player.moveAlongX(-player.getPosition().xf());
 		player.moveAlongY(-player.getPosition().yf());
-        //rotate
-        player.rotate(-player.getAngle());
 		gameIsOn = true;
+        player.rotate(-player.getAngle());
         time = 0;
         distance = 0;
 	}
@@ -382,6 +395,9 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         // draw coins based on the position
         coinsPtr->drawCoins(player.getPosition());
         score = coinsPtr->getScore();
+
+        // draw obstacles
+        score -= obstaclesPtr->drawObstacles(player.getPosition());
 
 		//draw road
 		glColorPointer(4,GL_FLOAT,0,col.data());
