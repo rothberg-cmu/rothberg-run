@@ -12,6 +12,7 @@
 //#include "polygonalmesh.h"
 #include "Coins.h"
 #include <unordered_map>
+#include <string>
 
 #include "DrawingRoad.h"
 #include "Camera.h"
@@ -35,17 +36,17 @@ std::string getOsName()
 void getStlPath(std::unordered_map<std::string, std::string>& path, std::string osName) {
     path.clear();
     if (osName == "Windows") {
-        path.insert({"tree_stl", ""});
-        path.insert({"coins_stl", ""});
-        path.insert({"person_stl", ""});
+        path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
     } else if (osName == "Mac") {
-        path.insert({"tree_stl", "../../../src/3d-construction/TreeSTL.stl"});
-        path.insert({"coins_stl", "../../../src/3d-construction/Diamond.stl"});
-        path.insert({"person_stl", "../../../src/3d-construction/cartoonboy1.stl"});
+        path.insert({"tree_stl", "../../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/data/cartoonboy1.stl"});
     } else {
-        path.insert({"tree_stl", "../../src/3d-construction/TreeSTL.stl"});
-        path.insert({"coins_stl", "../../src/3d-construction/Diamond.stl"});
-        path.insert({"person_stl", "../../src/3d-construction/cartoonboy1.stl"});
+        path.insert({"tree_stl", "../../src/data/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../src/data/Diamond.stl"});
+        path.insert({"person_stl", "../../src/data/cartoonboy1.stl"});
     }
 }
 
@@ -66,7 +67,8 @@ protected:
 	YsVec3 t;
 
     int score = 0;
-
+    double time;
+    int distance;
 	// PolygonalMesh mesh;
 	std::vector <float> vtx,nom,col;
 	YsVec3 bbx[2];
@@ -131,6 +133,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 }
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
+    //set initial time
+    time = 0;
+    //set initial distance
+    distance = 0;
     // load diamond stl
     std::cout << getOsName() << std::endl;
     std::unordered_map <std::string, std::string> path;
@@ -192,6 +198,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (gameIsOn == true)
 	{
+        time += 0.01;
+        distance = time * 100;
 		player.moveWithAngle();
 	}
 
@@ -204,6 +212,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		player.moveAlongX(-player.getPosition()[0]);
 		player.moveAlongY(-player.getPosition()[1]);
 		gameIsOn = true;
+        time = 0;
+        distance = 0;
 	}
 	if(FSKEY_ESC==key)
 	{
@@ -251,15 +261,20 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 					player.moveWithAngle();
 			}   
     }
-    if (FSKEY_DEL == key && !gameIsStart) {
+    if (FSKEY_ENTER == key && !gameIsStart) {
         gameIsStart = true;
+        distance = 0;
+        time = 0;
     }
 
 	if(FSKEY_SPACE==key)
     {
-        //set to jump mode
-        player.setJumpMode(1);
-        // printf("jump status:%d \n", player.getJumpMode());
+		if (player.getJumpMode() == 0) {
+			//set to jump mode
+			player.setJumpMode(1);
+			// printf("jump status:%d \n", player.getJumpMode());
+		}
+        
     }
     
 
@@ -312,7 +327,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
         glRasterPos2i(wid / 6, hei / 2);
 		char str[256];
-		sprintf(str,"%s", "please press del to begin");
+		sprintf(str,"%s", "ENTER to start");
 		YsGlDrawFontBitmap32x48(str);
         FsSwapBuffers();
         return;
@@ -395,7 +410,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
 		}
         char output[100];
-        sprintf(output, "Score: %s", std::to_string(score).data());
+        sprintf(output, "Coins: %s, Distance: %sm", std::to_string(score).data(), std::to_string(distance).data());
         YsGlDrawFontBitmap20x32(output);
         /*
 		YsGlDrawFontBitmap32x48("Score: ");
@@ -424,7 +439,11 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		sprintf(str,"%s", "game over ");
 		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
 		glRasterPos2i(wid / 6, 2* hei / 3);
-		YsGlDrawFontBitmap32x48("press ENTER to restart");
+		YsGlDrawFontBitmap32x48("ENTER to restart/ ESC to exit");
+        glRasterPos2i(wid / 6,  hei / 2);
+        char output[100];
+        sprintf(output, "Final score: %s", std::to_string(((int)(distance*0.1 + score * 50))).data());
+        YsGlDrawFontBitmap32x48(output);
 	}
 	FsSwapBuffers();
 }

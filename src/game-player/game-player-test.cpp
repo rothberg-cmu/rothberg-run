@@ -125,7 +125,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         printf("current location: %f, %f, %f angle: %f\n", p1.x(), p1.y(),p1.z(), player.getAngle());
     }
     
-    if(FSKEY_SPACE==key)
+    if(FSKEY_SPACE==key && player.getJumpMode()==0)
     {
         //set to jump mode
         player.setJumpMode(1);
