@@ -80,7 +80,7 @@ void Coins::updateVtx(YsVec3& pos) {
     }
 }
 
-void Coins::loadSTL(char* fileName) {
+void Coins::loadSTL(const char* fileName) {
     if (true == LoadBinStl(oneCoinVtx, oneCoinNom, fileName)) {
         std::cout << "load coin stl successfully" << std::endl;
         float x = 0.0;

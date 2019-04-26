@@ -11,10 +11,43 @@
 // #include "game-player.h"
 //#include "polygonalmesh.h"
 #include "Coins.h"
+#include <unordered_map>
 
 #include "DrawingRoad.h"
 #include "Camera.h"
 #include "../map-generation/Road.h"
+
+std::string getOsName()
+{
+    #ifdef _WIN32 || _WIN64
+    return "Windows";
+    #elif __unix || __unix__ || __linux__
+    return "Unix";
+    #elif __APPLE__ || __MACH__
+    return "Mac";
+    #elif __FreeBSD__
+    return "FreeBSD";
+    #else
+    return "Other";
+    #endif
+}      
+
+void getStlPath(std::unordered_map<std::string, std::string>& path, std::string osName) {
+    path.clear();
+    if (osName == "Windows") {
+        path.insert({"tree_stl", ""});
+        path.insert({"coins_stl", ""});
+        path.insert({"person_stl", ""});
+    } else if (osName == "Mac") {
+        path.insert({"tree_stl", ""});
+        path.insert({"coins_stl", ""});
+        path.insert({"person_stl", ""});
+    } else {
+        path.insert({"tree_stl", "../../src/3d-construction/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../src/3d-construction/Diamond.stl"});
+        path.insert({"person_stl", "../../src/3d-construction/cartoonboy1.stl"});
+    }
+}
 
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
@@ -99,6 +132,14 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
     // load diamond stl
+    std::cout << getOsName() << std::endl;
+    std::unordered_map <std::string, std::string> path;
+    getStlPath(path, getOsName());
+    const char* treePath = path.find("tree_stl")->second.data();
+    const char* coinsPath = path.find("coins_stl")->second.data();
+    const char* personPath = path.find("person_stl")->second.data();
+
+    std::cout << coinsPath << std::endl;
 
 	gameIsOn = true;
 	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
@@ -108,7 +149,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	map = Map();
     coinsPtr = new Coins(map);
-    coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
+    coinsPtr->loadSTL(coinsPath);//"../../src/3d-construction/Diamond.stl");
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;

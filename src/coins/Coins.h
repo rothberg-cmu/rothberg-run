@@ -42,6 +42,6 @@ public:
     std::vector <Coin> coins;
     std::vector <float> & getVtx();
     void drawCoins(YsVec3& pos);
-    void loadSTL(char* fileName);
+    void loadSTL(const char* fileName);
     int getScore();
 };
