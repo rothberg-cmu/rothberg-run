@@ -258,9 +258,12 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if(FSKEY_SPACE==key)
     {
-        //set to jump mode
-        player.setJumpMode(1);
-        // printf("jump status:%d \n", player.getJumpMode());
+		if (player.getJumpMode() == 0) {
+			//set to jump mode
+			player.setJumpMode(1);
+			// printf("jump status:%d \n", player.getJumpMode());
+		}
+        
     }
     
 
