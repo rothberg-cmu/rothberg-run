@@ -101,7 +101,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     // load diamond stl
 
 	gameIsOn = true;
-	player.LoadBinary();
+	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
