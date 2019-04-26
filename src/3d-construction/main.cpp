@@ -209,8 +209,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
         coinsPtr->restartCoins();
         coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
-		player.moveAlongX(-player.getPosition()[0]);
-		player.moveAlongY(-player.getPosition()[1]);
+		player.moveAlongX(-player.getPosition().xf());
+		player.moveAlongY(-player.getPosition().yf());
+        //rotate
+        player.rotate(-player.getAngle());
 		gameIsOn = true;
         time = 0;
         distance = 0;
@@ -285,10 +287,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         switch (player.getJumpMode())
         {
             case 1:
-                player.jump(0.1);
+                player.jump(0.05);
                 break;
             case 2:
-                player.jump(-0.1);
+                player.jump(-0.05);
                 break;
             default:
                 break;
@@ -303,7 +305,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
             
         }
         //
-        if (currPos.zf()>2)
+        if (currPos.zf()>1)
         {
             player.setJumpMode(2);
         }
