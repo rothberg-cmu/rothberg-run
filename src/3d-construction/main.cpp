@@ -158,6 +158,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 
 	if (FSKEY_ENTER == key && gameIsOn == false)
 	{
+        coinsPtr->restartCoins();
+        coinsPtr->loadSTL("../../src/3d-construction/Diamond.stl");
 		player.moveAlongX(-player.getPosition()[0]);
 		player.moveAlongY(-player.getPosition()[1]);
 		gameIsOn = true;
@@ -328,9 +330,6 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glVertexPointer(3,GL_FLOAT,0,vtx.data());
 		glNormalPointer(GL_FLOAT,0,nom.data());
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
 
 		glColor3ub(125, 0, 255);
 		//display score
@@ -354,9 +353,16 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		{
 			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
 		}
-
+        char output[100];
+        sprintf(output, "Score: %s", std::to_string(score).data());
+        YsGlDrawFontBitmap20x32(output);
+        /*
 		YsGlDrawFontBitmap32x48("Score: ");
 		YsGlDrawFontBitmap32x48(std::to_string(score).data());
+        */
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{

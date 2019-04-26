@@ -28,6 +28,7 @@ std::vector <float>& Coins::getVtx() {
 }
 
 void Coins::initCoins() {
+    coins.clear();
     auto roads = map.getRoads();
     std::cout << "begin init coins" << std::endl;
     for (int j = 0; j < roads.size(); j++) {
@@ -122,6 +123,10 @@ void Coins::loadSTL(char* fileName) {
     } else {
         std::cout << "load coin stl fail" << std::endl;
     }
+}
+
+void Coins::restartCoins() {
+    initCoins();
 }
 
 int Coins::getScore() {
