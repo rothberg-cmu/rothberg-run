@@ -39,9 +39,9 @@ void getStlPath(std::unordered_map<std::string, std::string>& path, std::string 
         path.insert({"coins_stl", ""});
         path.insert({"person_stl", ""});
     } else if (osName == "Mac") {
-        path.insert({"tree_stl", ""});
-        path.insert({"coins_stl", ""});
-        path.insert({"person_stl", ""});
+        path.insert({"tree_stl", "../../../src/3d-construction/TreeSTL.stl"});
+        path.insert({"coins_stl", "../../../src/3d-construction/Diamond.stl"});
+        path.insert({"person_stl", "../../../src/3d-construction/cartoonboy1.stl"});
     } else {
         path.insert({"tree_stl", "../../src/3d-construction/TreeSTL.stl"});
         path.insert({"coins_stl", "../../src/3d-construction/Diamond.stl"});
@@ -142,7 +142,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
     std::cout << coinsPath << std::endl;
 
 	gameIsOn = true;
-	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
+	player.LoadBinary(personPath);//"../../src/3d-construction/cartoonboy1.stl");
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
@@ -153,7 +153,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	map.dbgPrintRoads();
 
 	DrawingRoad dr;
-	dr.drawRoad(map);
+	dr.drawRoad(map, treePath);
 
 
 	std::vector<float> vtx2 = dr.getVtx();
