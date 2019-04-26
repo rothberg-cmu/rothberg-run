@@ -7,77 +7,6 @@
 
 #include "binstl.h"
 #include <string>
-//#include "yspng.h"
-
-
-
-
-//CubeVertexArray MakeCubeVertexArray(float x1,float y1,float z1,float x2,float y2,float z2)
-//{
-//    CubeVertexArray vtxArray;
-//    auto &vtx=vtxArray.vtx;
-//    auto &col=vtxArray.col;
-//
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//    col.push_back(0);col.push_back(0);col.push_back(1);col.push_back(1);
-//
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//    col.push_back(0);col.push_back(1);col.push_back(0);col.push_back(1);
-//
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z1);
-//    vtx.push_back(x1); vtx.push_back(y2); vtx.push_back(z2);
-//    vtx.push_back(x1); vtx.push_back(y1); vtx.push_back(z2);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z1);
-//    vtx.push_back(x2); vtx.push_back(y2); vtx.push_back(z2);
-//    vtx.push_back(x2); vtx.push_back(y1); vtx.push_back(z2);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//    col.push_back(1);col.push_back(0);col.push_back(0);col.push_back(1);
-//
-//    return vtxArray;
-//}
-
-
-
-
 
 
 GamePlayer::GamePlayer()
@@ -119,9 +48,6 @@ std::vector <float>& GamePlayer::getNom()
 
 void GamePlayer::setPosition(float x1, float y1, float z1)
 {
-//    position[0] = x1;
-//    position[1] = y1;
-//    position[2] = z1;
     position.SetX(x1);
     position.SetY(y1);
     position.SetZ(z1);
@@ -175,7 +101,7 @@ void GamePlayer::rotate(float angle1)
     
     // step1: find the offset of this point, then use offset to location at the origin
     // step2: rotate using ratation matrix
-    // step 3: use -offset to back to the origin location
+    // step3: use -offset to back to the origin location
     
     YsVec3 min,max;
     GetBoundingBox(min,max,vtx);
@@ -201,31 +127,6 @@ void GamePlayer::rotate(float angle1)
         
         vtx[i] = originX * cos(theta) - originY * sin(theta);
         vtx[i+1] = originX * sin(theta) + originY * cos(theta);
-        
-        // easy mode, only two direction
-//        switch ((int) angle1) {
-//            case 90:
-//            {
-//                //case of turning +90
-//                auto temp = vtx[i+1];
-//                vtx[i+1] = -vtx[i];
-//                vtx[i] = temp;
-//                break;
-//            }
-//
-//
-//            case -90:
-//            {
-//                //case of turning -90
-//                auto temp = vtx[i+1];
-//                vtx[i+1] = vtx[i];
-//                vtx[i] = -temp;
-//            }
-//
-//
-//            default:
-//                break;
-//        }
         
     }
     
@@ -803,52 +704,6 @@ void GamePlayer::GetBoundingBox(YsVec3 &min,YsVec3 &max,const std::vector <float
 
 void GamePlayer::draw()
 {
-    //need to add later
-    
-//    int wid,hei;
-//    FsGetWindowSize(wid,hei);
-//    auto aspect=(float)wid/(float)hei;
-//
-//    glEnable(GL_DEPTH_TEST);
-//
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluPerspective(45.0,aspect,0.8, 20.0);
-//
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-//
-//
-//    YsMatrix4x4 modelView;
-//    modelView.Translate(-2, -2, -10.0);
-//    //    modelView.RotateYX(angle);
-////    modelView.RotateYX(getAngle());
-//    float modelViewF[16];
-//    modelView.GetOpenGlCompatibleMatrix(modelViewF);
-//    glMultMatrixf(modelViewF);
-//    
-//    //    auto vtxArray = MakeCubeVertexArray(-1,-1,-2,0,0,0);
-//    float a, b, c;   //the size of bounding box
-//    a=0.5; b=1; c=1;
-//    auto corner = getPosition();
-//    
-//
-//    auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
-//    
-//    auto vtxArray = MakeCubeVertexArray(corner[0], corner[1], corner[2], corner[0]+a, corner[1]+b, corner[2]+c);
-//
-//
-//    
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glEnableClientState(GL_COLOR_ARRAY);
-//
-//    glVertexPointer(3,GL_FLOAT,0,vtx.data());
-//    glColorPointer(4,GL_FLOAT,0,col.data());
-//    glDrawArrays(GL_QUADS,0,24);
-//
-//    glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisableClientState(GL_COLOR_ARRAY);
-    
     
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
