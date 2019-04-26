@@ -96,10 +96,10 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	gameIsOn = true;
 	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
 	player.scale(0.02);
-    // YsVec3 min, max;
-    // player.GetBoundingBox(min, max, player.vtx);
+		// YsVec3 min, max;
+		// player.GetBoundingBox(min, max, player.vtx);
 	player.moveAlongZ(0.25);
-    // player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
+		// player.setPosition((min.xf()+max.xf())/2, (min.yf()+max.yf())/2, (min.zf()+max.zf())/2);
 	// printf("real: x %lf y: %lf z:%lf\n", player.getPosition()[0],player.getPosition()[1],player.getPosition()[2]);
 	//set road initial position
 
@@ -161,7 +161,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	{
 		SetMustTerminate(true);
 	}
-    
+		
 	if(FSKEY_LEFT==key)
 	{
 		if (gameIsOn == true)
@@ -172,58 +172,58 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		}
 		
 	}
-    if(FSKEY_RIGHT==key)
-    {
+		if(FSKEY_RIGHT==key)
+		{
 		if (gameIsOn == true)
 		{
 			player.moveRight();
 		}
-        
-    }
-    
-    if(FSKEY_UP==key)
-    {
+				
+		}
+		
+		if(FSKEY_UP==key)
+		{
 		if (gameIsOn == true)
 		{
 			player.moveUp();
 		}
-    }
-    
-    if(FSKEY_DOWN==key)
-    {
+		}
+		
+		if(FSKEY_DOWN==key)
+		{
 		if (gameIsOn == true)
 		{
 			player.moveDown();
 		}
-    }
+		}
 	// w,a,s to control the direction and straight forward
-    if(FSKEY_A==key)
-    {
+		if(FSKEY_A==key)
+		{
 		if (gameIsOn == true)
 		{
 			player.rotate(-90);
-        	printf("current angle: %f \n", player.getAngle());
+					printf("current angle: %f \n", player.getAngle());
 		}
-    }
-    
-    if(FSKEY_D==key)
-    {
+		}
+		
+		if(FSKEY_D==key)
+		{
 		if (gameIsOn == true)
 		{
 			player.rotate(90);
-        	printf("current angle: %f \n", player.getAngle());
+					printf("current angle: %f \n", player.getAngle());
 		}
-    }
-    
-    if(FSKEY_W==key)
-    {
+		}
+		
+		if(FSKEY_W==key)
+		{
 		if (gameIsOn == true)
 		{
 		// need to refine to move
-        player.moveWithAngle();
+				player.moveWithAngle();
 		}   
-    }
-    
+		}
+		
 
 
 	needRedraw=true;
@@ -284,7 +284,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glDrawArrays(GL_TRIANGLES,0,vtx.size()/3);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
-	  glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	else
 	{
