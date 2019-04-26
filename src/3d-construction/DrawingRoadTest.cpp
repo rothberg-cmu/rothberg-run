@@ -94,7 +94,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 /* virtual */ void FsLazyWindowApplication::Initialize(int argc,char *argv[])
 {
 	gameIsOn = true;
-	player.LoadBinary();
+	player.LoadBinary("../../src/3d-construction/cartoonboy1.stl");
 	player.scale(0.02);
     // YsVec3 min, max;
     // player.GetBoundingBox(min, max, player.vtx);
