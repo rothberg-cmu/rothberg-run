@@ -5,8 +5,9 @@
 #include <iostream>
 #include "fslazywindow.h"
 
-#define SURROUNDING_DISTANCE 1
+#define SURROUNDING_DISTANCE 0.3
 #define COINS_ON_ONE_ROAD 3
+#define COINS_SIZE_SCALE 0.08
 
 class Coin {
 public:
