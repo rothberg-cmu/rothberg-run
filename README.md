@@ -7,7 +7,7 @@ The final **score** is calculated based on the **mileage** and **coins** collect
 deducted everytime player encounters the **fence**.  The player's history record will be stored in a .txt file and displayed in the leaderboard in the end.  
 ## Features
   &emsp; &emsp; &emsp; &emsp; &emsp;**Game Start** &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; **Game Over**  
- &emsp; &emsp;<img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameStart.png" width=30% height=30%>&nbsp;&emsp;&emsp;
+ &emsp; &emsp;<img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameStart.png" width=37% height=37%>&nbsp;&emsp;&emsp;
  <img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameOver.png" width=37% height=37%>  
   &emsp; &emsp; &emsp;&emsp; &emsp; **Running** &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp; &emsp;  **Jumping**  
 <img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/running.png" width=37% height=37%>&nbsp;
@@ -35,6 +35,7 @@ make
 ### Windows  
 ```
 ```  
+## Composition  
 ## Contributor  
 ## License  
 ## Reference
