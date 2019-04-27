@@ -1,5 +1,5 @@
 # Rothberg Run!
-Rothberg Run is a keyboard-controlling temple-run-like game written with C++ and OpenGL Library.   
+Rothberg Run! is a keyboard-controlling temple-run-like game written in C++.   
 **[ENTER]**: start &emsp; **[ESC]**: exit game  
 **[&larr;]**: shift left &emsp; **[&rarr;]**: shift right &emsp; **[SPACE]**: jump  
 **[A]**: turn left &emsp; **[D]**: turn right  
@@ -7,7 +7,7 @@ The final **score** is calculated based on the **mileage** and **coins** collect
 deducted everytime player encounters the **fence**.  The player's history record will be stored in a .txt file and displayed in the leaderboard in the end.  
 ## Features
   &emsp; &emsp; &emsp; &emsp; &emsp;**Game Start** &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; **Game Over**  
- &emsp; &emsp;<img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameStart.png" width=37% height=37%>&nbsp;&emsp;&emsp;
+<img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameStart.png" width=37% height=37%>&nbsp;&emsp;&emsp;
  <img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/gameOver.png" width=37% height=37%>  
   &emsp; &emsp; &emsp;&emsp; &emsp; **Running** &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp; &emsp;  **Jumping**  
 <img src="https://github.com/rothberg-cmu/rothberg-run/blob/jumpFixed/result/running.png" width=37% height=37%>&nbsp;
@@ -35,8 +35,17 @@ make
 ### Windows  
 ```
 ```  
-## Composition  
+## Composition 
+**3d-construction:** 3d construction  
+**data:** all .stl files needed  
+**map-generation:**  generate maps  
+**public:** soji's library  
+**camera:** camera  
+**coins:**  draw coins  
+**game-player:** calculate player's position in real time  
+**obstacle:** fence  
 ## Contributor  
+[Boxian Deng](https://github.com/eastlife)&emsp; [Zi Li](https://github.com/ziliHarvey)&emsp; [Minjun Xu](https://github.com/wx9698)&emsp; [Jing Zhao](https://github.com/jingzhao3200)  
 ## License  
 ## Reference
 
