@@ -6,7 +6,9 @@
 
 #include <ysglfontdata.h>
 #include <stdio.h>
-
+#include <fstream>
+#include <iostream>
+#include <algorithm>
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
@@ -54,12 +56,51 @@ void getStlPath(std::unordered_map<std::string, std::string>& path, std::string 
     }
 }
 
+std::vector<int> loadScoreBoard() {
+	std::vector<int> scoreBoard;
+	std::string line;
+	std::ifstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+
+		while ( getline (myfile,line)) {
+			std::cout << "score board:" << "\n";
+			std::cout << std::stoi(line) << "\n";
+			scoreBoard.push_back(std::stoi(line));
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+	return scoreBoard;
+}
+
+void writeScoreBoard(std::vector<int> scoreBoard) {
+	std::ofstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+		for (int score: scoreBoard) {
+			myfile << std::to_string(score) << "\n";
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+}
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
 	bool gameIsOn;
     bool gameIsStart = false;
 	bool needRedraw;
+	std::vector<int> scoreBoard;
+	bool scoreStatus = false;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
@@ -158,6 +199,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
+	scoreBoard = loadScoreBoard();
 
 	map = Map();
     coinsPtr = new Coins(map);
@@ -223,6 +265,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         coinsPtr->loadSTL(coinsPath);
         obstaclesPtr->restart();
 
+		scoreStatus = false;
 		player.moveAlongX(-player.getPosition().xf());
 		player.moveAlongY(-player.getPosition().yf());
 		gameIsOn = true;
@@ -446,6 +489,15 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	}
 	else
 	{
+		if (scoreStatus == false) {
+			scoreBoard.push_back((int)(distance*0.1 + score * 50));
+			std::sort(scoreBoard.rbegin(), scoreBoard.rend());
+			// for (int i: scoreBoard) {
+			// 	std::cout << "score" << i << "\n";
+			// }
+			writeScoreBoard(scoreBoard);
+			scoreStatus = true;
+		}
 
 	    glLoadIdentity();
 		//display window to red if game over
