@@ -477,7 +477,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
 		}
         char output[100];
-        sprintf(output, "Coins: %s, Distance: %sm", std::to_string(score).data(), std::to_string(distance).data());
+        sprintf(output, "Coins: %s, Distance: %sm, Score: %s", std::to_string(score).data(), std::to_string(distance).data(), 
+															std::to_string(((int)(distance*0.1 + score * 50))).data());
         YsGlDrawFontBitmap20x32(output);
         /*
 		YsGlDrawFontBitmap32x48("Score: ");
@@ -510,16 +511,32 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
 
 		glColor3ub(255, 255, 255);
-		glRasterPos2i(wid / 3, hei / 3);
+		glRasterPos2i(wid / 3, hei / 8);
         char str[256];
 		sprintf(str,"%s", "game over ");
+		
 		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
-		glRasterPos2i(wid / 6, 2* hei / 3);
+		glRasterPos2i(wid / 6, 2* hei / 8);
 		YsGlDrawFontBitmap32x48("ENTER to restart/ ESC to exit");
-        glRasterPos2i(wid / 6,  hei / 2);
+        glRasterPos2i(wid / 6,  3 * hei / 8);
         char output[100];
         sprintf(output, "Final score: %s", std::to_string(((int)(distance*0.1 + score * 50))).data());
         YsGlDrawFontBitmap32x48(output);
+		glRasterPos2i(wid / 6,  4 * hei / 8);
+		YsGlDrawFontBitmap32x48("Leaderboard");
+		
+		for (int i = 0; i < scoreBoard.size(); i++) {
+			if (i == 5) { //only show top five scores
+				break;
+			}
+			std::string leaderboard;
+			leaderboard.append(std::to_string(i + 1));
+			leaderboard.append(": ");
+			leaderboard.append(std::to_string(scoreBoard[i]));
+			glRasterPos2i(wid / 6,  (i + 9) * hei / 15);
+			YsGlDrawFontBitmap16x20(leaderboard.c_str());
+		}
+
 	}
 	FsSwapBuffers();
 }
