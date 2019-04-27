@@ -6,7 +6,9 @@
 
 #include <ysglfontdata.h>
 #include <stdio.h>
-
+#include <fstream>
+#include <iostream>
+#include <algorithm>
 #include "drawPlayer.h"
 // #include "game-player.h"
 //#include "polygonalmesh.h"
@@ -54,12 +56,51 @@ void getStlPath(std::unordered_map<std::string, std::string>& path, std::string 
     }
 }
 
+std::vector<int> loadScoreBoard() {
+	std::vector<int> scoreBoard;
+	std::string line;
+	std::ifstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+
+		while ( getline (myfile,line)) {
+			std::cout << "score board:" << "\n";
+			std::cout << std::stoi(line) << "\n";
+			scoreBoard.push_back(std::stoi(line));
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+	return scoreBoard;
+}
+
+void writeScoreBoard(std::vector<int> scoreBoard) {
+	std::ofstream myfile("scoreBoard.txt");
+	if (myfile.is_open()){
+		for (int score: scoreBoard) {
+			myfile << std::to_string(score) << "\n";
+		}
+		myfile.close();
+	}
+
+	else {
+		printf("Unable to open file\n");
+	}
+	
+
+}
 class FsLazyWindowApplication : public FsLazyWindowApplicationBase
 {
 protected:
 	bool gameIsOn;
     bool gameIsStart = false;
 	bool needRedraw;
+	std::vector<int> scoreBoard;
+	bool scoreStatus = false;
 	GamePlayer player;
 	DrawPlayer drawPlayer = DrawPlayer(player);
 	Road road = Road(YsVec3(5.0,0.0,0.0), YsVec3(0.0,0.0,0.0), 1);
@@ -158,6 +199,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	player.scale(0.02);
 	player.moveAlongZ(0.25);
 	//set road initial position
+	scoreBoard = loadScoreBoard();
 
 	map = Map();
     coinsPtr = new Coins(map);
@@ -223,6 +265,7 @@ FsLazyWindowApplication::FsLazyWindowApplication()
         coinsPtr->loadSTL(coinsPath);
         obstaclesPtr->restart();
 
+		scoreStatus = false;
 		player.moveAlongX(-player.getPosition().xf());
 		player.moveAlongY(-player.getPosition().yf());
 		gameIsOn = true;
@@ -434,7 +477,8 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 			glRasterPos3f(player.getPosition()[0] - 1, player.getPosition()[1] - 3, 2);
 		}
         char output[100];
-        sprintf(output, "Coins: %s, Distance: %sm", std::to_string(score).data(), std::to_string(distance).data());
+        sprintf(output, "Coins: %s, Distance: %sm, Score: %s", std::to_string(score).data(), std::to_string(distance).data(), 
+															std::to_string(((int)(distance*0.1 + score * 50))).data());
         YsGlDrawFontBitmap20x32(output);
         /*
 		YsGlDrawFontBitmap32x48("Score: ");
@@ -446,6 +490,15 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 	}
 	else
 	{
+		if (scoreStatus == false) {
+			scoreBoard.push_back((int)(distance*0.1 + score * 50));
+			std::sort(scoreBoard.rbegin(), scoreBoard.rend());
+			// for (int i: scoreBoard) {
+			// 	std::cout << "score" << i << "\n";
+			// }
+			writeScoreBoard(scoreBoard);
+			scoreStatus = true;
+		}
 
 	    glLoadIdentity();
 		//display window to red if game over
@@ -458,16 +511,32 @@ FsLazyWindowApplication::FsLazyWindowApplication()
 		glOrtho(0,(float)wid-1,(float)hei-1,0,-1,1);
 
 		glColor3ub(255, 255, 255);
-		glRasterPos2i(wid / 3, hei / 3);
+		glRasterPos2i(wid / 3, hei / 8);
         char str[256];
 		sprintf(str,"%s", "game over ");
+		
 		YsGlDrawFontBitmap32x48(str);//"Game Over!\n Press ENTER to restart or ESC to exit...";
-		glRasterPos2i(wid / 6, 2* hei / 3);
+		glRasterPos2i(wid / 6, 2* hei / 8);
 		YsGlDrawFontBitmap32x48("ENTER to restart/ ESC to exit");
-        glRasterPos2i(wid / 6,  hei / 2);
+        glRasterPos2i(wid / 6,  3 * hei / 8);
         char output[100];
         sprintf(output, "Final score: %s", std::to_string(((int)(distance*0.1 + score * 50))).data());
         YsGlDrawFontBitmap32x48(output);
+		glRasterPos2i(wid / 6,  4 * hei / 8);
+		YsGlDrawFontBitmap32x48("Leaderboard");
+		
+		for (int i = 0; i < scoreBoard.size(); i++) {
+			if (i == 5) { //only show top five scores
+				break;
+			}
+			std::string leaderboard;
+			leaderboard.append(std::to_string(i + 1));
+			leaderboard.append(": ");
+			leaderboard.append(std::to_string(scoreBoard[i]));
+			glRasterPos2i(wid / 6,  (i + 9) * hei / 15);
+			YsGlDrawFontBitmap16x20(leaderboard.c_str());
+		}
+
 	}
 	FsSwapBuffers();
 }
