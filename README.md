@@ -18,23 +18,29 @@ deducted everytime player encounters the **fence**.  The player's history record
 ## Dependencies  
 C++ &emsp; [OpenGL](https://www.opengl.org/) &emsp; [Soji's library](https://github.com/captainys/public)
 ## Build and Run  
-### Ubuntu
+### Linux
 ```
-git clone https://github.com/rothberg-cmu/rothberg-run.git  
-cd rothberg-run  
-mkdir build  
-cd build  
-cmake ../src  
-cd 3d-construction  
-make  
-./3d-construction  
+$  git clone https://github.com/rothberg-cmu/rothberg-run.git  
+$  cd rothberg-run  
+$  mkdir build  
+$  cd build  
+$  cmake ../src  
+$  cd 3d-construction  
+$  make  
+$  ./3d-construction  
 ```  
 ### Mac  
 ```
 ```   
-### Windows  
+### Windows
+First you need to have visual studio or other cpp compiler on your windows and download the source code to your machine. Then go to the folder where you unzip the source code, make a folder called build which locates at the same level or the src folder and run following command in the Powershell.
 ```
+$  cd build
+$  cmake ../src
 ```  
+After running these commands, you will find Project.sln in your build folder. Then what you need to do is to open this file with visual studio and compile the 3d-construction program.
+
+To run the program, go into the folder where the 3d-construction.exe locates and double click on it. 
 ## Composition 
 **3d-construction:** 3d construction  
 **data:** all .stl files needed  
@@ -43,9 +49,9 @@ make
 **camera:** camera  
 **coins:**  draw coins  
 **game-player:** calculate player's position in real time  
-**obstacle:** fence  
+**obstacle:** obstacles like fences 
 ## Contributor  
 [Boxian Deng](https://github.com/eastlife)&emsp; [Zi Li](https://github.com/ziliHarvey)&emsp; [Minjun Xu](https://github.com/wx9698)&emsp; [Jing Zhao](https://github.com/jingzhao3200)  
 ## License  
 ## Reference
-
+All stl files are downloaded from [TURBOSQUID](https://www.turbosquid.com/)&emsp;
