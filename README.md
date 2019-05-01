@@ -31,6 +31,13 @@ $  ./3d-construction
 ```  
 ### Mac  
 ```
+$  git clone https://github.com/rothberg-cmu/rothberg-run.git  
+$  cd rothberg-run  
+$  mkdir build  
+$  cd build  
+$  cmake ../src/ -G “Xcode”
+$  open Project.xcodeproj 
+$  Debug/3d-construction 
 ```   
 ### Windows
 First you need to have visual studio or other cpp compiler on your windows and download the source code to your machine. Then go to the folder where you unzip the source code, make a folder called build which locates at the same level or the src folder and run following command in the Powershell.
