@@ -60,5 +60,7 @@ To run the program, go into the folder where the 3d-construction.exe locates and
 ## Contributor  
 [Boxian Deng](https://github.com/eastlife)&emsp; [Zi Li](https://github.com/ziliHarvey)&emsp; [Minjun Xu](https://github.com/wx9698)&emsp; [Jing Zhao](https://github.com/jingzhao3200)  
 ## License  
+MIT license.  
+Free for all uses but please cite this repo as a reference.  
 ## Reference
 All stl files are downloaded from [TURBOSQUID](https://www.turbosquid.com/)&emsp;
