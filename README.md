@@ -3,7 +3,7 @@ Rothberg Run! is a keyboard-controlling temple-run-like game written in C++.
 **[ENTER]**: start &emsp; **[ESC]**: exit game  
 **[&larr;]**: shift left &emsp; **[&rarr;]**: shift right &emsp; **[SPACE]**: jump  
 **[A]**: turn left &emsp; **[D]**: turn right  
-The final **score** is calculated based on the **mileage** and **coins** collected. Game ends when player is out of road and scores gets
+The final **score** is calculated based on the **mileage** and **diamonds** collected. Game ends when player is out of road and scores gets
 deducted everytime player encounters the **fence**.  The player's history record will be stored in a .txt file and displayed in the leaderboard in the end.  
 ## Features
   &emsp; &emsp; &emsp; &emsp; &emsp;**Game Start** &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; **Game Over**  
@@ -54,7 +54,7 @@ To run the program, go into the folder where the 3d-construction.exe locates and
 **map-generation:**  generate maps  
 **public:** soji's library  
 **camera:** camera  
-**coins:**  draw coins  
+**coins:**  draw diamonds  
 **game-player:** calculate player's position in real time  
 **obstacle:** obstacles like fences 
 ## Contributor  
