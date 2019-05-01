@@ -31,6 +31,13 @@ $  ./3d-construction
 ```  
 ### Mac  
 ```
+$  git clone https://github.com/rothberg-cmu/rothberg-run.git  
+$  cd rothberg-run  
+$  mkdir build  
+$  cd build  
+$  cmake ../src/ -G “Xcode”
+$  open Project.xcodeproj 
+$  Debug/3d-construction 
 ```   
 ### Windows
 First you need to have visual studio or other cpp compiler on your windows and download the source code to your machine. Then go to the folder where you unzip the source code, make a folder called build which locates at the same level or the src folder and run following command in the Powershell.
@@ -53,5 +60,7 @@ To run the program, go into the folder where the 3d-construction.exe locates and
 ## Contributor  
 [Boxian Deng](https://github.com/eastlife)&emsp; [Zi Li](https://github.com/ziliHarvey)&emsp; [Minjun Xu](https://github.com/wx9698)&emsp; [Jing Zhao](https://github.com/jingzhao3200)  
 ## License  
+MIT license.  
+Free for all uses but please cite this repo as a reference.  
 ## Reference
 All stl files are downloaded from [TURBOSQUID](https://www.turbosquid.com/)&emsp;
